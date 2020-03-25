@@ -5,9 +5,28 @@
   </Configs>
   <NewExtensions/>
   <sounds name="sound"/>
-  <sprites name="sprites"/>
+  <sprites name="sprites">
+    <sprite>sprites\spr_block_grass</sprite>
+    <sprite>sprites\spr_colMask16x</sprite>
+    <sprite>sprites\spr_colMask8x</sprite>
+    <sprite>sprites\spr_controller</sprite>
+    <sprite>sprites\spr_WorldChunk</sprite>
+  </sprites>
   <backgrounds name="background"/>
   <paths name="paths"/>
+  <scripts name="scripts">
+    <script>scripts\scr_Init.gml</script>
+  </scripts>
+  <objects name="objects">
+    <object>objects\obj_GameControl</object>
+    <object>objects\obj_gameUpdatedParent</object>
+    <object>objects\obj_alwaysUpdatedParent</object>
+    <object>objects\obj_WorldChunk</object>
+  </objects>
+  <rooms name="rooms">
+    <room>rooms\rm_Init</room>
+    <room>rooms\rm_Test</room>
+  </rooms>
   <help>
     <rtf>help.rtf</rtf>
   </help>
