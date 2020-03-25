@@ -8,6 +8,7 @@
   <sprites name="sprites">
     <sprite>sprites\spr_block_grass</sprite>
     <sprite>sprites\spr_block_rock</sprite>
+    <sprite>sprites\spr_blockCol</sprite>
     <sprite>sprites\spr_colMask16x</sprite>
     <sprite>sprites\spr_colMask8x</sprite>
     <sprite>sprites\spr_controller</sprite>
@@ -25,6 +26,7 @@
     <object>objects\obj_gameUpdatedParent</object>
     <object>objects\obj_alwaysUpdatedParent</object>
     <object>objects\obj_WorldChunk</object>
+    <object>objects\obj_blockParent</object>
     <object>objects\obj_WorldEntityParent</object>
   </objects>
   <rooms name="rooms">
