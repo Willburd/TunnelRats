@@ -62,11 +62,15 @@ show_debug_overlay(true);
     room_speed = global.gameMaxFrames;
 }
 
+// entities and game controller updates
 global._game_time += delta_time;
 if(global._game_time &gt;= global._game_max_time)
 {
     global._game_time = global._game_time - delta_time;
 
+    // chunk update counter
+    global._chunk_time -= 1;
+    
     // pause check
     if(!global.gamePaused)
     {
@@ -82,6 +86,24 @@ if(global._game_time &gt;= global._game_max_time)
     {
         // updated always
         event_user(0);
+    }
+}
+
+
+// update chunks far less often
+if(global._chunk_time == 0)
+{
+    global._chunk_time = 10;
+    
+    // pause check
+    if(!global.gamePaused)
+    {
+        // update game
+        with(obj_WorldChunk)
+        {
+            // updated when not paused
+            event_user(0);
+        }
     }
 }
 </string>
@@ -169,6 +191,52 @@ display_set_gui_size(vieww,viewh);
           <argument>
             <kind>1</kind>
             <string>draw_text(0,32,instance_count);
+</string>
+          </argument>
+        </arguments>
+      </action>
+    </event>
+    <event eventtype="9" enumb="109">
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>if(global.currentCameraZLevel &gt; 0) global.currentCameraZLevel -= 1;
+</string>
+          </argument>
+        </arguments>
+      </action>
+    </event>
+    <event eventtype="9" enumb="107">
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>global.currentCameraZLevel += 1;
 </string>
           </argument>
         </arguments>

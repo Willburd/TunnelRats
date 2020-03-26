@@ -6,6 +6,8 @@
   <NewExtensions/>
   <sounds name="sound"/>
   <sprites name="sprites">
+    <sprite>sprites\spr_blockParent</sprite>
+    <sprite>sprites\spr_blockDarken</sprite>
     <sprite>sprites\spr_block_grass</sprite>
     <sprite>sprites\spr_block_rock</sprite>
     <sprite>sprites\spr_blockCol</sprite>
@@ -21,13 +23,14 @@
     <script>scripts\scr_Init.gml</script>
     <script>scripts\scr_ZLayerDrawFilter.gml</script>
     <script>scripts\scr_BlockExposureCheck.gml</script>
+    <script>scripts\scr_GetBlockObject.gml</script>
+    <script>scripts\scr_CheckBlockTransparent.gml</script>
   </scripts>
   <objects name="objects">
     <object>objects\obj_GameControl</object>
     <object>objects\obj_gameUpdatedParent</object>
     <object>objects\obj_alwaysUpdatedParent</object>
     <object>objects\obj_WorldChunk</object>
-    <object>objects\obj_blockParent</object>
     <object>objects\obj_WorldEntityParent</object>
   </objects>
   <rooms name="rooms">

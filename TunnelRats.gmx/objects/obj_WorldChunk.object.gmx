@@ -5,7 +5,7 @@
   <visible>-1</visible>
   <depth>0</depth>
   <persistent>0</persistent>
-  <parentName>obj_gameUpdatedParent</parentName>
+  <parentName>self</parentName>
   <maskName>&lt;undefined&gt;</maskName>
   <events>
     <event eventtype="0" enumb="0">
@@ -27,18 +27,17 @@
             <kind>1</kind>
             <string>chunkWidth = 10;
 chunkHeight = 10;
-chunkDepth = 10; // z update range
+chunkDepth = 8; // z update range
 
 processing = true; // if entitys should be updated
 rendering = false; // if chunk is drawn
 
 
-dataLayers = ds_list_create(); // blockType and data 
-
 entitys = ds_list_create();
 blockLayers = ds_list_create(); // active block objects
 
 activeLayers = ds_queue_create(); // layers that were active last frame, used for cleanup
+drawQueue = ds_priority_create();
 </string>
           </argument>
         </arguments>
@@ -61,10 +60,10 @@ activeLayers = ds_queue_create(); // layers that were active last frame, used fo
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>ds_list_destroy(dataLayers);
-ds_list_destroy(entitys);
+            <string>ds_list_destroy(entitys);
 ds_list_destroy(blockLayers);
 ds_queue_destroy(activeLayers);
+ds_priority_destroy(drawQueue);
 </string>
           </argument>
         </arguments>
@@ -87,30 +86,12 @@ ds_queue_destroy(activeLayers);
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>/// Fresh chunk gen, also extends downwards when we need to gen
+            <string>/// Extend chunk downwards
 var startLayer = ds_list_size(blockLayers);
 for (var i=0; i&lt;chunkDepth; i+=1)
 {   
     // layers start unloaded
     blockLayers[| startLayer + i] = -1;
-    
-    
-    // setup data from world gen
-    var newGrid = ds_grid_create(chunkWidth,chunkHeight);
-    ds_grid_clear( newGrid , 1);
-    
-    
-    // random
-    for (var q=0; q&lt;chunkWidth; q+=1)
-    {
-        for (var c=0; c&lt;chunkHeight; c+=1)
-        {
-            newGrid[# q,c] = choose(0,1);
-        }
-    }
-    
-    
-    dataLayers[| startLayer + i] = newGrid;
 };
 
 processing = true; // if entitys should be updated
@@ -139,7 +120,7 @@ rendering = true; // if chunk is drawn
           <argument>
             <kind>1</kind>
             <string>/// chunk update, updates entities in chunk
-if(point_distance(x + 16 * (chunkWidth/2) ,y + 16 * (chunkHeight/2),view_xview[0]+(view_wview[0]/2),view_yview[0]+(view_hview[0]/2)) &lt; 160)
+if(point_distance(x + 16 * (chunkWidth/2) ,y + 16 * (chunkHeight/2),view_xview[0]+(view_wview[0]/2),view_yview[0]+(view_hview[0]/2)) &lt; 260)
 {
     processing = true;
 }
@@ -155,27 +136,13 @@ while(ds_queue_size(activeLayers) &gt; 0)
 
     if(lay &lt; startUpdateZ || lay &gt;= startUpdateZ + chunkDepth)
     {
-        var gridLayer = blockLayers[| lay];
-        
-        // unload objects
-        for (q=0; q&lt;chunkWidth; q+=1)
-        {
-            for (c=0; c&lt;chunkHeight; c+=1)
-            {
-                with gridLayer[# q,c]
-                {
-                    unloading = true;
-                    instance_destroy();
-                }
-            }
-        }
-        
-        //cleanout
-        ds_grid_destroy(gridLayer);
-        gridLayer[# q,c] = -1;
+        var gridLayer = blockLayers[| lay];        
+        // unload layer
     }
 }
 
+// clear draw update list
+ds_priority_clear(drawQueue);
 
 // update the blocks
 for (var i=startUpdateZ; i&lt;startUpdateZ+chunkDepth; i+=1)
@@ -187,7 +154,6 @@ for (var i=startUpdateZ; i&lt;startUpdateZ+chunkDepth; i+=1)
     }
     
     var gridLayer = blockLayers[| i];
-    var gridData = dataLayers[| i];
     
     // spawn layer if not loaded
     if(gridLayer == -1)
@@ -199,19 +165,23 @@ for (var i=startUpdateZ; i&lt;startUpdateZ+chunkDepth; i+=1)
         {
             for (var c=0; c&lt;chunkHeight; c+=1)
             {
-                if(gridData[# q,c] == 1)
+                // get a ds_map of the block at the location
+                var blockData = scr_GetBlockObject( choose("Base:Air","Base:Grass","Base:Rock" ));
+            
+                if(blockData != -1)
                 {
-                    var block = instance_create(x + q*16,y + c*16, obj_blockParent);
-                    block.chunk = id;
-                    block.z = i * 16;
-                    block.depth = -c + i*1000;
-                    block.buried = !scr_BlockExposureCheck(dataLayers,i,q,c);
+                    blockData[? "x"] = x + q*16;
+                    blockData[? "y"] = y + c*16;
+                    blockData[? "z"] = i * 16;
                     
-                    gridLayer[# q,c] = block;
+                    blockData[? "DrawDepth"] = -c + (i*1000);
+                    blockData[? "Hidden"] = -1; //auto refresh draw status
+                    
+                    gridLayer[# q,c] = blockData;
                 }
                 else
                 {
-                    gridLayer[# q,c] = noone;
+                    gridLayer[# q,c] = -1;
                 }
             }
         }
@@ -220,15 +190,31 @@ for (var i=startUpdateZ; i&lt;startUpdateZ+chunkDepth; i+=1)
         blockLayers[| i] = gridLayer;
     }
     
-    
     // call update in each block
     for (q=0; q&lt;chunkWidth; q+=1)
     {
         for (c=0; c&lt;chunkHeight; c+=1)
         {
-            with gridLayer[# q,c]
+            // get block data
+            var blockData = gridLayer[# q,c];
+            if(blockData != -1)
             {
-                event_user(0);
+            
+                // run update script for block type
+                
+                // do exposure checks here if it was updated!
+                
+                // set visual state of block for drawing
+                if(blockData[? "Hidden"] == -1)
+                {
+                    // refresh status
+                    blockData[? "Hidden"] = !scr_BlockExposureCheck(blockLayers,i,q,c);
+                }
+                if(!blockData[? "Hidden"])
+                {
+                    // store the data for drawing!
+                    ds_priority_add(drawQueue,blockData,blockData[? "DrawDepth"]);
+                }
             }
         }
     }
@@ -281,10 +267,10 @@ if(point_distance(x + 16 * (chunkWidth/2) ,y + 16 * (chunkHeight/2),view_xview[0
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>ds_list_destroy(dataLayers);
-ds_list_destroy(entitys);
+            <string>ds_list_destroy(entitys);
 ds_list_destroy(blockLayers);
 ds_queue_destroy(activeLayers);
+ds_priority_destroy(drawQueue);
 </string>
           </argument>
         </arguments>
@@ -309,6 +295,29 @@ ds_queue_destroy(activeLayers);
             <kind>1</kind>
             <string>/// Draw the world chunk based on the zlayer camera
 if(!rendering) exit;
+
+// hold the last updated draw priority queue, and make a disposable priority queue to burn through
+var disposableQueue = ds_priority_create();
+ds_priority_copy(disposableQueue, drawQueue);
+
+// burn through all drawable objects
+while(ds_priority_size(disposableQueue) &gt; 0)
+{
+    var blockData = ds_priority_delete_max(disposableQueue);
+    var ZLevel = floor(blockData[? "z"]/16);
+    var solveAlpha = (global.currentCameraZLevel - ZLevel) / -4;
+    
+    if(blockData != -1) 
+    {
+        if(scr_ZLayerDrawFilter(ZLevel))
+        {
+            draw_sprite_ext(blockData[? "Tex"],0,x + blockData[? "x"],y + blockData[? "y"] + (blockData[? "z"]),1,1,0,image_blend,1);
+            draw_sprite_ext(spr_blockDarken,0,x + blockData[? "x"],y + blockData[? "y"] + (blockData[? "z"]),1,1,0,image_blend,solveAlpha);
+        }
+    }
+}
+
+ds_priority_destroy(disposableQueue); //cleanup
 </string>
           </argument>
         </arguments>

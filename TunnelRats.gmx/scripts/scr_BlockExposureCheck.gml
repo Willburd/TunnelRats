@@ -1,36 +1,45 @@
 /// scr_BlockExposureCheck( chunkGridList, layer, x, y)
-if(argument1 <= 0)
+var Lay = argument1;
+
+if(Lay <= 0)
 {
     return true;
 }
 
-var gridLayerAbove = argument0[| argument1-1]
-var gridLayer = argument0[| argument1]; // this pulls from the DATA layer!
+// prepare the data for checking!
+var gridLayerAbove = argument0[| Lay-1]
+var gridLayer = argument0[| Lay]; // this pulls from the DATA layer!
 
 
-if(gridLayerAbove[# argument2, argument3] == 0)
+// blunt and quick above check
+if(scr_CheckBlockTransparent(gridLayerAbove[# argument2, argument3]))
 {
     return true;
 }
 
+if(argument2-1 < 0 || argument2+1 >= ds_grid_width(gridLayer) || argument3-1 < 0 || argument3+1 >= ds_grid_height(gridLayer))
+{
+    //TODO add checking other chunks beside us
+    return false;
+}
 
-//TODO add checking other chunks beside us
-if(argument2-1 < 0 || gridLayer[# argument2-1, argument3] == 0)
+// check current chunk for visibility chances
+if( scr_CheckBlockTransparent(gridLayer[# argument2-1, argument3]))
 {
     return true;
 }
 
-if(argument2+1 >= ds_grid_width(gridLayer) || gridLayer[# argument2+1, argument3] == 0)
+if( scr_CheckBlockTransparent(gridLayer[# argument2+1, argument3]))
 {
     return true;
 }
 
-if(argument3-1 < 0 || gridLayer[# argument2, argument3-1] == 0)
+if( scr_CheckBlockTransparent(gridLayer[# argument2, argument3-1]))
 {
     return true;
 }
 
-if(argument3+1 >= ds_grid_height(gridLayer) || gridLayer[# argument2, argument3+1] == 0)
+if( scr_CheckBlockTransparent(gridLayer[# argument2, argument3+1]))
 {
     return true;
 }
