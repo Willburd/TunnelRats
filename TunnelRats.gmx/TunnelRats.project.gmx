@@ -27,6 +27,17 @@
     <script>scripts\scr_BlockExposureCheck.gml</script>
     <script>scripts\scr_GetBlockObject.gml</script>
     <script>scripts\scr_CheckBlockTransparent.gml</script>
+    <scripts name="Simplex">
+      <script>scripts\scrGenerateNoise.gml</script>
+      <script>scripts\scrGenerateNoiseOct.gml</script>
+      <script>scripts\scrGenerateOctaveNoise.gml</script>
+      <script>scripts\scrGetColor.gml</script>
+      <script>scripts\scrGetDotProduct.gml</script>
+      <script>scripts\scrGetNoise.gml</script>
+      <script>scripts\scrInterpolate.gml</script>
+      <script>scripts\scrOctaveGen.gml</script>
+      <script>scripts\scrVectorGen.gml</script>
+    </scripts>
   </scripts>
   <objects name="objects">
     <object>objects\obj_camMove</object>
@@ -35,6 +46,7 @@
     <object>objects\obj_alwaysUpdatedParent</object>
     <object>objects\obj_WorldChunk</object>
     <object>objects\obj_WorldEntityParent</object>
+    <object>objects\objGenerator</object>
   </objects>
   <rooms name="rooms">
     <room>rooms\rm_Init</room>
