@@ -20,6 +20,7 @@
   <scripts name="scripts">
     <script>scripts\scr_Init.gml</script>
     <script>scripts\scr_ZLayerDrawFilter.gml</script>
+    <script>scripts\scr_BlockExposureCheck.gml</script>
   </scripts>
   <objects name="objects">
     <object>objects\obj_GameControl</object>

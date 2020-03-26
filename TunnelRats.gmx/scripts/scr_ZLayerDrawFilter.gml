@@ -1,20 +1,10 @@
 ///scr_ZLayerDrawFilter(zlayer);
 // don't draw if not on the correct Z layer!
-if(argument0 == global.currentCameraZLevel)
+if(argument0 == global.currentCameraZLevel  ||  argument0 == global.currentCameraZLevel+1  || argument0 == global.currentCameraZLevel+2  ||  argument0 == global.currentCameraZLevel+3  ||  argument0 == global.currentCameraZLevel+4  ||  argument0 == global.currentCameraZLevel+5)
 {
-    if( view_current != 0) return false;
+    return true;
 }
-
-if(argument0 == global.currentCameraZLevel+1)
+else
 {
-    if( view_current != 1) return false;
+    return false;
 }
-
-for (var i=0; i<global.cameraDepths; i+=1)
-{
-    if(argument0 == global.currentCameraZLevel - (1 + i))
-    {
-        if( view_current != 2 + i) return false;
-    }
-};
-return true;

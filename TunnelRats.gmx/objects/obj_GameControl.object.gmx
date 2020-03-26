@@ -2,7 +2,7 @@
 <object>
   <spriteName>spr_controller</spriteName>
   <solid>0</solid>
-  <visible>0</visible>
+  <visible>-1</visible>
   <depth>-99999999</depth>
   <persistent>0</persistent>
   <parentName>&lt;undefined&gt;</parentName>
@@ -33,6 +33,8 @@ else if(global.currentGame != id)
 {
     instance_destroy();
 }
+
+show_debug_overlay(true);
 </string>
           </argument>
         </arguments>
@@ -115,28 +117,6 @@ view_wview[0] = vieww;
 view_hport[0] = viewh;
 view_wport[0] = vieww;
 
-// one level above cam
-view_visible[1] = false; // dynamically set if the tile above you is clear
-view_hview[1] = viewh;
-view_wview[1] = vieww;
-view_hport[1] = viewh;
-view_wport[1] = vieww;
-if(surface_exists(view_surface_id[1])) surface_free(view_surface_id[1]);
-view_surface_id[1] = surface_create(vieww,viewh);
-
-// levels under cam's
-for (var i=0; i&lt;global.cameraDepths ; i+=1)
-{
-    view_visible[2 + i] = true; // visible just for safety, i'll probably make this dynamic later?
-    view_hview[2 + i] = viewh;
-    view_wview[2 + i] = vieww;
-    view_hport[2 + i] = viewh;
-    view_wport[2 + i] = vieww;
-    if(surface_exists(view_surface_id[2 + i])) surface_free(view_surface_id[2 + i]);
-    view_surface_id[2 + i] = surface_create(vieww,viewh);
-};
-
-
 /// Update window size to new data!
 window_set_rectangle(window_get_x(),window_get_y(), vieww,viewh);
 
@@ -166,6 +146,29 @@ display_set_gui_size(vieww,viewh);
           <argument>
             <kind>1</kind>
             <string>event_user(0);
+</string>
+          </argument>
+        </arguments>
+      </action>
+    </event>
+    <event eventtype="8" enumb="0">
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>draw_text(0,32,instance_count);
 </string>
           </argument>
         </arguments>

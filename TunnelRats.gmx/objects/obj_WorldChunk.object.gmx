@@ -25,14 +25,20 @@
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>chunkWidth = 20;
-chunkHeight = 20;
+            <string>chunkWidth = 10;
+chunkHeight = 10;
+chunkDepth = 10; // z update range
 
-processing = false; // if entitys should be updated
+processing = true; // if entitys should be updated
 rendering = false; // if chunk is drawn
 
+
+dataLayers = ds_list_create(); // blockType and data 
+
 entitys = ds_list_create();
-blockLayers = ds_list_create();
+blockLayers = ds_list_create(); // active block objects
+
+activeLayers = ds_queue_create(); // layers that were active last frame, used for cleanup
 </string>
           </argument>
         </arguments>
@@ -55,8 +61,10 @@ blockLayers = ds_list_create();
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>ds_list_destroy(entitys);
+            <string>ds_list_destroy(dataLayers);
+ds_list_destroy(entitys);
 ds_list_destroy(blockLayers);
+ds_queue_destroy(activeLayers);
 </string>
           </argument>
         </arguments>
@@ -81,18 +89,32 @@ ds_list_destroy(blockLayers);
             <kind>1</kind>
             <string>/// Fresh chunk gen, also extends downwards when we need to gen
 var startLayer = ds_list_size(blockLayers);
-for (var i=0; i&lt;48; i+=1)
-{
+for (var i=0; i&lt;chunkDepth; i+=1)
+{   
+    // layers start unloaded
+    blockLayers[| startLayer + i] = -1;
+    
+    
+    // setup data from world gen
     var newGrid = ds_grid_create(chunkWidth,chunkHeight);
-    ds_grid_clear( newGrid , -1);
-    blockLayers[| startLayer + i] = newGrid;
+    ds_grid_clear( newGrid , 1);
+    
+    
+    // random
+    for (var q=0; q&lt;chunkWidth; q+=1)
+    {
+        for (var c=0; c&lt;chunkHeight; c+=1)
+        {
+            newGrid[# q,c] = choose(0,1);
+        }
+    }
+    
+    
+    dataLayers[| startLayer + i] = newGrid;
 };
 
-
-
-
-
-
+processing = true; // if entitys should be updated
+rendering = true; // if chunk is drawn
 
 </string>
           </argument>
@@ -120,26 +142,122 @@ for (var i=0; i&lt;48; i+=1)
 if(point_distance(x + 16 * (chunkWidth/2) ,y + 16 * (chunkHeight/2),view_xview[0]+(view_wview[0]/2),view_yview[0]+(view_hview[0]/2)) &lt; 160)
 {
     processing = true;
-    rendering = true;
-}
-else
-{
-    processing = false;
-    rendering = false;
 }
 
-
+// drop out if entity has unloaded
 if(!processing) exit;
 
-/// update the entities inside me!
+startUpdateZ = max(global.currentCameraZLevel-(chunkDepth/2),0);
+// unload layers as needed
+while(ds_queue_size(activeLayers) &gt; 0)
+{
+    var lay = ds_queue_dequeue(activeLayers);
+
+    if(lay &lt; startUpdateZ || lay &gt;= startUpdateZ + chunkDepth)
+    {
+        var gridLayer = blockLayers[| lay];
+        
+        // unload objects
+        for (q=0; q&lt;chunkWidth; q+=1)
+        {
+            for (c=0; c&lt;chunkHeight; c+=1)
+            {
+                with gridLayer[# q,c]
+                {
+                    unloading = true;
+                    instance_destroy();
+                }
+            }
+        }
+        
+        //cleanout
+        ds_grid_destroy(gridLayer);
+        gridLayer[# q,c] = -1;
+    }
+}
+
+
+// update the blocks
+for (var i=startUpdateZ; i&lt;startUpdateZ+chunkDepth; i+=1)
+{
+    if(i &gt;= ds_list_size(blockLayers))
+    {
+        // expand size downwards
+        event_user(1);
+    }
+    
+    var gridLayer = blockLayers[| i];
+    var gridData = dataLayers[| i];
+    
+    // spawn layer if not loaded
+    if(gridLayer == -1)
+    {
+        gridLayer = ds_grid_create( chunkWidth, chunkHeight);
+        
+        // spawn objects
+        for (var q=0; q&lt;chunkWidth; q+=1)
+        {
+            for (var c=0; c&lt;chunkHeight; c+=1)
+            {
+                if(gridData[# q,c] == 1)
+                {
+                    var block = instance_create(x + q*16,y + c*16, obj_blockParent);
+                    block.chunk = id;
+                    block.z = i * 16;
+                    block.depth = -c + i*1000;
+                    block.buried = !scr_BlockExposureCheck(dataLayers,i,q,c);
+                    
+                    gridLayer[# q,c] = block;
+                }
+                else
+                {
+                    gridLayer[# q,c] = noone;
+                }
+            }
+        }
+        
+        // assign layer as active
+        blockLayers[| i] = gridLayer;
+    }
+    
+    
+    // call update in each block
+    for (q=0; q&lt;chunkWidth; q+=1)
+    {
+        for (c=0; c&lt;chunkHeight; c+=1)
+        {
+            with gridLayer[# q,c]
+            {
+                event_user(0);
+            }
+        }
+    }
+    
+    // set layer as used last frame
+    ds_queue_enqueue(activeLayers,i);
+}
+
+
+// update the entities inside me!
 for (var i=0; i&lt;ds_list_size(entitys); i+=1)
 {
     with entitys[| i]
     {
-        // update the entity inside me!
+        // update the entities inside me!
         event_user(0);
     }
-};
+}
+
+
+
+
+
+// set if we are loaded next frame
+if(point_distance(x + 16 * (chunkWidth/2) ,y + 16 * (chunkHeight/2),view_xview[0]+(view_wview[0]/2),view_yview[0]+(view_hview[0]/2)) &gt;= 160)
+{
+    processing = false;
+    rendering = false;
+}
 
 </string>
           </argument>
@@ -163,8 +281,10 @@ for (var i=0; i&lt;ds_list_size(entitys); i+=1)
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>ds_list_destroy(entitys);
+            <string>ds_list_destroy(dataLayers);
+ds_list_destroy(entitys);
 ds_list_destroy(blockLayers);
+ds_queue_destroy(activeLayers);
 </string>
           </argument>
         </arguments>
