@@ -25,8 +25,8 @@
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>chunkWidth = 10;
-chunkHeight = 10;
+            <string>chunkWidth = 5;
+chunkHeight = 5;
 chunkDepth = 8; // z update range
 
 processing = true; // if entitys should be updated
@@ -38,6 +38,8 @@ blockLayers = ds_list_create(); // active block objects
 
 activeLayers = ds_queue_create(); // layers that were active last frame, used for cleanup
 drawQueue = ds_priority_create();
+
+
 </string>
           </argument>
         </arguments>
@@ -96,7 +98,7 @@ for (var i=0; i&lt;chunkDepth; i+=1)
 
 processing = true; // if entitys should be updated
 rendering = true; // if chunk is drawn
-
+depth = -y;
 </string>
           </argument>
         </arguments>
@@ -120,9 +122,15 @@ rendering = true; // if chunk is drawn
           <argument>
             <kind>1</kind>
             <string>/// chunk update, updates entities in chunk
-if(point_distance(x + 16 * (chunkWidth/2) ,y + 16 * (chunkHeight/2),view_xview[0]+(view_wview[0]/2),view_yview[0]+(view_hview[0]/2)) &lt; 260)
+if(rectangle_in_rectangle(x,y,x+chunkWidth*16,y+chunkHeight*16,view_xview[0],view_yview[0],view_xview[0]+view_wview[0],view_yview[0]+view_hview[0]) &gt; 0)
 {
+    if(processing == false)
+    {
+        // first time active;
+        depth = -y;
+    }
     processing = true;
+    rendering = true;
 }
 
 // drop out if entity has unloaded
@@ -166,12 +174,12 @@ for (var i=startUpdateZ; i&lt;startUpdateZ+chunkDepth; i+=1)
             for (var c=0; c&lt;chunkHeight; c+=1)
             {
                 // get a ds_map of the block at the location
-                var blockData = scr_GetBlockObject( choose("Base:Air","Base:Grass","Base:Rock" ));
+                var blockData = scr_GetBlockObject( choose("Base:Grass","Base:Rock" ));
             
                 if(blockData != -1)
                 {
-                    blockData[? "x"] = x + q*16;
-                    blockData[? "y"] = y + c*16;
+                    blockData[? "x"] = q*16;
+                    blockData[? "y"] = c*16;
                     blockData[? "z"] = i * 16;
                     
                     blockData[? "DrawDepth"] = -c + (i*1000);
@@ -213,8 +221,8 @@ for (var i=startUpdateZ; i&lt;startUpdateZ+chunkDepth; i+=1)
                 if(!blockData[? "Hidden"])
                 {
                     // store the data for drawing!
-                    ds_priority_add(drawQueue,blockData,blockData[? "DrawDepth"]);
-                }
+                    if(scr_ZLayerDrawFilter(i)) ds_priority_add(drawQueue,blockData,blockData[? "DrawDepth"]);
+                }   
             }
         }
     }
@@ -239,7 +247,7 @@ for (var i=0; i&lt;ds_list_size(entitys); i+=1)
 
 
 // set if we are loaded next frame
-if(point_distance(x + 16 * (chunkWidth/2) ,y + 16 * (chunkHeight/2),view_xview[0]+(view_wview[0]/2),view_yview[0]+(view_hview[0]/2)) &gt;= 160)
+if(rectangle_in_rectangle(x,y,x+chunkWidth*16,y+chunkHeight*16,view_xview[0],view_yview[0],view_xview[0]+view_wview[0],view_yview[0]+view_hview[0]) == 0)
 {
     processing = false;
     rendering = false;
@@ -305,14 +313,22 @@ while(ds_priority_size(disposableQueue) &gt; 0)
 {
     var blockData = ds_priority_delete_max(disposableQueue);
     var ZLevel = floor(blockData[? "z"]/16);
-    var solveAlpha = (global.currentCameraZLevel - ZLevel) / -4;
+    var solveAlpha = (global.currentCameraZLevel - ZLevel) / -6;
+    
+    var xx = blockData[? "x"];
+    var yy = blockData[? "y"];
+    var zz = blockData[? "z"];
     
     if(blockData != -1) 
     {
-        if(scr_ZLayerDrawFilter(ZLevel))
+        if(ZLevel &gt;= global.currentCameraZLevel)
         {
-            draw_sprite_ext(blockData[? "Tex"],0,x + blockData[? "x"],y + blockData[? "y"] + (blockData[? "z"]),1,1,0,image_blend,1);
-            draw_sprite_ext(spr_blockDarken,0,x + blockData[? "x"],y + blockData[? "y"] + (blockData[? "z"]),1,1,0,image_blend,solveAlpha);
+            draw_sprite_ext(blockData[? "Tex"],0, x + xx, y + yy + zz, 1, 1, 0, image_blend, 1);
+            draw_sprite_ext(spr_blockDarken,0   , x + xx, y + yy + zz, 1, 1, 0, image_blend, solveAlpha);
+        }
+        else
+        {
+            draw_sprite_ext(blockData[? "Tex"],0, x + xx, y + yy + zz, 1, 1, 0, image_blend, 0.15);
         }
     }
 }

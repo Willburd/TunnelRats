@@ -17,7 +17,9 @@
     <sprite>sprites\spr_WorldChunk</sprite>
     <sprite>sprites\spr_WorldEntity</sprite>
   </sprites>
-  <backgrounds name="background"/>
+  <backgrounds name="background">
+    <background>background\bgTest</background>
+  </backgrounds>
   <paths name="paths"/>
   <scripts name="scripts">
     <script>scripts\scr_Init.gml</script>
@@ -27,6 +29,7 @@
     <script>scripts\scr_CheckBlockTransparent.gml</script>
   </scripts>
   <objects name="objects">
+    <object>objects\obj_camMove</object>
     <object>objects\obj_GameControl</object>
     <object>objects\obj_gameUpdatedParent</object>
     <object>objects\obj_alwaysUpdatedParent</object>
