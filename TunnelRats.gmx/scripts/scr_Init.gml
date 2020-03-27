@@ -22,4 +22,5 @@ global.resMode = 1;
 
 // camera
 global.outputResolutionHeight = 144;
-
+global.chunkWidth = 5;
+global.chunkHeight = 5;

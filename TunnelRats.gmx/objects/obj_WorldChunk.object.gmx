@@ -5,8 +5,8 @@
   <visible>-1</visible>
   <depth>0</depth>
   <persistent>0</persistent>
-  <parentName>self</parentName>
-  <maskName>&lt;undefined&gt;</maskName>
+  <parentName>&lt;undefined&gt;</parentName>
+  <maskName>spr_colMask8x</maskName>
   <events>
     <event eventtype="0" enumb="0">
       <action>
@@ -25,12 +25,12 @@
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>chunkWidth = 5;
-chunkHeight = 5;
-chunkDepth = 8; // z update range
+            <string>chunkDepth = 10; // z update range
 
 processing = true; // if entitys should be updated
 rendering = false; // if chunk is drawn
+
+forceRenderUpdate = false;
 
 
 entitys = ds_list_create();
@@ -39,7 +39,14 @@ blockLayers = ds_list_create(); // active block objects
 activeLayers = ds_queue_create(); // layers that were active last frame, used for cleanup
 drawQueue = ds_priority_create();
 
+worldController = noone;
 
+show_debug_message("Loaded chunk " + string(id));
+
+neighbour_north = noone;
+neighbour_south = noone;
+neighbour_east = noone;
+neighbour_west = noone;
 </string>
           </argument>
         </arguments>
@@ -66,6 +73,28 @@ drawQueue = ds_priority_create();
 ds_list_destroy(blockLayers);
 ds_queue_destroy(activeLayers);
 ds_priority_destroy(drawQueue);
+
+var chunkId = id;
+
+with worldController
+{
+    for (var i=0; i&lt;ds_list_size(loadedChunkList); i+=1)
+    {
+        if(loadedChunkList[| i] == chunkId)
+        {
+            show_debug_message("Unloaded chunk " + string(chunkId));
+            ds_list_delete(loadedChunkList,i);
+            break;
+        }
+    }  
+}
+
+
+// disconnect neighbouring chunks
+if(neighbour_north != noone) with neighbour_north { neighbour_south = noone };
+if(neighbour_south != noone) with neighbour_south { neighbour_north = noone };
+if(neighbour_east != noone) with neighbour_east { neighbour_west = noone };
+if(neighbour_west != noone) with neighbour_west { neighbour_east = noone };
 </string>
           </argument>
         </arguments>
@@ -88,13 +117,18 @@ ds_priority_destroy(drawQueue);
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>/// Extend chunk downwards
-var startLayer = ds_list_size(blockLayers);
-for (var i=0; i&lt;chunkDepth; i+=1)
-{   
-    // layers start unloaded
-    blockLayers[| startLayer + i] = -1;
-};
+            <string>/// Extend chunk downwards till we match camera
+while(ds_list_size(blockLayers) &lt; global.currentCameraZLevel + chunkDepth)
+{
+    var startLayer = ds_list_size(blockLayers);
+    for (var i=0; i&lt;chunkDepth; i+=1)
+    {   
+        // layers start unloaded
+        blockLayers[| startLayer + i] = -1;
+    }
+}
+
+show_debug_message("extended chunk " + string(id) + " to size " + string(ds_list_size(blockLayers)));
 
 processing = true; // if entitys should be updated
 rendering = true; // if chunk is drawn
@@ -122,7 +156,7 @@ depth = -y;
           <argument>
             <kind>1</kind>
             <string>/// chunk update, updates entities in chunk
-if(rectangle_in_rectangle(x,y,x+chunkWidth*16,y+chunkHeight*16,view_xview[0],view_yview[0],view_xview[0]+view_wview[0],view_yview[0]+view_hview[0]) &gt; 0)
+if(rectangle_in_rectangle(x,y,x+global.chunkWidth*16,y+global.chunkHeight*16,view_xview[0],view_yview[0],view_xview[0]+view_wview[0],view_yview[0]+view_hview[0]) &gt; 0)
 {
     if(processing == false)
     {
@@ -134,25 +168,23 @@ if(rectangle_in_rectangle(x,y,x+chunkWidth*16,y+chunkHeight*16,view_xview[0],vie
 }
 
 // drop out if entity has unloaded
-if(!processing) exit;
-
-startUpdateZ = max(global.currentCameraZLevel-(chunkDepth/2),0);
-// unload layers as needed
-while(ds_queue_size(activeLayers) &gt; 0)
+if(!processing) 
 {
-    var lay = ds_queue_dequeue(activeLayers);
-
-    if(lay &lt; startUpdateZ || lay &gt;= startUpdateZ + chunkDepth)
+    if(rectangle_in_rectangle(x,y,x+global.chunkWidth*16,y+global.chunkHeight*16,view_xview[0]-256,view_yview[0]-256,view_xview[0]+view_wview[0]+256,view_yview[0]+view_hview[0]+256) == 0)
     {
-        var gridLayer = blockLayers[| lay];        
-        // unload layer
+        // unload chunk!
+        instance_destroy();
     }
+    exit;
 }
+
 
 // clear draw update list
 ds_priority_clear(drawQueue);
 
+
 // update the blocks
+startUpdateZ = max(global.currentCameraZLevel-(chunkDepth/2),0);
 for (var i=startUpdateZ; i&lt;startUpdateZ+chunkDepth; i+=1)
 {
     if(i &gt;= ds_list_size(blockLayers))
@@ -166,16 +198,16 @@ for (var i=startUpdateZ; i&lt;startUpdateZ+chunkDepth; i+=1)
     // spawn layer if not loaded
     if(gridLayer == -1)
     {
-        gridLayer = ds_grid_create( chunkWidth, chunkHeight);
+        gridLayer = ds_grid_create( global.chunkWidth, global.chunkHeight);
         
         // spawn objects
-        for (var q=0; q&lt;chunkWidth; q+=1)
+        for (var q=0; q&lt;global.chunkWidth; q+=1)
         {
-            for (var c=0; c&lt;chunkHeight; c+=1)
+            for (var c=0; c&lt;global.chunkHeight; c+=1)
             {
                 // get a ds_map of the block at the location
-                var blockData = scr_GetBlockObject( choose("Base:Grass","Base:Rock" ));
-            
+                var blockData = scr_worldGenBlock(blockLayers,i,x,y,q,c);
+                
                 if(blockData != -1)
                 {
                     blockData[? "x"] = q*16;
@@ -199,9 +231,9 @@ for (var i=startUpdateZ; i&lt;startUpdateZ+chunkDepth; i+=1)
     }
     
     // call update in each block
-    for (q=0; q&lt;chunkWidth; q+=1)
+    for (q=0; q&lt;global.chunkWidth; q+=1)
     {
-        for (c=0; c&lt;chunkHeight; c+=1)
+        for (c=0; c&lt;global.chunkHeight; c+=1)
         {
             // get block data
             var blockData = gridLayer[# q,c];
@@ -213,7 +245,7 @@ for (var i=startUpdateZ; i&lt;startUpdateZ+chunkDepth; i+=1)
                 // do exposure checks here if it was updated!
                 
                 // set visual state of block for drawing
-                if(blockData[? "Hidden"] == -1)
+                if(blockData[? "Hidden"] == -1 || forceRenderUpdate)
                 {
                     // refresh status
                     blockData[? "Hidden"] = !scr_BlockExposureCheck(blockLayers,i,q,c);
@@ -222,7 +254,7 @@ for (var i=startUpdateZ; i&lt;startUpdateZ+chunkDepth; i+=1)
                 {
                     // store the data for drawing!
                     if(scr_ZLayerDrawFilter(i)) ds_priority_add(drawQueue,blockData,blockData[? "DrawDepth"]);
-                }   
+                }
             }
         }
     }
@@ -244,12 +276,14 @@ for (var i=0; i&lt;ds_list_size(entitys); i+=1)
 
 
 
+// cleanup one loop flags
+forceRenderUpdate = false;
+
 
 
 // set if we are loaded next frame
-if(rectangle_in_rectangle(x,y,x+chunkWidth*16,y+chunkHeight*16,view_xview[0],view_yview[0],view_xview[0]+view_wview[0],view_yview[0]+view_hview[0]) == 0)
+if(rectangle_in_rectangle(x,y,x+global.chunkWidth*16,y+global.chunkHeight*16,view_xview[0]-32,view_yview[0]-32,view_xview[0]+view_wview[0]+32,view_yview[0]+view_hview[0]+32) == 0)
 {
-    processing = false;
     rendering = false;
 }
 
@@ -313,27 +347,43 @@ while(ds_priority_size(disposableQueue) &gt; 0)
 {
     var blockData = ds_priority_delete_max(disposableQueue);
     var ZLevel = floor(blockData[? "z"]/16);
-    var solveAlpha = (global.currentCameraZLevel - ZLevel) / -6;
+    var solveAlpha = ((global.currentCameraZLevel - ZLevel)-2) / -7;
     
     var xx = blockData[? "x"];
     var yy = blockData[? "y"];
-    var zz = blockData[? "z"];
+    
+    // TODO use "z" instead of fixed value "z" is the actual z value from the top of the world at 16px per block
+    var yOffset = 8 * (ZLevel - global.currentCameraZLevel);
     
     if(blockData != -1) 
     {
         if(ZLevel &gt;= global.currentCameraZLevel)
         {
-            draw_sprite_ext(blockData[? "Tex"],0, x + xx, y + yy + zz, 1, 1, 0, image_blend, 1);
-            draw_sprite_ext(spr_blockDarken,0   , x + xx, y + yy + zz, 1, 1, 0, image_blend, solveAlpha);
+            draw_sprite_ext(blockData[? "Tex"],0, x + xx, y + yy + yOffset, 1, 1, 0, image_blend, 1);
+            draw_sprite_ext(spr_blockDarken,0   , x + xx, y + yy + yOffset, 1, 1, 0, image_blend, solveAlpha);
+        }
+        else if(ZLevel == global.currentCameraZLevel-1)
+        {
+            draw_sprite_ext(blockData[? "Tex"],0, x + xx, y + yy + yOffset, 1, 1, 0, image_blend, 1);
+            draw_sprite_ext(spr_blockDarken,0   , x + xx, y + yy + yOffset, 1, 1, 0, image_blend, 0.1);
         }
         else
         {
-            draw_sprite_ext(blockData[? "Tex"],0, x + xx, y + yy + zz, 1, 1, 0, image_blend, 0.15);
+            draw_sprite_ext(blockData[? "Tex"],0, x + xx, y + yy + yOffset, 1, 1, 0, image_blend, 1);
         }
     }
 }
 
 ds_priority_destroy(disposableQueue); //cleanup
+
+
+
+/*
+if(neighbour_north != noone) draw_arrow(x,y,neighbour_north.x,neighbour_north.y,5);
+if(neighbour_south != noone) draw_arrow(x,y,neighbour_south.x,neighbour_south.y,5);
+if(neighbour_east != noone) draw_arrow(x,y,neighbour_east.x,neighbour_east.y,5);
+if(neighbour_west != noone) draw_arrow(x,y,neighbour_west.x,neighbour_west.y,5);
+*/
 </string>
           </argument>
         </arguments>

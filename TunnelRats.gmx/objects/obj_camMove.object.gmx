@@ -25,11 +25,21 @@
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>var dir = point_direction(x,y,mouse_x,mouse_y);
-var dis = 0.0002 * delta_time;
+            <string>var UD = 0;
+var LR = 0;
+if(keyboard_check(vk_left)) LR += -1;
+if(keyboard_check(vk_right)) LR += 1;
+if(keyboard_check(vk_up)) UD += -1;
+if(keyboard_check(vk_down)) UD += 1;
 
-x += lengthdir_x(dis,dir);
-y += lengthdir_y(dis,dir);
+if(UD != 0 || LR != 0)
+{
+    var dir = point_direction(0,0, LR, UD);
+    var dis = 0.000075 * delta_time;
+    
+    x += lengthdir_x(dis,dir);
+    y += lengthdir_y(dis,dir);
+}
 
 depth = -y;
 </string>

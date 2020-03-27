@@ -45,6 +45,14 @@ if(database == "Base")
             break;
             
             
+        case "Dirt": 
+            returnMap = ds_map_create();
+            returnMap[? "Tex"] = spr_block_dirt;
+            returnMap[? "Transparent"] = false;
+            returnMap[? "Solid"] = true;
+            break;
+            
+            
         case "Rock": 
             returnMap = ds_map_create();
             returnMap[? "Tex"] = spr_block_rock;

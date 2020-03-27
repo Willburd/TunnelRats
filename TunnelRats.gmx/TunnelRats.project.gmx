@@ -9,11 +9,13 @@
     <sprite>sprites\spr_blockParent</sprite>
     <sprite>sprites\spr_blockDarken</sprite>
     <sprite>sprites\spr_block_grass</sprite>
+    <sprite>sprites\spr_block_dirt</sprite>
     <sprite>sprites\spr_block_rock</sprite>
     <sprite>sprites\spr_blockCol</sprite>
     <sprite>sprites\spr_colMask16x</sprite>
     <sprite>sprites\spr_colMask8x</sprite>
     <sprite>sprites\spr_controller</sprite>
+    <sprite>sprites\spr_World</sprite>
     <sprite>sprites\spr_WorldChunk</sprite>
     <sprite>sprites\spr_WorldEntity</sprite>
   </sprites>
@@ -23,10 +25,20 @@
   <paths name="paths"/>
   <scripts name="scripts">
     <script>scripts\scr_Init.gml</script>
-    <script>scripts\scr_ZLayerDrawFilter.gml</script>
-    <script>scripts\scr_BlockExposureCheck.gml</script>
-    <script>scripts\scr_GetBlockObject.gml</script>
-    <script>scripts\scr_CheckBlockTransparent.gml</script>
+    <scripts name="Chunks">
+      <script>scripts\scr_ZLayerDrawFilter.gml</script>
+      <script>scripts\scr_BlockExposureCheck.gml</script>
+      <script>scripts\scr_CheckBlockTransparent.gml</script>
+      <script>scripts\scr_ChunkUpdate.gml</script>
+    </scripts>
+    <scripts name="worldGenData">
+      <script>scripts\scr_WorldGen.gml</script>
+      <script>scripts\scr_GenSimplexNoise.gml</script>
+      <script>scripts\scr_worldGenBlock.gml</script>
+      <script>scripts\scr_GetGroundHeight.gml</script>
+      <script>scripts\scr_SafeData.gml</script>
+      <script>scripts\scr_GetBlockObject.gml</script>
+    </scripts>
     <scripts name="Simplex">
       <script>scripts\scrGenerateNoise.gml</script>
       <script>scripts\scrGenerateNoiseOct.gml</script>
@@ -37,6 +49,8 @@
       <script>scripts\scrInterpolate.gml</script>
       <script>scripts\scrOctaveGen.gml</script>
       <script>scripts\scrVectorGen.gml</script>
+      <script>scripts\scrOctaveClean.gml</script>
+      <script>scripts\scr_euclidMod.gml</script>
     </scripts>
   </scripts>
   <objects name="objects">
@@ -44,9 +58,9 @@
     <object>objects\obj_GameControl</object>
     <object>objects\obj_gameUpdatedParent</object>
     <object>objects\obj_alwaysUpdatedParent</object>
+    <object>objects\obj_WorldController</object>
     <object>objects\obj_WorldChunk</object>
     <object>objects\obj_WorldEntityParent</object>
-    <object>objects\objGenerator</object>
   </objects>
   <rooms name="rooms">
     <room>rooms\rm_Init</room>
