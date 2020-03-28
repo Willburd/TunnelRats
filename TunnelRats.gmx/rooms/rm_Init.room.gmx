@@ -12,7 +12,7 @@
   <showcolour>-1</showcolour>
   <code>scr_Init();
 room_goto_next();</code>
-  <enableViews>0</enableViews>
+  <enableViews>-1</enableViews>
   <clearViewBackground>-1</clearViewBackground>
   <clearDisplayBuffer>-1</clearDisplayBuffer>
   <makerSettings>

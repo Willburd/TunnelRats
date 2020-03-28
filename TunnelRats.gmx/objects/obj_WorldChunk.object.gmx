@@ -25,13 +25,14 @@
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>chunkDepth = 10; // z update range
+            <string>chunkDepth = 16; // z update range
 
 processing = true; // if entitys should be updated
-rendering = false; // if chunk is drawn
+rendering = true; // if chunk is drawn
 
 forceRenderUpdate = false;
-
+updateTimerMax = 90; // delay between updates
+updateTimer = 0; // timer for it
 
 entitys = ds_list_create();
 blockLayers = ds_list_create(); // active block objects
@@ -41,12 +42,22 @@ drawQueue = ds_priority_create();
 
 worldController = noone;
 
-show_debug_message("Loaded chunk " + string(id));
-
 neighbour_north = noone;
 neighbour_south = noone;
 neighbour_east = noone;
 neighbour_west = noone;
+
+
+if(file_exists(working_directory + "/Worlds/" + string(global.worldData[? "name"]) + "/Chunks/" + string(x/16) + "o" + string(y/16) + ".dat"))
+{
+    show_debug_message("STARTED Loading chunk " + string(id));
+    scr_LoadChunk(id);
+    show_debug_message("Loaded chunk " + string(id));
+}
+else
+{
+    show_debug_message("Spawned chunk " + string(id));
+}
 </string>
           </argument>
         </arguments>
@@ -69,7 +80,9 @@ neighbour_west = noone;
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>ds_list_destroy(entitys);
+            <string>scr_SaveChunk(id);
+
+ds_list_destroy(entitys);
 ds_list_destroy(blockLayers);
 ds_queue_destroy(activeLayers);
 ds_priority_destroy(drawQueue);
@@ -156,36 +169,43 @@ depth = -y;
           <argument>
             <kind>1</kind>
             <string>/// chunk update, updates entities in chunk
-if(rectangle_in_rectangle(x,y,x+global.chunkWidth*16,y+global.chunkHeight*16,view_xview[0],view_yview[0],view_xview[0]+view_wview[0],view_yview[0]+view_hview[0]) &gt; 0)
-{
-    if(processing == false)
-    {
-        // first time active;
-        depth = -y;
-    }
-    processing = true;
-    rendering = true;
-}
-
 // drop out if entity has unloaded
-if(!processing) 
+updateTimer--;
+if(updateTimer &lt; -updateTimerMax)
 {
-    if(rectangle_in_rectangle(x,y,x+global.chunkWidth*16,y+global.chunkHeight*16,view_xview[0]-256,view_yview[0]-256,view_xview[0]+view_wview[0]+256,view_yview[0]+view_hview[0]+256) == 0)
-    {
-        // unload chunk!
-        instance_destroy();
-    }
+    instance_destroy();
     exit;
 }
+// update lockdown
+if(updateTimer &gt; 0) exit; // skip update
+updateTimer = updateTimerMax;
 
 
+
+// draw distance check
+if(rectangle_in_rectangle(x,y,x+global.chunkWidth*16,y+global.chunkHeight*16,view_xview[0]-64,view_yview[0]-64,view_xview[0]+view_wview[0]+64,view_yview[0]+view_hview[0]+64) &gt; 0)
+{
+    rendering = true;
+}
+else
+{
+    rendering = false;
+}
 // clear draw update list
 ds_priority_clear(drawQueue);
 
 
+
 // update the blocks
 startUpdateZ = max(global.currentCameraZLevel-(chunkDepth/2),0);
-for (var i=startUpdateZ; i&lt;startUpdateZ+chunkDepth; i+=1)
+var startAlt = startUpdateZ;
+// if the top of the chunk is not genned already we need to do a full gen....
+if(ds_list_size(blockLayers) &lt; startUpdateZ)
+{
+    startAlt = ds_list_size(blockLayers);
+}
+
+for (var i=startAlt; i&lt;startUpdateZ+chunkDepth; i+=1)
 {
     if(i &gt;= ds_list_size(blockLayers))
     {
@@ -206,7 +226,7 @@ for (var i=startUpdateZ; i&lt;startUpdateZ+chunkDepth; i+=1)
             for (var c=0; c&lt;global.chunkHeight; c+=1)
             {
                 // get a ds_map of the block at the location
-                var blockData = scr_worldGenBlock(blockLayers,i,x,y,q,c);
+                var blockData = scr_WorldGenBlock(blockLayers,i,x/16,y/16,q,c);
                 
                 if(blockData != -1)
                 {
@@ -215,7 +235,7 @@ for (var i=startUpdateZ; i&lt;startUpdateZ+chunkDepth; i+=1)
                     blockData[? "z"] = i * 16;
                     
                     blockData[? "DrawDepth"] = -c + (i*1000);
-                    blockData[? "Hidden"] = -1; //auto refresh draw status
+                    blockData[? "Exposed"] = -1; //auto refresh draw status
                     
                     gridLayer[# q,c] = blockData;
                 }
@@ -230,37 +250,39 @@ for (var i=startUpdateZ; i&lt;startUpdateZ+chunkDepth; i+=1)
         blockLayers[| i] = gridLayer;
     }
     
-    // call update in each block
-    for (q=0; q&lt;global.chunkWidth; q+=1)
+    if(i &gt;= startUpdateZ)
     {
-        for (c=0; c&lt;global.chunkHeight; c+=1)
+        // call update in each block
+        for (q=0; q&lt;global.chunkWidth; q+=1)
         {
-            // get block data
-            var blockData = gridLayer[# q,c];
-            if(blockData != -1)
+            for (c=0; c&lt;global.chunkHeight; c+=1)
             {
-            
-                // run update script for block type
-                
-                // do exposure checks here if it was updated!
-                
-                // set visual state of block for drawing
-                if(blockData[? "Hidden"] == -1 || forceRenderUpdate)
+                // get block data
+                var blockData = gridLayer[# q,c];
+                if(blockData != -1)
                 {
-                    // refresh status
-                    blockData[? "Hidden"] = !scr_BlockExposureCheck(blockLayers,i,q,c);
-                }
-                if(!blockData[? "Hidden"])
-                {
-                    // store the data for drawing!
-                    if(scr_ZLayerDrawFilter(i)) ds_priority_add(drawQueue,blockData,blockData[? "DrawDepth"]);
+                    // run update script for block type
+                    
+                    // do exposure checks here if it was updated!
+                    
+                    // set visual state of block for drawing
+                    if(blockData[? "Exposed"] == -1 || forceRenderUpdate)
+                    {
+                        // refresh status
+                        blockData[? "Exposed"] = scr_BlockExposureCheck(blockLayers,i,q,c);
+                    }
+                    if(blockData[? "Exposed"])
+                    {
+                        // store the data for drawing!
+                        if(scr_ZLayerDrawFilter(i)) ds_priority_add(drawQueue,blockData,blockData[? "DrawDepth"]);
+                    }
                 }
             }
         }
+        
+        // set layer as used last frame
+        ds_queue_enqueue(activeLayers,i);
     }
-    
-    // set layer as used last frame
-    ds_queue_enqueue(activeLayers,i);
 }
 
 
@@ -279,13 +301,6 @@ for (var i=0; i&lt;ds_list_size(entitys); i+=1)
 // cleanup one loop flags
 forceRenderUpdate = false;
 
-
-
-// set if we are loaded next frame
-if(rectangle_in_rectangle(x,y,x+global.chunkWidth*16,y+global.chunkHeight*16,view_xview[0]-32,view_yview[0]-32,view_xview[0]+view_wview[0]+32,view_yview[0]+view_hview[0]+32) == 0)
-{
-    rendering = false;
-}
 
 </string>
           </argument>
@@ -309,7 +324,9 @@ if(rectangle_in_rectangle(x,y,x+global.chunkWidth*16,y+global.chunkHeight*16,vie
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>ds_list_destroy(entitys);
+            <string>scr_SaveChunk(id);
+
+ds_list_destroy(entitys);
 ds_list_destroy(blockLayers);
 ds_queue_destroy(activeLayers);
 ds_priority_destroy(drawQueue);
@@ -347,7 +364,7 @@ while(ds_priority_size(disposableQueue) &gt; 0)
 {
     var blockData = ds_priority_delete_max(disposableQueue);
     var ZLevel = floor(blockData[? "z"]/16);
-    var solveAlpha = ((global.currentCameraZLevel - ZLevel)-2) / -7;
+    var solveAlpha = ((global.currentCameraZLevel - ZLevel)-2) / -global.drawLayerDepth;
     
     var xx = blockData[? "x"];
     var yy = blockData[? "y"];
@@ -370,6 +387,12 @@ while(ds_priority_size(disposableQueue) &gt; 0)
         else
         {
             draw_sprite_ext(blockData[? "Tex"],0, x + xx, y + yy + yOffset, 1, 1, 0, image_blend, 1);
+        }
+        
+        
+        if(blockData[? "Exposed"] == 2)
+        {
+            draw_sprite_ext(spr_blockBackReveal,0   , x + xx, y + yy + yOffset, 1, 1, 0, image_blend, 1);
         }
     }
 }

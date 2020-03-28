@@ -68,9 +68,6 @@ global._game_time += delta_time;
 if(global._game_time &gt;= global._game_max_time)
 {
     global._game_time = global._game_time - delta_time;
-
-    // chunk update counter
-    global._chunk_time -= 1;
     
     // pause check
     if(!global.gamePaused)
@@ -90,23 +87,17 @@ if(global._game_time &gt;= global._game_max_time)
     }
 }
 
-// update chunks far less often
-if(global._chunk_time &lt;= 0)
-{
-    global._chunk_time = 10;
-    
-    // pause check
-    if(!global.gamePaused)
-    {
-        // update game
-        with(obj_WorldChunk)
-        {
-            // updated when not paused
-            scr_ChunkUpdate(id, (random(1) &lt; 0.1) );
-        }
-    }
-}
 
+global._frame_time += delta_time;
+if(global._frame_time &gt;= global._frame_max_time)
+{
+    global._frame_time = global._frame_time - delta_time;
+    draw_enable_drawevent(true);
+}
+else
+{
+    draw_enable_drawevent(false);
+}
 
 scrollCooldown--;
 </string>
@@ -136,10 +127,6 @@ scrollCooldown--;
     if(global.currentCameraZLevel &gt; 0) global.currentCameraZLevel -= 1;
     scrollCooldown = 50;   
     
-    with obj_WorldChunk
-    {
-        scr_ChunkUpdate(id,true);
-    }
 }
 </string>
           </argument>
@@ -167,10 +154,6 @@ scrollCooldown--;
 {
     global.currentCameraZLevel += 1;
     scrollCooldown = 50;   
-}
-with obj_WorldChunk
-{
-    scr_ChunkUpdate(id,true);
 }
 </string>
           </argument>

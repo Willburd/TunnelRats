@@ -26,10 +26,22 @@
           <argument>
             <kind>1</kind>
             <string>/// controller for spawning world chunks
+var worldName = "Test World";
 
 // setup world data based on the seed(for fresh chunks!)
-scr_WorldGen(1000); 
-global.currentCameraZLevel = global.seaLevel;
+if(file_exists(working_directory + "/Worlds/" + string(worldName) + "/RawMap.dat"))
+{
+    scr_LoadWorld(worldName);
+}
+else
+{
+    scr_WorldGen(1000,worldName); 
+    scr_SaveWorld();
+}
+    
+
+
+global.currentCameraZLevel = global.worldData[? "seaLevel"];
 
 loadedChunkList = ds_list_create();
 
@@ -176,6 +188,18 @@ if(x &gt; view_xview[0] + view_wview[0] + chunkW + 20)
 if(y &gt; view_yview[0] + view_hview[0] + chunkH + 20)
 {
     y = TLgridY;
+}
+
+
+// update chunks
+for (i=0; i&lt;ds_list_size(loadedChunkList); i+=1)
+{
+    var chunk = loadedChunkList[| i];
+    
+    if(rectangle_in_rectangle(chunk.x,chunk.y,chunk.x+global.chunkWidth*16,chunk.y+global.chunkHeight*16,view_xview[0]-96,view_yview[0]-96,view_xview[0]+view_wview[0]+96,view_yview[0]+view_hview[0]+96) &gt; 0)
+    {
+        scr_ChunkUpdate(chunk, (random(1) &lt; 0.1) );
+    }
 }
 
 

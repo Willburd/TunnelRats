@@ -5,7 +5,7 @@ if(argument0 < global.currentCameraZLevel-2)
     // above draw limit
     return false;
 }
-else if(argument0 == global.currentCameraZLevel-2 || argument0 == global.currentCameraZLevel-1 || argument0 == global.currentCameraZLevel || global.currentCameraZLevel - argument0 > -4)
+else if(argument0 == global.currentCameraZLevel-2 || argument0 == global.currentCameraZLevel-1 || argument0 == global.currentCameraZLevel || global.currentCameraZLevel - argument0 > -global.drawLayerDepth)
 {
     // in limits
     return true;

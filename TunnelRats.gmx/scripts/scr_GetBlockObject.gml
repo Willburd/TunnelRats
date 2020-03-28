@@ -22,11 +22,10 @@ if(database == "Base")
     // find block in the base library
     // TODO migrate base library to a json
     var returnMap = -1;
+    
     // set unique data
     switch(name)
     {
-        
-    
         default :
             show_debug_message("Block does not exist? " + string(database) + ":" + string(name)); 
             return -1;
@@ -59,13 +58,26 @@ if(database == "Base")
             returnMap[? "Transparent"] = false;
             returnMap[? "Solid"] = true;
             break;
+            
+        case "Sand": 
+            returnMap = ds_map_create();
+            returnMap[? "Tex"] = spr_block_sand;
+            returnMap[? "Transparent"] = false;
+            returnMap[? "Solid"] = true;
+            break;
+            
+            
+        case "Water": 
+            returnMap = ds_map_create();
+            returnMap[? "Tex"] = spr_block_water;
+            returnMap[? "Transparent"] = false;
+            returnMap[? "Solid"] = false;
+            break;
     }
     
     // basic data blocks all spawn with, this code is only reached if not air or nonexistant
     returnMap[? "DataName"] = database;
     returnMap[? "Name"] = name;
-    returnMap[? "Hidden"] = true; 
-    
     
     return returnMap;
 }

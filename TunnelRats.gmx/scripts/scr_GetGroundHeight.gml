@@ -4,14 +4,17 @@ var xx = argument0;
 var yy = argument1;
 
 // pull data from world gen grids
-var contHeight = scr_SafeData(global.continentMap   ,xx,yy,global.continentMap_Scale);
-var montHeight = scr_SafeData(global.mountainMap    ,xx,yy,global.mountainMap_Scale);
-var hillHeight = scr_SafeData(global.hillMap        ,xx,yy,global.hillMap_Scale);
-
-var groundHeight = global.seaLevel;
-
-//groundHeight += contHeight;
-//groundHeight += (montHeight + 128) / 2;
-groundHeight += floor(hillHeight/30);
+var groundHeight = global.worldData[? "seaLevel"];
+if(global.debug_DisableWorldGen == false)
+{
+    var contHeight = scr_SafeData(global.worldData[? "continentMap"]   ,xx,yy,global.continentMap_Scale);
+    var montHeight = scr_SafeData(global.worldData[? "mountainMap"]    ,xx,yy,global.mountainMap_Scale);
+    var hillHeight = scr_SafeData(global.worldData[? "hillMap"]        ,xx,yy,global.hillMap_Scale);
+    
+    groundHeight -= floor(contHeight / 5);
+    groundHeight += 36; //offset continents down!
+    groundHeight -= floor(montHeight / 25);
+    groundHeight -= floor(hillHeight / 20);
+}
 
 return groundHeight;

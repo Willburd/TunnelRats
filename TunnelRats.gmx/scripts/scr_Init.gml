@@ -6,8 +6,9 @@ global.currentCameraZLevel = 0;
 
 // framerate
 global._game_time = 0; // deltatime stacker
-global._chunk_time = 0; // chunk random update counter
-global._game_max_time = 1000000 / 60; // 60 ticks target for entities
+global._frame_time = 0; // deltatime stacker
+global._game_max_time = 1000000 / 20; // 20 ticks target for entities
+global._frame_max_time = 1000000 / 60; // 60 ticks target for entities
 global.gameMaxFrames = 9999; // room lock fps
 
 // 4:3  1.3333
@@ -22,5 +23,15 @@ global.resMode = 1;
 
 // camera
 global.outputResolutionHeight = 144;
-global.chunkWidth = 5;
-global.chunkHeight = 5;
+global.chunkWidth = 4;
+global.chunkHeight = 4;
+global.drawLayerDepth = 9;
+
+global.debug_DisableWorldGen = false;
+
+// World gen
+global.worldData = -1;
+global.continentMap_Scale = 5; // these scales are how many blocks each pixel represents in the world, not the scaling of the grid!
+global.mountainMap_Scale = 2;
+global.hillMap_Scale = 1;
+

@@ -8,7 +8,10 @@
   <sprites name="sprites">
     <sprite>sprites\spr_blockParent</sprite>
     <sprite>sprites\spr_blockDarken</sprite>
+    <sprite>sprites\spr_blockBackReveal</sprite>
     <sprite>sprites\spr_block_grass</sprite>
+    <sprite>sprites\spr_block_sand</sprite>
+    <sprite>sprites\spr_block_water</sprite>
     <sprite>sprites\spr_block_dirt</sprite>
     <sprite>sprites\spr_block_rock</sprite>
     <sprite>sprites\spr_blockCol</sprite>
@@ -25,16 +28,20 @@
   <paths name="paths"/>
   <scripts name="scripts">
     <script>scripts\scr_Init.gml</script>
+    <script>scripts\scr_SaveWorld.gml</script>
+    <script>scripts\scr_LoadWorld.gml</script>
     <scripts name="Chunks">
       <script>scripts\scr_ZLayerDrawFilter.gml</script>
       <script>scripts\scr_BlockExposureCheck.gml</script>
       <script>scripts\scr_CheckBlockTransparent.gml</script>
       <script>scripts\scr_ChunkUpdate.gml</script>
+      <script>scripts\scr_SaveChunk.gml</script>
+      <script>scripts\scr_LoadChunk.gml</script>
     </scripts>
     <scripts name="worldGenData">
       <script>scripts\scr_WorldGen.gml</script>
       <script>scripts\scr_GenSimplexNoise.gml</script>
-      <script>scripts\scr_worldGenBlock.gml</script>
+      <script>scripts\scr_WorldGenBlock.gml</script>
       <script>scripts\scr_GetGroundHeight.gml</script>
       <script>scripts\scr_SafeData.gml</script>
       <script>scripts\scr_GetBlockObject.gml</script>
