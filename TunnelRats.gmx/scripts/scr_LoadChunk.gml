@@ -9,12 +9,13 @@ var loadFile = file_text_open_read(saveDir + string(newChunk.x/16) + "o" + strin
     var layerNum = 0;
     while (!file_text_eof(loadFile))
     {
-        var loadString = file_text_readln(loadFile);
+        var loadString = file_text_read_string(loadFile);
         
         // find layer to start extracting
         if(loadString == "**nullGrid**")
         {
             // next loop, nothing here
+            chunkLayers[| layerNum] = -1;
         }
         else
         {
@@ -26,21 +27,21 @@ var loadFile = file_text_open_read(saveDir + string(newChunk.x/16) + "o" + strin
                 for (var c=0; c<global.chunkHeight; c+=1)
                 {
                     // get a ds_map of the block at the location
-                    var blockData = ds_map_create();
+                    layerGrid[# q,c] = -1;
                     if(loadString == "**nullBlock**")
                     {
-                        blockData = -1;
+                        // nullBlock
                     }
                     else
                     {
-                        ds_map_read(blockData,loadString);
+                        layerGrid[# q,c] = ds_map_create();
+                        ds_map_read(layerGrid[# q,c], loadString);
                     }
-                    
-                    layerGrid[# q,c] = blockData;
                 }
             }
         }
         
+        file_text_readln(loadFile);
         layerNum++;
     }
     
