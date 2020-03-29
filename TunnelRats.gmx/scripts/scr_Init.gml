@@ -7,7 +7,7 @@ global.currentCameraZLevel = 0;
 // framerate
 global._game_time = 0; // deltatime stacker
 global._frame_time = 0; // deltatime stacker
-global._game_max_time = 1000000 / 20; // 20 ticks target for entities
+global._game_max_time = 1000000 / 24; // 24 ticks target for entities
 global._frame_max_time = 1000000 / 60; // 60 ticks target for entities
 global.gameMaxFrames = 9999; // room lock fps
 

@@ -26,16 +26,18 @@
           <argument>
             <kind>1</kind>
             <string>/// controller for spawning world chunks
-var worldName = "Test World";
+randomize();
+var worldName = "Test World Rand";
+UniverseNumber = 0;
 
 // setup world data based on the seed(for fresh chunks!)
-if(file_exists(working_directory + "/Worlds/" + string(worldName) + "/RawMap.dat"))
+if(file_exists(working_directory + "/Worlds/" + string(worldName) + "/World.dat"))
 {
     scr_LoadWorld(worldName);
 }
 else
 {
-    scr_WorldGen(1000,worldName); 
+    scr_WorldGen(random(9999),worldName); 
     scr_SaveWorld();
 }
     
@@ -111,9 +113,31 @@ for (i=0; i&lt;ds_list_size(loadedChunkList); i+=1)
 
 if(!chunkAlreadyHere)
 {
-    // spawn new world chunk!
+    // spawn world chunk!
     var newChunk = instance_create(x,y,obj_WorldChunk);
     newChunk.worldController = id;
+    if(file_exists(working_directory + "/Worlds/" + string(global.worldData[? "name"]) + "/Universe" + string(UniverseNumber) + "/Chunks/" + string(x/16) + "o" + string(y/16) + ".dat"))
+    {
+        // not new, load chunk data!
+        with newChunk
+        {
+            show_debug_message("STARTED Loading chunk " + string(id));
+            scr_LoadChunk(UniverseNumber,id);
+            processing = true; // if entitys should be updated
+            rendering = true; // if chunk is drawn
+            forceRenderUpdate = true;
+            initialGen = false;
+            show_debug_message("Loaded chunk " + string(id));
+        }
+    }
+    else
+    {
+        // new! setup for WORLDGEN
+        initialGen = true;
+        show_debug_message("Spawned chunk " + string(newChunk.id));
+    }
+    
+    
     
     ds_list_add(loadedChunkList, newChunk);
     

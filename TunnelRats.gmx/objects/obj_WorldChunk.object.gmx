@@ -27,11 +27,12 @@
             <kind>1</kind>
             <string>chunkDepth = 16; // z update range
 
+initialGen = true;
 processing = true; // if entitys should be updated
 rendering = true; // if chunk is drawn
 
 forceRenderUpdate = false;
-updateTimerMax = 90; // delay between updates
+updateTimerMax = 30; // delay between updates
 updateTimer = 0; // timer for it
 
 entitys = ds_list_create();
@@ -46,18 +47,7 @@ neighbour_north = noone;
 neighbour_south = noone;
 neighbour_east = noone;
 neighbour_west = noone;
-
-
-if(file_exists(working_directory + "/Worlds/" + string(global.worldData[? "name"]) + "/Chunks/" + string(x/16) + "o" + string(y/16) + ".dat"))
-{
-    show_debug_message("STARTED Loading chunk " + string(id));
-    scr_LoadChunk(id);
-    show_debug_message("Loaded chunk " + string(id));
-}
-else
-{
-    show_debug_message("Spawned chunk " + string(id));
-}
+depth = -y;
 </string>
           </argument>
         </arguments>
@@ -80,7 +70,7 @@ else
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>scr_SaveChunk(id);
+            <string>scr_SaveChunk(worldController.UniverseNumber,id);
 
 ds_list_destroy(entitys);
 ds_list_destroy(blockLayers);
@@ -131,17 +121,57 @@ if(neighbour_west != noone) with neighbour_west { neighbour_east = noone };
           <argument>
             <kind>1</kind>
             <string>/// Extend chunk downwards till we match camera
-while(ds_list_size(blockLayers) &lt; global.currentCameraZLevel + chunkDepth)
+var startLayer = ds_list_size(blockLayers);
+var genDepths = chunkDepth;
+if(initialGen)
 {
-    var startLayer = ds_list_size(blockLayers);
-    for (var i=0; i&lt;chunkDepth; i+=1)
-    {   
-        // layers start unloaded
-        blockLayers[| startLayer + i] = -1;
+    genDepths *= 2;
+    if(startLayer + genDepths &gt; global.currentCameraZLevel)
+    {
+        show_debug_message("ended accelerated generation, chunk " + string(id));
+        initialGen = false;
+        scr_SaveChunk(worldController.UniverseNumber,id);
     }
 }
 
-show_debug_message("extended chunk " + string(id) + " to size " + string(ds_list_size(blockLayers)));
+for (var i=0; i&lt;genDepths; i+=1)
+{   
+    var depthLayer = startLayer + i;
+
+    // create a new layer!
+    var gridLayer = ds_grid_create( global.chunkWidth, global.chunkHeight);
+    blockLayers[| depthLayer] = gridLayer; // activate layer for world gen!
+    
+    // spawn objects
+    for (var q=0; q&lt;global.chunkWidth; q+=1)
+    {
+        for (var c=0; c&lt;global.chunkHeight; c+=1)
+        {
+            // get a ds_map of the block at the location
+            var blockData = scr_WorldGenBlock(blockLayers,depthLayer,x/16,y/16,q,c);
+            
+            if(blockData != -1)
+            {
+                blockData[? "x"] = q*16;
+                blockData[? "y"] = c*16;
+                blockData[? "z"] = depthLayer*16;
+                
+                blockData[? "DrawDepth"] = -c + (depthLayer*1000);
+                blockData[? "Exposed"] = -1; //auto refresh draw status
+                
+                gridLayer[# q,c] = blockData;
+            }
+            else
+            {
+                gridLayer[# q,c] = -1;
+            }
+        }
+    }
+}
+
+
+show_debug_message("generated chunk " + string(id) + " from size " + string(startLayer) + " to " + string(ds_list_size(blockLayers)));
+
 
 processing = true; // if entitys should be updated
 rendering = true; // if chunk is drawn
@@ -169,6 +199,7 @@ depth = -y;
           <argument>
             <kind>1</kind>
             <string>/// chunk update, updates entities in chunk
+
 // drop out if entity has unloaded
 updateTimer--;
 if(updateTimer &lt; -updateTimerMax)
@@ -181,16 +212,6 @@ if(updateTimer &gt; 0) exit; // skip update
 updateTimer = updateTimerMax;
 
 
-
-// draw distance check
-if(rectangle_in_rectangle(x,y,x+global.chunkWidth*16,y+global.chunkHeight*16,view_xview[0]-64,view_yview[0]-64,view_xview[0]+view_wview[0]+64,view_yview[0]+view_hview[0]+64) &gt; 0)
-{
-    rendering = true;
-}
-else
-{
-    rendering = false;
-}
 // clear draw update list
 ds_priority_clear(drawQueue);
 
@@ -200,56 +221,29 @@ ds_priority_clear(drawQueue);
 startUpdateZ = max(global.currentCameraZLevel-(chunkDepth/2),0);
 var startAlt = startUpdateZ;
 // if the top of the chunk is not genned already we need to do a full gen....
-if(ds_list_size(blockLayers) &lt; startUpdateZ)
+if(ds_list_size(blockLayers) == 0 || ds_list_size(blockLayers) &lt; startUpdateZ)
 {
     startAlt = ds_list_size(blockLayers);
 }
 
 for (var i=startAlt; i&lt;startUpdateZ+chunkDepth; i+=1)
 {
-    if(i &gt;= ds_list_size(blockLayers))
+    // check if we should expand generation this update
+    if(ds_list_size(blockLayers) == 0 || startUpdateZ+chunkDepth &gt;= ds_list_size(blockLayers))
     {
         // expand size downwards
         event_user(1);
     }
     
-    var gridLayer = blockLayers[| i];
-    
-    // spawn layer if not loaded
-    if(gridLayer == -1)
+    // check if we've progressively loaded deep enough for this to start updating
+    if(startUpdateZ+chunkDepth &gt;= ds_list_size(blockLayers))
     {
-        gridLayer = ds_grid_create( global.chunkWidth, global.chunkHeight);
-        
-        // spawn objects
-        for (var q=0; q&lt;global.chunkWidth; q+=1)
-        {
-            for (var c=0; c&lt;global.chunkHeight; c+=1)
-            {
-                // get a ds_map of the block at the location
-                var blockData = scr_WorldGenBlock(blockLayers,i,x/16,y/16,q,c);
-                
-                if(blockData != -1)
-                {
-                    blockData[? "x"] = q*16;
-                    blockData[? "y"] = c*16;
-                    blockData[? "z"] = i * 16;
-                    
-                    blockData[? "DrawDepth"] = -c + (i*1000);
-                    blockData[? "Exposed"] = -1; //auto refresh draw status
-                    
-                    gridLayer[# q,c] = blockData;
-                }
-                else
-                {
-                    gridLayer[# q,c] = -1;
-                }
-            }
-        }
-        
-        // assign layer as active
-        blockLayers[| i] = gridLayer;
+        // not progressively loaded yet!
+        break;
     }
     
+    // block updates!
+    var gridLayer = blockLayers[| i];
     if(i &gt;= startUpdateZ)
     {
         // call update in each block
@@ -302,6 +296,16 @@ for (var i=0; i&lt;ds_list_size(entitys); i+=1)
 forceRenderUpdate = false;
 
 
+// draw distance check
+if(rectangle_in_rectangle(x,y,x+global.chunkWidth*16,y+global.chunkHeight*16,view_xview[0]-64,view_yview[0]-64,view_xview[0]+view_wview[0]+64,view_yview[0]+view_hview[0]+64) &gt; 0)
+{
+    rendering = true;
+}
+else
+{
+    rendering = false;
+}
+
 </string>
           </argument>
         </arguments>
@@ -324,7 +328,7 @@ forceRenderUpdate = false;
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>scr_SaveChunk(id);
+            <string>scr_SaveChunk(worldController.UniverseNumber,id);
 
 ds_list_destroy(entitys);
 ds_list_destroy(blockLayers);

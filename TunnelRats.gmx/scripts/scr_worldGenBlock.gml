@@ -24,7 +24,7 @@ if(lay < groundHeight)
 }
 else if(lay < groundHeight +5)
 {
-    if(gridLayerAbove == -1 || scr_CheckBlockTransparent(gridLayerAbove[# QQ,CC]))
+    if(scr_CheckBlockTransparent(gridLayerAbove[# QQ,CC]))
     {
         return scr_GetBlockObject( "Base:Grass")
     }
