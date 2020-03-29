@@ -25,14 +25,14 @@
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>chunkDepth = 16; // z update range
+            <string>chunkDepth = 14; // z update range
 
 initialGen = true;
 processing = true; // if entitys should be updated
 rendering = true; // if chunk is drawn
 
 forceRenderUpdate = false;
-updateTimerMax = 30; // delay between updates
+updateTimerMax = 40; // delay between updates
 updateTimer = 0; // timer for it
 
 entitys = ds_list_create();
@@ -265,7 +265,7 @@ for (var i=startAlt; i&lt;startUpdateZ+chunkDepth; i+=1)
                         // refresh status
                         blockData[? "Exposed"] = scr_BlockExposureCheck(blockLayers,i,q,c);
                     }
-                    if(blockData[? "Exposed"])
+                    if(blockData[? "Exposed"] || i == global.currentCameraZLevel-2)
                     {
                         // store the data for drawing!
                         if(scr_ZLayerDrawFilter(i)) ds_priority_add(drawQueue,blockData,blockData[? "DrawDepth"]);
@@ -378,7 +378,11 @@ while(ds_priority_size(disposableQueue) &gt; 0)
     
     if(blockData != -1) 
     {
-        if(ZLevel &gt;= global.currentCameraZLevel)
+        if(blockData[? "Exposed"] == 0)
+        {
+            draw_sprite_ext(spr_blockDarken,0   , x + xx, y + yy + yOffset, 1, 1, 0, image_blend, 1);
+        }
+        else if(ZLevel &gt;= global.currentCameraZLevel)
         {
             draw_sprite_ext(blockData[? "Tex"],0, x + xx, y + yy + yOffset, 1, 1, 0, image_blend, 1);
             draw_sprite_ext(spr_blockDarken,0   , x + xx, y + yy + yOffset, 1, 1, 0, image_blend, solveAlpha);
@@ -394,10 +398,10 @@ while(ds_priority_size(disposableQueue) &gt; 0)
         }
         
         
-        if(blockData[? "Exposed"] == 2)
-        {
-            draw_sprite_ext(spr_blockBackReveal,0   , x + xx, y + yy + yOffset, 1, 1, 0, image_blend, 1);
-        }
+        //if(blockData[? "Exposed"] == 2)
+        //{
+        //    draw_sprite_ext(spr_blockBackReveal,0   , x + xx, y + yy + yOffset, 1, 1, 0, image_blend, 1);
+        //}
     }
 }
 

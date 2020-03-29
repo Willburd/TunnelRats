@@ -116,13 +116,14 @@ if(!chunkAlreadyHere)
     // spawn world chunk!
     var newChunk = instance_create(x,y,obj_WorldChunk);
     newChunk.worldController = id;
+    
     if(file_exists(working_directory + "/Worlds/" + string(global.worldData[? "name"]) + "/Universe" + string(UniverseNumber) + "/Chunks/" + string(x/16) + "o" + string(y/16) + ".dat"))
     {
         // not new, load chunk data!
         with newChunk
         {
             show_debug_message("STARTED Loading chunk " + string(id));
-            scr_LoadChunk(UniverseNumber,id);
+            scr_LoadChunk(worldController.UniverseNumber,id);
             processing = true; // if entitys should be updated
             rendering = true; // if chunk is drawn
             forceRenderUpdate = true;
