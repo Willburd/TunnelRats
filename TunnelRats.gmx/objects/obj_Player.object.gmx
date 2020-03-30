@@ -2,7 +2,7 @@
 <object>
   <spriteName>spr_colMask8x</spriteName>
   <solid>0</solid>
-  <visible>-1</visible>
+  <visible>0</visible>
   <depth>-999</depth>
   <persistent>0</persistent>
   <parentName>obj_WorldEntityParent</parentName>
@@ -243,7 +243,7 @@ if(loadedCheck)
     
     
     // draw depth
-    depth = -999999//scr_DrawDepth(ActiveChunk.x + x,ActiveChunk.y + y,z);
+    depth = scr_DrawDepth(ActiveChunk.x + x,ActiveChunk.y + y,z)-1;
 }
 </string>
           </argument>

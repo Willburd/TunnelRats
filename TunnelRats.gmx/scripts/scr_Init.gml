@@ -34,6 +34,9 @@ global.drawLayerDepth = 9;
 global.debug_DisableWorldGen = false;
 global.debug_ChunkLoadingInfo = false;
 
+global.drawDepthPriority = ds_priority_create();
+global.drawList = ds_list_create();
+
 // World gen
 global.worldData = -1;
 global.continentMap_Scale = 5; // these scales are how many blocks each pixel represents in the world, not the scaling of the grid!

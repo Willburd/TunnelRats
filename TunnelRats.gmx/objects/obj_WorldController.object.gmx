@@ -2,7 +2,7 @@
 <object>
   <spriteName>spr_World</spriteName>
   <solid>0</solid>
-  <visible>0</visible>
+  <visible>-1</visible>
   <depth>0</depth>
   <persistent>0</persistent>
   <parentName>obj_gameUpdatedParent</parentName>
@@ -231,13 +231,15 @@ if(global.unloadingTimer &lt; 0)
     global.unloadingTimer = irandom(50) + 50;
 }
 
-// update chunks
-for (i=0; i&lt;ds_list_size(loadedChunkList); i+=1)
-{
-    var chunk = loadedChunkList[| i];
-    scr_ChunkUpdate(chunk, (random(10) &lt; 0.1) );
-    scr_ChunkEntityUpdate(chunk);
-}
+
+
+// clear draw priority
+ds_priority_clear(global.drawDepthPriority);
+ds_list_clear(global.drawList);
+
+
+// spawn chunk
+event_user(1);
 
 
 // entity loading control
@@ -254,6 +256,42 @@ if(global.AllowUpdateCounter == 0)
     }
 }
 
+
+// update chunks
+for (i=0; i&lt;ds_list_size(loadedChunkList); i+=1)
+{
+    var chunk = loadedChunkList[| i];
+    scr_ChunkUpdate(chunk, (random(10) &lt; 0.1) );
+    scr_ChunkEntityUpdate(chunk);
+    
+    // get cached draw data!
+    for (var t=0; t&lt;ds_list_size(chunk.drawList); t+=1)
+    {
+        var packOut = chunk.drawList[| t];
+        var newDrawData = ds_list_create();
+        ds_list_add(newDrawData,packOut[| 0],packOut[| 2]);
+        
+        ds_priority_add(global.drawDepthPriority,    newDrawData,   packOut[| 1]);
+        
+    }
+}
+
+// setup draw list, sort out from depth and only store ID and type
+var disposableQueue = ds_priority_create();
+ds_priority_copy(disposableQueue, global.drawDepthPriority);
+while(ds_priority_size(disposableQueue) &gt; 0)
+{
+    // extract data
+    drawData = ds_priority_delete_min(disposableQueue);
+    
+    //PackinData:  ID, depth, block(truefalse)
+    ds_list_add(global.drawList,drawData[| 0],drawData[| 1]);
+    ds_list_destroy(drawData);
+}
+ds_priority_destroy(disposableQueue);
+
+
+// setup loop flags
 global.AllowUpdateCounter -= 1;
 if(global.AllowUpdateCounter &lt; 0)
 {
@@ -261,9 +299,6 @@ if(global.AllowUpdateCounter &lt; 0)
 }
 
 
-
-// spawn chunk
-event_user(1);
 
 </string>
           </argument>
@@ -289,6 +324,81 @@ event_user(1);
             <kind>1</kind>
             <string>ds_list_destroy(loadedChunkList);
 ds_list_destroy(pendingEntitySpawns);
+</string>
+          </argument>
+        </arguments>
+      </action>
+    </event>
+    <event eventtype="8" enumb="0">
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>/// Draw all objects
+
+// hold the last updated draw priority queue, and make a disposable priority queue to burn through
+
+// burn through all drawable objects
+for (var i=ds_list_size(global.drawList)-2; i&gt; 0; i-=2)
+{
+    //PackinData:  ID, block(truefalse)
+    var drawData = global.drawList[| i+0];
+    
+    if(global.drawList[| i+1])
+    {
+        var xx = drawData[? "x"];
+        var yy = drawData[? "y"];
+        var zz = drawData[? "z"]
+        var yOffset = scr_DrawYOffset(xx,yy,zz);
+        
+        var solveAlpha = ((global.currentCameraZLevel - (zz/16))-2) / -global.drawLayerDepth;
+        var exposure = drawData[? "Exposed"];
+        
+        
+        if(drawData != -1) 
+        {
+            if(exposure == 0)
+            {
+                draw_sprite_ext(spr_blockDarken,0   , xx, yy + yOffset, 1, 1, 0, image_blend, 1);
+            }
+            else if(floor(zz/16) &gt;= floor(global.currentCameraZLevel))
+            {
+                draw_sprite_ext(drawData[? "Tex"],0, xx, yy + yOffset, 1, 1, 0, image_blend, 1);
+                draw_sprite_ext(spr_blockDarken,0   , xx, yy + yOffset, 1, 1, 0, image_blend, solveAlpha);
+                
+                if(exposure == 2)
+                {
+                    draw_sprite_ext(spr_blockBackReveal,0   , xx, yy + yOffset, 1, 1, 0, image_blend, 1);
+                }
+            }
+            else if(floor(zz/16) == floor(global.currentCameraZLevel-1))
+            {
+                draw_sprite_ext(drawData[? "Tex"],0, xx, yy + yOffset, 1, 1, 0, image_blend, 1);
+                draw_sprite_ext(spr_blockDarken,0   , xx, yy + yOffset, 1, 1, 0, image_blend, 0.1);
+            }
+            else
+            {
+                draw_sprite_ext(drawData[? "Tex"],0, xx, yy + yOffset, 1, 1, 0, image_blend, 1);
+            }
+        }
+    }
+    else
+    {
+        with drawData event_perform(ev_draw,0);
+    }
+}
 </string>
           </argument>
         </arguments>
