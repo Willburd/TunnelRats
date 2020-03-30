@@ -52,6 +52,9 @@ var TLgridY = (floor(view_yview[0] / (global.chunkHeight * 16))-1) * (global.chu
 
 x = TLgridX;
 y = TLgridY;
+
+
+pendingEntitySpawns = ds_list_create();
 </string>
           </argument>
         </arguments>
@@ -75,6 +78,7 @@ y = TLgridY;
           <argument>
             <kind>1</kind>
             <string>ds_list_destroy(loadedChunkList);
+ds_list_destroy(pendingEntitySpawns);
 </string>
           </argument>
         </arguments>
@@ -127,20 +131,20 @@ if(global.loadingTimer &lt;= 0 &amp;&amp; !chunkAlreadyHere)
         // not new, load chunk data!
         with newChunk
         {
-            show_debug_message("STARTED Loading chunk " + string(id));
+            if(global.debug_ChunkLoadingInfo) show_debug_message("STARTED Loading chunk " + string(id));
             scr_LoadChunk(worldController.UniverseNumber,id);
             processing = true; // if entitys should be updated
             rendering = true; // if chunk is drawn
             forceRenderUpdate = true;
             initialGen = false;
-            show_debug_message("Loaded chunk " + string(id));
+            if(global.debug_ChunkLoadingInfo) show_debug_message("Loaded chunk " + string(id));
         }
     }
     else
     {
         // new! setup for WORLDGEN
         initialGen = true;
-        show_debug_message("Spawned chunk " + string(newChunk.id));
+        if(global.debug_ChunkLoadingInfo) show_debug_message("Spawned chunk " + string(newChunk.id));
     }
     
     
@@ -210,14 +214,14 @@ var TLgridY = (floor(view_yview[0] / chunkH)-1) * chunkH;
 
 // stepping movements
 x += chunkW;
-if(x &gt; view_xview[0] + view_wview[0] + chunkW * 3)
+if(x &gt; view_xview[0] + view_wview[0] + chunkW * 2)
 {
-    x = TLgridX - (chunkW * 3);
+    x = TLgridX - (chunkW * 2);
     y += chunkH;
 }
-if(y &gt; view_yview[0] + view_hview[0] + chunkH * 3)
+if(y &gt; view_yview[0] + view_hview[0] + chunkH * 2)
 {
-    y = TLgridY - (chunkH * 3);
+    y = TLgridY - (chunkH * 2);
 }
 
 
@@ -232,7 +236,29 @@ for (i=0; i&lt;ds_list_size(loadedChunkList); i+=1)
 {
     var chunk = loadedChunkList[| i];
     scr_ChunkUpdate(chunk, (random(10) &lt; 0.1) );
+    scr_ChunkEntityUpdate(chunk);
 }
+
+
+// entity loading control
+global.AllowUpdateCounter -= 1;
+if(global.AllowUpdateCounter == 0)
+{
+    if(ds_list_size(pendingEntitySpawns) &gt; 0)
+    {
+        with pendingEntitySpawns[| 0] event_user(0); // attempt spawn
+        if(pendingEntitySpawns[| 0].ActiveChunk != noone)
+        {
+            // clear from list
+            ds_list_delete(pendingEntitySpawns,0);
+        }
+    }
+}
+if(global.AllowUpdateCounter &lt; 0)
+{
+    global.AllowUpdateCounter = 3; // 20 ticks for entity updates
+}
+
 
 
 // spawn chunk
@@ -261,6 +287,7 @@ event_user(1);
           <argument>
             <kind>1</kind>
             <string>ds_list_destroy(loadedChunkList);
+ds_list_destroy(pendingEntitySpawns);
 </string>
           </argument>
         </arguments>

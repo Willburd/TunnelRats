@@ -5,7 +5,7 @@
   <visible>-1</visible>
   <depth>0</depth>
   <persistent>0</persistent>
-  <parentName>obj_gameUpdatedParent</parentName>
+  <parentName>self</parentName>
   <maskName>spr_colMask8x</maskName>
   <events>
     <event eventtype="0" enumb="0">
@@ -26,8 +26,59 @@
           <argument>
             <kind>1</kind>
             <string>ActiveChunk = noone; // World chunk we were last actively assigned to
+worldController = noone;
+EntityData = -1;
+loadedCheck = false;
 z = 0 // z depth in the world, compliments x and y. 16 pips per tile
 
+</string>
+          </argument>
+        </arguments>
+      </action>
+    </event>
+    <event eventtype="1" enumb="0">
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>scr_EntityRemoveFromChunk(id);
+show_debug_message("Entity " + string(entity.id) + " unloaded");
+
+</string>
+          </argument>
+        </arguments>
+      </action>
+    </event>
+    <event eventtype="7" enumb="11">
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>/// entity first time loading event!
 </string>
           </argument>
         </arguments>
@@ -54,6 +105,40 @@ z = 0 // z depth in the world, compliments x and y. 16 pips per tile
           </argument>
         </arguments>
       </action>
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>/// Base update for detection and unloading
+
+// detect loaded state
+if(scr_EntityDetectCurrentChunk(id))
+{
+    // run code ahead in child object's event!
+    loadedCheck = true;
+}
+else
+{
+    // run unloading code
+    loadedCheck = false;
+}
+
+</string>
+          </argument>
+        </arguments>
+      </action>
     </event>
     <event eventtype="8" enumb="0">
       <action>
@@ -74,8 +159,6 @@ z = 0 // z depth in the world, compliments x and y. 16 pips per tile
             <kind>1</kind>
             <string>var Zlevel = floor(z/16);
 if( !scr_ZLayerDrawFilter(Zlevel) ) exit; // if check fails do not draw.
-// temp
-draw_self();
 </string>
           </argument>
         </arguments>

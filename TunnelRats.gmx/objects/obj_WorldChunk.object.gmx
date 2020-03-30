@@ -35,7 +35,7 @@ forceRenderUpdate = false;
 updateTimerMax = 30; // delay between updates
 updateTimer = 0; // timer for it
 
-entitys = ds_list_create();
+entitys = ds_list_create(); // all entity ds_map datas
 blockLayers = ds_list_create(); // active block objects
 
 activeLayers = ds_queue_create(); // layers that were active last frame, used for cleanup
@@ -85,7 +85,7 @@ with worldController
     {
         if(loadedChunkList[| i] == chunkId)
         {
-            show_debug_message("Unloaded chunk " + string(chunkId));
+            if(global.debug_ChunkLoadingInfo) show_debug_message("Unloaded chunk " + string(chunkId));
             ds_list_delete(loadedChunkList,i);
             break;
         }
@@ -134,7 +134,7 @@ if(initialGen)
     genDepths *= 2;
     if(startLayer + genDepths &gt; global.currentCameraZLevel)
     {
-        show_debug_message("ended accelerated generation, chunk " + string(id));
+        if(global.debug_ChunkLoadingInfo) show_debug_message("ended accelerated generation, chunk " + string(id));
         initialGen = false;
         scr_SaveChunk(worldController.UniverseNumber,id);
     }
@@ -161,7 +161,7 @@ for (var i=0; i&lt;genDepths; i+=1)
                 blockData[? "y"] = c*16;
                 blockData[? "z"] = depthLayer*16;
                 
-                blockData[? "DrawDepth"] = -c + (depthLayer*1000);
+                blockData[? "DrawDepth"] = scr_DrawDepth( (x/16)+(q*16), (y/16)+(c*16), depthLayer*16);
                 blockData[? "Exposed"] = -1; //auto refresh draw status
                 
                 gridLayer[# q,c] = blockData;
@@ -175,7 +175,7 @@ for (var i=0; i&lt;genDepths; i+=1)
 }
 
 
-show_debug_message("generated chunk " + string(id) + " from size " + string(startLayer) + " to " + string(ds_list_size(blockLayers)));
+if(global.debug_ChunkLoadingInfo) show_debug_message("generated chunk " + string(id) + " from size " + string(startLayer) + " to " + string(ds_list_size(blockLayers)));
 
 
 processing = true; // if entitys should be updated
@@ -288,15 +288,17 @@ for (var i=startAlt; i&lt;startUpdateZ+chunkDepth; i+=1)
 
 
 // update the entities inside me!
-for (var i=0; i&lt;ds_list_size(entitys); i+=1)
+if(global.AllowUpdateCounter == 0)
 {
-    with entitys[| i]
+    for (var i=0; i&lt;ds_list_size(entitys); i+=1)
     {
-        // update the entities inside me!
-        event_user(0);
+        with entitys[| i]
+        {
+            // update the entities inside me!
+            event_user(0);
+        }
     }
 }
-
 
 
 // cleanup one loop flags
@@ -376,15 +378,11 @@ while(ds_priority_size(disposableQueue) &gt; 0)
     var blockData = ds_priority_delete_max(disposableQueue);
     var xx = blockData[? "x"];
     var yy = blockData[? "y"];
+    var zz = blockData[? "z"]
+    var yOffset = scr_DrawYOffset(xx,yy,zz);
     
-    var ZLevel = floor(blockData[? "z"]/16);
-    var yOffset = 8 * (ZLevel - global.currentCameraZLevel);
-    
-    var solveAlpha = ((global.currentCameraZLevel - ZLevel)-2) / -global.drawLayerDepth;
+    var solveAlpha = ((global.currentCameraZLevel - (zz/16))-2) / -global.drawLayerDepth;
     var exposure = blockData[? "Exposed"];
-    
-    
-    
     
     
     if(blockData != -1) 
@@ -393,7 +391,7 @@ while(ds_priority_size(disposableQueue) &gt; 0)
         {
             draw_sprite_ext(spr_blockDarken,0   , x + xx, y + yy + yOffset, 1, 1, 0, image_blend, 1);
         }
-        else if(ZLevel &gt;= global.currentCameraZLevel)
+        else if(floor(zz/16) &gt;= floor(global.currentCameraZLevel))
         {
             draw_sprite_ext(blockData[? "Tex"],0, x + xx, y + yy + yOffset, 1, 1, 0, image_blend, 1);
             draw_sprite_ext(spr_blockDarken,0   , x + xx, y + yy + yOffset, 1, 1, 0, image_blend, solveAlpha);
@@ -403,7 +401,7 @@ while(ds_priority_size(disposableQueue) &gt; 0)
                 draw_sprite_ext(spr_blockBackReveal,0   , x + xx, y + yy + yOffset, 1, 1, 0, image_blend, 1);
             }
         }
-        else if(ZLevel == global.currentCameraZLevel-1)
+        else if(floor(zz/16) == floor(global.currentCameraZLevel-1))
         {
             draw_sprite_ext(blockData[? "Tex"],0, x + xx, y + yy + yOffset, 1, 1, 0, image_blend, 1);
             draw_sprite_ext(spr_blockDarken,0   , x + xx, y + yy + yOffset, 1, 1, 0, image_blend, 0.1);

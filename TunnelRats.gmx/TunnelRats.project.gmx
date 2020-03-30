@@ -31,14 +31,24 @@
     <script>scripts\scr_Init.gml</script>
     <script>scripts\scr_SaveWorld.gml</script>
     <script>scripts\scr_LoadWorld.gml</script>
-    <script>scripts\scr_TimeCompensate.gml</script>
+    <script>scripts\scr_DrawDepth.gml</script>
+    <script>scripts\scr_DrawYOffset.gml</script>
+    <scripts name="entities">
+      <script>scripts\scr_SpawnEntity.gml</script>
+      <script>scripts\scr_EntityDetectCurrentChunk.gml</script>
+      <script>scripts\scr_TimeCompensate.gml</script>
+    </scripts>
     <scripts name="Chunks">
       <script>scripts\scr_ZLayerDrawFilter.gml</script>
       <script>scripts\scr_BlockExposureCheck.gml</script>
       <script>scripts\scr_CheckBlockTransparent.gml</script>
       <script>scripts\scr_ChunkUpdate.gml</script>
+      <script>scripts\scr_ChunkEntityUpdate.gml</script>
       <script>scripts\scr_SaveChunk.gml</script>
       <script>scripts\scr_LoadChunk.gml</script>
+      <script>scripts\scr_ChunkAddEntity.gml</script>
+      <script>scripts\scr_EntityRemoveFromChunk.gml</script>
+      <script>scripts\scr_ChunkGetBlock.gml</script>
     </scripts>
     <scripts name="worldGenData">
       <script>scripts\scr_WorldGen.gml</script>
@@ -63,14 +73,14 @@
     </scripts>
   </scripts>
   <objects name="objects">
-    <object>objects\obj_camMove</object>
     <object>objects\obj_GameControl</object>
     <object>objects\obj_gameUpdatedParent</object>
     <object>objects\obj_alwaysUpdatedParent</object>
-    <object>objects\obj_HudController</object>
     <object>objects\obj_WorldController</object>
     <object>objects\obj_WorldChunk</object>
     <object>objects\obj_WorldEntityParent</object>
+    <object>objects\obj_HudController</object>
+    <object>objects\obj_Player</object>
   </objects>
   <rooms name="rooms">
     <room>rooms\rm_Init</room>

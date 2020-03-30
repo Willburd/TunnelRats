@@ -7,9 +7,13 @@ global.currentCameraZLevel = 0;
 // framerate
 global._game_time = 0; // deltatime stacker
 global._frame_time = 0; // deltatime stacker
-global._game_max_time = 1000000 / 24; // 24 ticks target for entities
-global._frame_max_time = 1000000 / 60; // 60 ticks target for entities
+global._game_max_time = 1000000 / 30; // 30 ticks target for entities
+global._frame_max_time = 1000000 / 60; // 60 ticks target for framerate
 global.gameMaxFrames = 9999; // room lock fps
+
+// Entities
+global.AllowUpdateCounter = 0;
+global._gravity = 16;
 
 // 4:3  1.3333
 // 16:9  1.7777
@@ -28,6 +32,7 @@ global.chunkHeight = 4;
 global.drawLayerDepth = 9;
 
 global.debug_DisableWorldGen = false;
+global.debug_ChunkLoadingInfo = false;
 
 // World gen
 global.worldData = -1;
@@ -36,3 +41,10 @@ global.mountainMap_Scale = 2;
 global.hillMap_Scale = 1;
 global.unloadingTimer = 400; // if this is under 0 allow unload
 global.loadingTimer = 100; // if this is under 0 allow loading
+
+// keyboard control
+global.keyLeft = ord('A');
+global.keyRight = ord('D');
+global.keyUp = ord('W');
+global.keyDown = ord('S');
+global.keyJump = vk_space;

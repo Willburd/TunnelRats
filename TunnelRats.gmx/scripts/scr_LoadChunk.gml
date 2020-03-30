@@ -59,7 +59,7 @@ while (layerNum < maxLayers)
                 if(testVal == "CNK") // all air grid
                 {
                     // chunk border detected!
-                    show_debug_message("READ CHUNK BORDER IN GRID LOOPS!? " + string(loopCount++));
+                    show_debug_message("ERROR!!!! READ A CHUNK BORDER IN GRID LOOPS!? " + string(loopCount++));
                 }
                 else if(testVal == "AIR") // all air grid
                 {
