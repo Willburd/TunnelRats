@@ -241,7 +241,6 @@ for (i=0; i&lt;ds_list_size(loadedChunkList); i+=1)
 
 
 // entity loading control
-global.AllowUpdateCounter -= 1;
 if(global.AllowUpdateCounter == 0)
 {
     if(ds_list_size(pendingEntitySpawns) &gt; 0)
@@ -254,9 +253,11 @@ if(global.AllowUpdateCounter == 0)
         }
     }
 }
+
+global.AllowUpdateCounter -= 1;
 if(global.AllowUpdateCounter &lt; 0)
 {
-    global.AllowUpdateCounter = 3; // 20 ticks for entity updates
+    global.AllowUpdateCounter = 1; // 30 ticks for entity updates
 }
 
 

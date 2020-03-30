@@ -233,6 +233,7 @@ if(ds_list_size(blockLayers) == 0 || ds_list_size(blockLayers) &lt; startUpdateZ
     startAlt = ds_list_size(blockLayers);
 }
 
+ds_queue_clear(activeLayers);
 for (var i=startAlt; i&lt;startUpdateZ+chunkDepth; i+=1)
 {
     // check if we should expand generation this update
@@ -283,20 +284,6 @@ for (var i=startAlt; i&lt;startUpdateZ+chunkDepth; i+=1)
         
         // set layer as used last frame
         ds_queue_enqueue(activeLayers,i);
-    }
-}
-
-
-// update the entities inside me!
-if(global.AllowUpdateCounter == 0)
-{
-    for (var i=0; i&lt;ds_list_size(entitys); i+=1)
-    {
-        with entitys[| i]
-        {
-            // update the entities inside me!
-            event_user(0);
-        }
     }
 }
 

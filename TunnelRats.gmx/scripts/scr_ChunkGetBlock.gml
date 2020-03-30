@@ -16,7 +16,12 @@ while(true)
         
         var layer = chunk.blockLayers[| zzz];
         
-        if(layer != -1)
+        if(zzz >= ds_list_size(chunk.blockLayers) || is_undefined(layer))
+        {
+            show_debug_message("Grid in chunk does not exist yet!");
+            return -2;
+        }
+        else if(layer != -1)
         {
             return layer[# xxx,yyy];
         }
@@ -72,7 +77,12 @@ while(true)
             
             var layer = chunk.blockLayers[| zzz];
             
-            if(layer != -1)
+            if(zzz >= ds_list_size(chunk.blockLayers) || is_undefined(layer))
+            {
+                show_debug_message("Grid in chunk does not exist yet!");
+                return -2;
+            }
+            else if(layer != -1)
             {
                 return layer[# xxx,yyy];
             }

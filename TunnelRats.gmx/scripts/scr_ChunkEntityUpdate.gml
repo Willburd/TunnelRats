@@ -1,13 +1,14 @@
-/// scr_ChunkEntityUpdate(chunkObject);
+/// scr_ChunkEntityUpdate()
 var chunk = argument0;
-with chunk
+if(global.AllowUpdateCounter == 0)
 {
-    for (i=0; i<ds_list_size(entitys); i+=1)
+    for (var i=0; i<ds_list_size(chunk.entitys); i+=1)
     {
-        // update all entities
-        with entitys[| i]
+        with chunk.entitys[| i]
         {
+            // update the entities inside me!
             event_user(0);
         }
     }
 }
+

@@ -42,7 +42,7 @@
             <string>/// Player Data
 Nmomentum = 0;
 Zmomentum = 0;
-attemptedGround = 0;
+attemptedGround = -1;
 </string>
           </argument>
         </arguments>
@@ -65,24 +65,8 @@ attemptedGround = 0;
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>/// first load code!
-var foundGround = false
-while (foundGround == false)
-{
-    var block = scr_ChunkGetBlock( ActiveChunk, x, y, z);
-    
-    if(block == -1)
-    {
-        z += 16;
-    }
-    else
-    {
-        foundGround = true;
-        z -= 17;
-        break;
-    }
-   
-}
+            <string>/// first spawn code!
+
 </string>
           </argument>
         </arguments>
@@ -122,6 +106,37 @@ while (foundGround == false)
             <string>/// movement code
 if(loadedCheck)
 {
+    if(attemptedGround == -1)
+    {
+        // snap to ground on spawn
+        var foundGround = false
+        while (foundGround == false)
+        {
+            var block = scr_ChunkGetBlock( ActiveChunk, x, y, z);
+            
+            if(block == -2)
+            {
+                // nothing to read yet...
+                break;
+            }
+            else if(block == -1)
+            {
+                z += 16;
+            }
+            else
+            {
+                foundGround = true;
+                z -= 17;
+                attemptedGround  = z;
+                break;
+            }
+        }
+        
+        // try again next loop, or jump right into it when ready!
+        if(attemptedGround == -1) return 0;
+    }
+
+
     var block = scr_ChunkGetBlock(ActiveChunk, x,y,z);
     if(block != -2) // do not move if block is unloaded
     {
@@ -136,14 +151,14 @@ if(loadedCheck)
         // apply movement acceleration
         if(UD != 0 || LR != 0)
         {
-            if(Nmomentum &lt; 4)
+            if(Nmomentum &lt; 11)
             {
-                Nmomentum += 0.9;
+                Nmomentum += 2.8;
             }
         }
         else
         {
-            Nmomentum *= 0.2;
+            Nmomentum *= 0.08;
             if(Nmomentum &lt; 0.01)
             {
                 Nmomentum = 0;
@@ -219,7 +234,7 @@ if(loadedCheck)
                 // jumping!
                 if(keyboard_check(global.keyJump))
                 {
-                    Zmomentum = -30;
+                    Zmomentum = -56;
                 }
             }
         }
@@ -228,7 +243,7 @@ if(loadedCheck)
     
     
     // draw depth
-    depth = -9999999//scr_DrawDepth(x,y,z);
+    depth = -999999//scr_DrawDepth(ActiveChunk.x + x,ActiveChunk.y + y,z);
 }
 </string>
           </argument>
@@ -236,20 +251,6 @@ if(loadedCheck)
       </action>
     </event>
     <event eventtype="8" enumb="0">
-      <action>
-        <libid>1</libid>
-        <id>604</id>
-        <kind>0</kind>
-        <userelative>0</userelative>
-        <isquestion>0</isquestion>
-        <useapplyto>0</useapplyto>
-        <exetype>1</exetype>
-        <functionname>action_inherited</functionname>
-        <codestring></codestring>
-        <whoName>self</whoName>
-        <relative>0</relative>
-        <isnot>0</isnot>
-      </action>
       <action>
         <libid>1</libid>
         <id>603</id>
