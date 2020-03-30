@@ -42,6 +42,7 @@
             <string>/// Player Data
 Nmomentum = 0;
 Zmomentum = 0;
+attemptedGround = 0;
 </string>
           </argument>
         </arguments>
@@ -77,12 +78,11 @@ while (foundGround == false)
     else
     {
         foundGround = true;
-        z -= 32;
+        z -= 17;
         break;
     }
-};
-
-
+   
+}
 </string>
           </argument>
         </arguments>
@@ -125,6 +125,7 @@ if(loadedCheck)
     var block = scr_ChunkGetBlock(ActiveChunk, x,y,z);
     if(block != -2) // do not move if block is unloaded
     {
+        // control movement
         var UD = 0;
         var LR = 0;
         if(keyboard_check(global.keyLeft)) LR += -1;
@@ -162,92 +163,72 @@ if(loadedCheck)
         }
         
         y += lengthdir_y(dis,dir);
-        var colblock = scr_ChunkGetBlock(ActiveChunk, x,y + lengthdir_x(dis,dir),z);
+        var colblock = scr_ChunkGetBlock(ActiveChunk, x,y,z);
         if( !(colblock != -2 &amp;&amp; (colblock == -1 || !ds_map_find_value(colblock,"Solid"))))
         {
-        
             // only allow walking into empty space
             y = lastY;
         }
         
         
         
+        
+        
+        
         // calculate falling speed
         Zmomentum += scr_TimeCompensate(global._gravity);
         
-        
-        // falling state control
-        var hardFail = false;
-        var landed = false;
-        if(Zmomentum &gt;= 0)
+        // find lowest point for shadow, and as a ground check for falling!
+        var checkDist = 8;
+        attemptedGround = z;
+        while(attemptedGround &lt;= z + 512)
         {
-            var blockUnder = scr_ChunkGetBlock(ActiveChunk, x,y,z+8);
+            var blockUnder = scr_ChunkGetBlock(ActiveChunk, x,y,attemptedGround);
             if(blockUnder == -2)
             {
                 // hard physics fail, due to unloaded chunk
-                hardFail = true;
+                attemptedGround = z + 512;
+                break;
             }
-            else if(blockUnder == -1 || ds_map_find_value(blockUnder,"Solid") == false) // quick check!
+            else if(blockUnder == -1 || ds_map_find_value(blockUnder,"Solid") == false)
             {
-                // full check!
-                var fallIncrimenter = 8;
-                while(fallIncrimenter &lt;= Zmomentum)
-                {
-                    var blockUnder = scr_ChunkGetBlock(ActiveChunk, x,y,z+fallIncrimenter);
-                    if(blockUnder == -2)
-                    {
-                        // hard physics fail, due to unloaded chunk
-                        hardFail = true;
-                        break;
-                    }
-                    else if(blockUnder == -1 || ds_map_find_value(blockUnder,"Solid") == false)
-                    {
-                        // empty air!
-                        fallIncrimenter += 8;
-                    }
-                    else
-                    {
-                        // found a block to land on!
-                        // apply landing flag and snapZ
-                        landed = true;
-                        z = (floor((z + fallIncrimenter)/16)*16)-1;
-                        // stop
-                        Zmomentum = 0;
-                        break;
-                    }
-                }
+                // empty air!
+                attemptedGround += checkDist;
             }
             else
             {
-                // block directly under us anyway
-                // apply landing flag and snapZ
-                landed = true;
-                z = (floor((z+8)/16)*16)-1;
-                // stop
-                Zmomentum = 0;
+                // found a block to land on!
+                attemptedGround = (floor((attemptedGround)/16)*16)-1;
+                break;
             }
         }
         
-        if(!hardFail) // hard physics fail, due to unloaded chunk, do not process z movements
+        // apply falling speed
+        z += scr_TimeCompensate(Zmomentum);
+        
+         
+        // if falling, check if we've reached under our shadow position!
+        if(Zmomentum &gt;= 0)
         {
-            // jump control
-            if(landed)
+            z = min(z,attemptedGround); // lock to ground
+        
+            if(z == attemptedGround)
             {
+                // stop
+                Zmomentum = 0;
+                // jumping!
                 if(keyboard_check(global.keyJump))
                 {
                     Zmomentum = -30;
                 }
             }
-            
-            // apply falling speed
-            z += scr_TimeCompensate(Zmomentum);
         }
     }
     
     
     
     // draw depth
-    depth = -99999999999;// scr_DrawDepth(x,y,z);
+    depth = -9999999//scr_DrawDepth(x,y,z);
 }
 </string>
           </argument>
@@ -285,7 +266,9 @@ if(loadedCheck)
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>draw_sprite_ext(sprite_index,image_index,x,y + scr_DrawYOffset(x,y,z)-8,1,1,0,image_blend,1);
+            <string>draw_sprite_ext(spr_shadow,image_index,x,y + scr_DrawYOffset(x,y,attemptedGround)-8,1,1,0,image_blend,1);
+draw_sprite_ext(sprite_index,image_index,x,y + scr_DrawYOffset(x,y,z)-8,1,1,0,image_blend,1);
+
 </string>
           </argument>
         </arguments>

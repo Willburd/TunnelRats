@@ -17,6 +17,7 @@
     <sprite>sprites\spr_blockCol</sprite>
     <sprite>sprites\spr_colMask16x</sprite>
     <sprite>sprites\spr_colMask8x</sprite>
+    <sprite>sprites\spr_shadow</sprite>
     <sprite>sprites\spr_controller</sprite>
     <sprite>sprites\spr_World</sprite>
     <sprite>sprites\spr_WorldChunk</sprite>
@@ -33,13 +34,13 @@
     <script>scripts\scr_LoadWorld.gml</script>
     <script>scripts\scr_DrawDepth.gml</script>
     <script>scripts\scr_DrawYOffset.gml</script>
+    <script>scripts\scr_ZLayerDrawFilter.gml</script>
     <scripts name="entities">
       <script>scripts\scr_SpawnEntity.gml</script>
       <script>scripts\scr_EntityDetectCurrentChunk.gml</script>
       <script>scripts\scr_TimeCompensate.gml</script>
     </scripts>
     <scripts name="Chunks">
-      <script>scripts\scr_ZLayerDrawFilter.gml</script>
       <script>scripts\scr_BlockExposureCheck.gml</script>
       <script>scripts\scr_CheckBlockTransparent.gml</script>
       <script>scripts\scr_ChunkUpdate.gml</script>

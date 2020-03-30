@@ -13,7 +13,7 @@ global.gameMaxFrames = 9999; // room lock fps
 
 // Entities
 global.AllowUpdateCounter = 0;
-global._gravity = 16;
+global._gravity = 10;
 
 // 4:3  1.3333
 // 16:9  1.7777

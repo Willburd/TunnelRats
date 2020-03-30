@@ -272,7 +272,7 @@ for (var i=startAlt; i&lt;startUpdateZ+chunkDepth; i+=1)
                         // refresh status
                         blockData[? "Exposed"] = scr_BlockExposureCheck(blockLayers,i,q,c);
                     }
-                    if(blockData[? "Exposed"] || i == global.currentCameraZLevel-2)
+                    if(blockData[? "Exposed"] || i == floor(global.currentCameraZLevel)-2)
                     {
                         // store the data for drawing!
                         if(scr_ZLayerDrawFilter(i)) ds_priority_add(drawQueue,blockData,blockData[? "DrawDepth"]);
