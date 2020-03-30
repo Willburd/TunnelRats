@@ -32,7 +32,7 @@ processing = true; // if entitys should be updated
 rendering = true; // if chunk is drawn
 
 forceRenderUpdate = false;
-updateTimerMax = 40; // delay between updates
+updateTimerMax = 30; // delay between updates
 updateTimer = 0; // timer for it
 
 entitys = ds_list_create();
@@ -202,20 +202,22 @@ depth = -y;
 
 // drop out if entity has unloaded
 updateTimer--;
-if(updateTimer &lt; -updateTimerMax)
+if(updateTimer &lt; -updateTimerMax &amp;&amp; global.unloadingTimer == 0 &amp;&amp; rectangle_in_rectangle(x,y,x+global.chunkWidth*16,y+global.chunkHeight*16,view_xview[0]-256,view_yview[0]-256,view_xview[0]+view_wview[0]+256,view_yview[0]+view_hview[0]+256) == 0)
 {
+    // out of range!
     instance_destroy();
+    global.unloadingTimer = -1;
     exit;
 }
+
 // update lockdown
 if(updateTimer &gt; 0) exit; // skip update
-updateTimer = updateTimerMax;
+updateTimer = updateTimerMax + irandom(20);
+if(initialGen) updateTimer = floor(updateTimer/3);
 
 
 // clear draw update list
 ds_priority_clear(drawQueue);
-
-
 
 // update the blocks
 startUpdateZ = max(global.currentCameraZLevel-(chunkDepth/2),0);
@@ -367,18 +369,22 @@ ds_priority_copy(disposableQueue, drawQueue);
 while(ds_priority_size(disposableQueue) &gt; 0)
 {
     var blockData = ds_priority_delete_max(disposableQueue);
-    var ZLevel = floor(blockData[? "z"]/16);
-    var solveAlpha = ((global.currentCameraZLevel - ZLevel)-2) / -global.drawLayerDepth;
-    
     var xx = blockData[? "x"];
     var yy = blockData[? "y"];
     
-    // TODO use "z" instead of fixed value "z" is the actual z value from the top of the world at 16px per block
+    var ZLevel = floor(blockData[? "z"]/16);
     var yOffset = 8 * (ZLevel - global.currentCameraZLevel);
+    
+    var solveAlpha = ((global.currentCameraZLevel - ZLevel)-2) / -global.drawLayerDepth;
+    var exposure = blockData[? "Exposed"];
+    
+    
+    
+    
     
     if(blockData != -1) 
     {
-        if(blockData[? "Exposed"] == 0)
+        if(exposure == 0)
         {
             draw_sprite_ext(spr_blockDarken,0   , x + xx, y + yy + yOffset, 1, 1, 0, image_blend, 1);
         }
@@ -386,6 +392,11 @@ while(ds_priority_size(disposableQueue) &gt; 0)
         {
             draw_sprite_ext(blockData[? "Tex"],0, x + xx, y + yy + yOffset, 1, 1, 0, image_blend, 1);
             draw_sprite_ext(spr_blockDarken,0   , x + xx, y + yy + yOffset, 1, 1, 0, image_blend, solveAlpha);
+            
+            if(exposure == 2)
+            {
+                draw_sprite_ext(spr_blockBackReveal,0   , x + xx, y + yy + yOffset, 1, 1, 0, image_blend, 1);
+            }
         }
         else if(ZLevel == global.currentCameraZLevel-1)
         {
@@ -396,12 +407,6 @@ while(ds_priority_size(disposableQueue) &gt; 0)
         {
             draw_sprite_ext(blockData[? "Tex"],0, x + xx, y + yy + yOffset, 1, 1, 0, image_blend, 1);
         }
-        
-        
-        //if(blockData[? "Exposed"] == 2)
-        //{
-        //    draw_sprite_ext(spr_blockBackReveal,0   , x + xx, y + yy + yOffset, 1, 1, 0, image_blend, 1);
-        //}
     }
 }
 

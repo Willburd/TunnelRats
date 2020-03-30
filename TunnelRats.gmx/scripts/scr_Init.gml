@@ -34,4 +34,5 @@ global.worldData = -1;
 global.continentMap_Scale = 5; // these scales are how many blocks each pixel represents in the world, not the scaling of the grid!
 global.mountainMap_Scale = 2;
 global.hillMap_Scale = 1;
-
+global.unloadingTimer = 400; // if this is under 0 allow unload
+global.loadingTimer = 100; // if this is under 0 allow loading
