@@ -96,14 +96,7 @@ if(argument3-1 < 0)
             }
             if( scr_CheckBlockTransparent(extLayer[# argument2, global.chunkHeight-1]))
             {
-                if(scr_CheckBlockTransparent(extLayerAbove[# argument2, global.chunkHeight-1]))
-                {
-                    return true;
-                }
-                else
-                {
-                    return 2; // reveal behind object flag
-                }
+                return true;
             }
         }
     }
@@ -150,15 +143,7 @@ if(argument2+1 < ds_grid_width(gridLayer) && scr_CheckBlockTransparent(gridLayer
 
 if(argument3-1 >= 0 && scr_CheckBlockTransparent(gridLayer[# argument2, argument3-1]))
 {
-    // only expose from behind if the block above it is clear too!!
-    if(scr_CheckBlockTransparent(gridLayerAbove[# argument2, argument3-1]))
-    {
-        return true;
-    }
-    else
-    {
-        return 2; // reveal behind object flag
-    }
+    return true;
 }
 
 if(argument3+1 < ds_grid_height(gridLayer) && scr_CheckBlockTransparent(gridLayer[# argument2, argument3+1]))

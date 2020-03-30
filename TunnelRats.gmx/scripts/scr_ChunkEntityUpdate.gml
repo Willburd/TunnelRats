@@ -11,4 +11,3 @@ if(global.AllowUpdateCounter == 0)
         }
     }
 }
-

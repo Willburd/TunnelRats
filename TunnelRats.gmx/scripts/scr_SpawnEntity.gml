@@ -4,6 +4,6 @@ with newObj
 {
     worldController = argument3;
     ds_list_add(worldController.pendingEntitySpawns,id);
-    show_debug_message("Entity spawned " + string(id));
+    if(global.debug_EntityLoadingInfo) show_debug_message("Entity spawned " + string(id));
 }
 return newObj;

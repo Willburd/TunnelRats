@@ -10,5 +10,5 @@ scr_EntityRemoveFromChunk(entity);
 ds_list_add(chunk.entitys,entity)
 entity.ActiveChunk = chunk;
 
-show_debug_message("Entity " + string(entity.id) + " added to chunk " + string(entity.ActiveChunk));
+if(global.debug_EntityLoadingInfo) show_debug_message("Entity " + string(entity.id) + " added to chunk " + string(entity.ActiveChunk));
 

@@ -2,7 +2,7 @@
 <object>
   <spriteName>spr_WorldChunk</spriteName>
   <solid>0</solid>
-  <visible>-1</visible>
+  <visible>0</visible>
   <depth>0</depth>
   <persistent>0</persistent>
   <parentName>&lt;undefined&gt;</parentName>
@@ -32,14 +32,14 @@ processing = true; // if entitys should be updated
 rendering = true; // if chunk is drawn
 
 forceRenderUpdate = false;
-updateTimerMax = 30; // delay between updates
+updateTimerMax = 20; // delay between updates
 updateTimer = 0; // timer for it
 
 entitys = ds_list_create(); // all entity ds_map datas
 blockLayers = ds_list_create(); // active block objects
 
 activeLayers = ds_queue_create(); // layers that were active last frame, used for cleanup
-drawQueue = ds_priority_create();
+puppetBlocks = ds_list_create();
 
 worldController = noone;
 
@@ -74,8 +74,12 @@ depth = -y;
 
 ds_list_destroy(entitys);
 ds_list_destroy(blockLayers);
+for (var i=0; i&lt;ds_list_size(puppetBlocks); i+=1)
+{
+    with puppetBlocks[| i] instance_destroy();
+}
+ds_list_destroy(puppetBlocks);
 ds_queue_destroy(activeLayers);
-ds_priority_destroy(drawQueue);
 
 var chunkId = id;
 
@@ -157,11 +161,11 @@ for (var i=0; i&lt;genDepths; i+=1)
             
             if(blockData != -1)
             {
-                blockData[? "x"] = q*16;
-                blockData[? "y"] = c*16;
+                blockData[? "x"] = x+(q*16);
+                blockData[? "y"] = y+(c*16);
                 blockData[? "z"] = depthLayer*16;
                 
-                blockData[? "DrawDepth"] = scr_DrawDepth( (x/16)+(q*16), (y/16)+(c*16), depthLayer*16);
+                blockData[? "DrawDepth"] = scr_DrawDepth( x+(q*16), y+(c*16), depthLayer*16);
                 blockData[? "Exposed"] = -1; //auto refresh draw status
                 
                 gridLayer[# q,c] = blockData;
@@ -217,12 +221,26 @@ if(updateTimer &lt; -updateTimerMax &amp;&amp; global.unloadingTimer == 0 &amp;&
 
 // update lockdown
 if(updateTimer &gt; 0) exit; // skip update
-updateTimer = updateTimerMax + irandom(20);
+updateTimer = updateTimerMax + irandom(10);
 if(initialGen) updateTimer = floor(updateTimer/2);
 
+// cleanout old puppers
+for (var i=0; i&lt;ds_list_size(puppetBlocks); i+=1)
+{
+    with puppetBlocks[| i] instance_destroy();
+}
+ds_list_clear(puppetBlocks);
 
-// clear draw update list
-ds_priority_clear(drawQueue);
+
+// draw distance check
+if(rectangle_in_rectangle(x,y,x+global.chunkWidth*16,y+global.chunkHeight*16,view_xview[0]-64,view_yview[0]-64,view_xview[0]+view_wview[0]+64,view_yview[0]+view_hview[0]+64) &gt; 0)
+{
+    rendering = true;
+}
+else
+{
+    rendering = false;
+}
 
 // update the blocks
 startUpdateZ = max(global.currentCameraZLevel-(chunkDepth/2),0);
@@ -273,10 +291,18 @@ for (var i=startAlt; i&lt;startUpdateZ+chunkDepth; i+=1)
                         // refresh status
                         blockData[? "Exposed"] = scr_BlockExposureCheck(blockLayers,i,q,c);
                     }
-                    if(blockData[? "Exposed"] || i == floor(global.currentCameraZLevel)-2)
+                    if(blockData[? "Exposed"] || i == floor(global.currentCameraZLevel-2))
                     {
                         // store the data for drawing!
-                        if(scr_ZLayerDrawFilter(i)) ds_priority_add(drawQueue,blockData,blockData[? "DrawDepth"]);
+                        if(scr_ZLayerDrawFilter(i) &amp;&amp; rendering) 
+                        {
+                            var newPuppet = instance_create(blockData[? "x"],blockData[? "y"],obj_dummyBlock);
+                            ds_list_add(puppetBlocks, newPuppet);
+                            newPuppet.sprite_index = blockData[? "Tex"];
+                            newPuppet.depth = blockData[? "DrawDepth"];
+                            newPuppet.z = blockData[? "z"];
+                            newPuppet.exposure = blockData[? "Exposed"];
+                        }
                     }
                 }
             }
@@ -291,16 +317,6 @@ for (var i=startAlt; i&lt;startUpdateZ+chunkDepth; i+=1)
 // cleanup one loop flags
 forceRenderUpdate = false;
 
-
-// draw distance check
-if(rectangle_in_rectangle(x,y,x+global.chunkWidth*16,y+global.chunkHeight*16,view_xview[0]-64,view_yview[0]-64,view_xview[0]+view_wview[0]+64,view_yview[0]+view_hview[0]+64) &gt; 0)
-{
-    rendering = true;
-}
-else
-{
-    rendering = false;
-}
 
 </string>
           </argument>
@@ -328,88 +344,12 @@ else
 
 ds_list_destroy(entitys);
 ds_list_destroy(blockLayers);
-ds_queue_destroy(activeLayers);
-ds_priority_destroy(drawQueue);
-</string>
-          </argument>
-        </arguments>
-      </action>
-    </event>
-    <event eventtype="8" enumb="0">
-      <action>
-        <libid>1</libid>
-        <id>603</id>
-        <kind>7</kind>
-        <userelative>0</userelative>
-        <isquestion>0</isquestion>
-        <useapplyto>-1</useapplyto>
-        <exetype>2</exetype>
-        <functionname></functionname>
-        <codestring></codestring>
-        <whoName>self</whoName>
-        <relative>0</relative>
-        <isnot>0</isnot>
-        <arguments>
-          <argument>
-            <kind>1</kind>
-            <string>/// Draw the world chunk based on the zlayer camera
-if(!rendering) exit;
-
-// hold the last updated draw priority queue, and make a disposable priority queue to burn through
-var disposableQueue = ds_priority_create();
-ds_priority_copy(disposableQueue, drawQueue);
-
-// burn through all drawable objects
-while(ds_priority_size(disposableQueue) &gt; 0)
+for (var i=0; i&lt;ds_list_size(puppetBlocks); i+=1)
 {
-    var blockData = ds_priority_delete_max(disposableQueue);
-    var xx = blockData[? "x"];
-    var yy = blockData[? "y"];
-    var zz = blockData[? "z"]
-    var yOffset = scr_DrawYOffset(xx,yy,zz);
-    
-    var solveAlpha = ((global.currentCameraZLevel - (zz/16))-2) / -global.drawLayerDepth;
-    var exposure = blockData[? "Exposed"];
-    
-    
-    if(blockData != -1) 
-    {
-        if(exposure == 0)
-        {
-            draw_sprite_ext(spr_blockDarken,0   , x + xx, y + yy + yOffset, 1, 1, 0, image_blend, 1);
-        }
-        else if(floor(zz/16) &gt;= floor(global.currentCameraZLevel))
-        {
-            draw_sprite_ext(blockData[? "Tex"],0, x + xx, y + yy + yOffset, 1, 1, 0, image_blend, 1);
-            draw_sprite_ext(spr_blockDarken,0   , x + xx, y + yy + yOffset, 1, 1, 0, image_blend, solveAlpha);
-            
-            if(exposure == 2)
-            {
-                draw_sprite_ext(spr_blockBackReveal,0   , x + xx, y + yy + yOffset, 1, 1, 0, image_blend, 1);
-            }
-        }
-        else if(floor(zz/16) == floor(global.currentCameraZLevel-1))
-        {
-            draw_sprite_ext(blockData[? "Tex"],0, x + xx, y + yy + yOffset, 1, 1, 0, image_blend, 1);
-            draw_sprite_ext(spr_blockDarken,0   , x + xx, y + yy + yOffset, 1, 1, 0, image_blend, 0.1);
-        }
-        else
-        {
-            draw_sprite_ext(blockData[? "Tex"],0, x + xx, y + yy + yOffset, 1, 1, 0, image_blend, 1);
-        }
-    }
+    with puppetBlocks[| i] instance_destroy();
 }
-
-ds_priority_destroy(disposableQueue); //cleanup
-
-
-
-/*
-if(neighbour_north != noone) draw_arrow(x,y,neighbour_north.x,neighbour_north.y,5);
-if(neighbour_south != noone) draw_arrow(x,y,neighbour_south.x,neighbour_south.y,5);
-if(neighbour_east != noone) draw_arrow(x,y,neighbour_east.x,neighbour_east.y,5);
-if(neighbour_west != noone) draw_arrow(x,y,neighbour_west.x,neighbour_west.y,5);
-*/
+ds_list_destroy(puppetBlocks);
+ds_queue_destroy(activeLayers);
 </string>
           </argument>
         </arguments>

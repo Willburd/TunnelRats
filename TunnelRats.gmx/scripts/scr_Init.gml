@@ -32,7 +32,8 @@ global.chunkHeight = 4;
 global.drawLayerDepth = 9;
 
 global.debug_DisableWorldGen = false;
-global.debug_ChunkLoadingInfo = false;
+global.debug_ChunkLoadingInfo = true;
+global.debug_EntityLoadingInfo = false;
 
 // World gen
 global.worldData = -1;

@@ -54,7 +54,7 @@ z = 0 // z depth in the world, compliments x and y. 16 pips per tile
           <argument>
             <kind>1</kind>
             <string>scr_EntityRemoveFromChunk(id);
-show_debug_message("Entity " + string(entity.id) + " unloaded");
+if(global.debug_EntityLoadingInfo) show_debug_message("Entity " + string(entity.id) + " unloaded");
 
 </string>
           </argument>

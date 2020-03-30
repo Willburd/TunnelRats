@@ -120,7 +120,7 @@ global.loadingTimer -= 1;
 if(global.loadingTimer &lt;= 0 &amp;&amp; !chunkAlreadyHere)
 {
     // reset loading timer
-    global.loadingTimer = irandom(10) + 20;
+    global.loadingTimer = irandom(10) + 5;
     
     // spawn world chunk!
     var newChunk = instance_create(x,y,obj_WorldChunk);

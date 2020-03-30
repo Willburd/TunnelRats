@@ -17,6 +17,7 @@
     <sprite>sprites\spr_blockCol</sprite>
     <sprite>sprites\spr_colMask16x</sprite>
     <sprite>sprites\spr_colMask8x</sprite>
+    <sprite>sprites\spr_playerTest</sprite>
     <sprite>sprites\spr_shadow</sprite>
     <sprite>sprites\spr_controller</sprite>
     <sprite>sprites\spr_World</sprite>
@@ -32,6 +33,7 @@
     <script>scripts\scr_Init.gml</script>
     <script>scripts\scr_SaveWorld.gml</script>
     <script>scripts\scr_LoadWorld.gml</script>
+    <script>scripts\inverse_lerp.gml</script>
     <script>scripts\scr_DrawDepth.gml</script>
     <script>scripts\scr_DrawYOffset.gml</script>
     <script>scripts\scr_ZLayerDrawFilter.gml</script>
@@ -79,6 +81,7 @@
     <object>objects\obj_alwaysUpdatedParent</object>
     <object>objects\obj_WorldController</object>
     <object>objects\obj_WorldChunk</object>
+    <object>objects\obj_dummyBlock</object>
     <object>objects\obj_WorldEntityParent</object>
     <object>objects\obj_HudController</object>
     <object>objects\obj_Player</object>
