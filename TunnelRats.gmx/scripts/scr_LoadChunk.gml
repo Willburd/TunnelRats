@@ -70,7 +70,6 @@ while (layerNum < maxLayers)
                 else
                 {
                     var newBlock = json_decode(loadString);
-                    newBlock[? "Exposed"] = -1;
                     layerGrid[# q,c] = newBlock;
                     num++; // move onto the next block
                 }

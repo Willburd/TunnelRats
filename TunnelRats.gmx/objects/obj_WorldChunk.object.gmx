@@ -123,6 +123,12 @@ if(neighbour_west != noone) with neighbour_west { neighbour_east = noone };
             <string>/// Extend chunk downwards till we match camera
 var startLayer = ds_list_size(blockLayers);
 var genDepths = chunkDepth;
+
+if(startLayer &lt; global.currentCameraZLevel - chunkDepth*4)
+{
+    initialGen = true; //fast gen!
+}
+
 if(initialGen)
 {
     genDepths *= 2;
@@ -133,7 +139,6 @@ if(initialGen)
         scr_SaveChunk(worldController.UniverseNumber,id);
     }
 }
-
 for (var i=0; i&lt;genDepths; i+=1)
 {   
     var depthLayer = startLayer + i;
@@ -213,7 +218,7 @@ if(updateTimer &lt; -updateTimerMax &amp;&amp; global.unloadingTimer == 0 &amp;&
 // update lockdown
 if(updateTimer &gt; 0) exit; // skip update
 updateTimer = updateTimerMax + irandom(20);
-if(initialGen) updateTimer = floor(updateTimer/3);
+if(initialGen) updateTimer = floor(updateTimer/2);
 
 
 // clear draw update list

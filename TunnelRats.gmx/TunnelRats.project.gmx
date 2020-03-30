@@ -21,6 +21,7 @@
     <sprite>sprites\spr_World</sprite>
     <sprite>sprites\spr_WorldChunk</sprite>
     <sprite>sprites\spr_WorldEntity</sprite>
+    <sprite>sprites\spr_cam</sprite>
   </sprites>
   <backgrounds name="background">
     <background>background\bgTest</background>
@@ -30,6 +31,7 @@
     <script>scripts\scr_Init.gml</script>
     <script>scripts\scr_SaveWorld.gml</script>
     <script>scripts\scr_LoadWorld.gml</script>
+    <script>scripts\scr_TimeCompensate.gml</script>
     <scripts name="Chunks">
       <script>scripts\scr_ZLayerDrawFilter.gml</script>
       <script>scripts\scr_BlockExposureCheck.gml</script>
@@ -65,6 +67,7 @@
     <object>objects\obj_GameControl</object>
     <object>objects\obj_gameUpdatedParent</object>
     <object>objects\obj_alwaysUpdatedParent</object>
+    <object>objects\obj_HudController</object>
     <object>objects\obj_WorldController</object>
     <object>objects\obj_WorldChunk</object>
     <object>objects\obj_WorldEntityParent</object>
