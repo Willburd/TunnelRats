@@ -27,8 +27,78 @@
             <kind>1</kind>
             <string>/// Used for input and depth sorting
 // world chunks make and manage these as puppets
+chunkOwner = noone;
+q = 0;
+c = 0;
+
 z = 0;
 exposure = false;
+</string>
+          </argument>
+        </arguments>
+      </action>
+    </event>
+    <event eventtype="1" enumb="0">
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>if(global.selectedObject == id)
+{
+    global.unselectCoolDown = 0;
+    global.selectedObject = noone;
+}
+</string>
+          </argument>
+        </arguments>
+      </action>
+    </event>
+    <event eventtype="3" enumb="0">
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>var offsetY = scr_DrawYOffset(x,y,z);
+if(point_in_rectangle(mouse_x,mouse_y,x,y-8 + offsetY,x+16,y+16 + offsetY))
+{
+    if(global.selectedObject == noone)
+    {
+        global.selectedObject = id;
+    } 
+    else
+    {
+        if(global.selectedObject.depth &gt;= depth)
+        {
+            global.selectedObject = id;
+            global.unselectCoolDown = 20;
+        }
+    }  
+}
+
 </string>
           </argument>
         </arguments>
@@ -73,6 +143,11 @@ exposure = false;
     else
     {
         draw_sprite_ext(sprite_index,0, x, y + yOffset, 1, 1, 0, image_blend, 1);
+    }
+    
+    if(global.selectedObject == id)
+    {
+        draw_sprite_ext(spr_blockHighlight,0, x, y + yOffset, 1, 1, 0, image_blend, (sin(global.animationStep / 100)/3) + 0.5);
     }
 }
 </string>

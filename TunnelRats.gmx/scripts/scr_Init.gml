@@ -11,6 +11,8 @@ global._game_max_time = 1000000 / 30; // 30 ticks target for entities
 global._frame_max_time = 1000000 / 60; // 60 ticks target for framerate
 global.gameMaxFrames = 9999; // room lock fps
 
+global.animationStep = 0;
+
 // Entities
 global.AllowUpdateCounter = 0;
 global._gravity = 64;
@@ -42,6 +44,9 @@ global.mountainMap_Scale = 2;
 global.hillMap_Scale = 1;
 global.unloadingTimer = 400; // if this is under 0 allow unload
 global.loadingTimer = 100; // if this is under 0 allow loading
+
+global.selectedObject = noone;
+global.unselectCoolDown = 0;
 
 // keyboard control
 global.keyLeft = ord('A');

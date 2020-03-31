@@ -61,6 +61,45 @@ if(global.debug_EntityLoadingInfo) show_debug_message("Entity " + string(entity.
         </arguments>
       </action>
     </event>
+    <event eventtype="3" enumb="0">
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>var offsetY = scr_DrawYOffset(x,y,z);
+if(point_in_rectangle(mouse_x,mouse_y,x-8,y-20 + offsetY,x+8,y + offsetY))
+{
+    if(global.selectedObject == noone)
+    {
+        global.selectedObject = id;
+    } 
+    else
+    {
+        if(global.selectedObject.depth &gt;= depth)
+        {
+            global.selectedObject = id;
+            global.unselectCoolDown = 20;
+        }
+    }  
+}
+    
+</string>
+          </argument>
+        </arguments>
+      </action>
+    </event>
     <event eventtype="7" enumb="11">
       <action>
         <libid>1</libid>

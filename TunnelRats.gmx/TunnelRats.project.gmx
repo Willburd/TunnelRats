@@ -8,6 +8,7 @@
   <sprites name="sprites">
     <sprite>sprites\spr_blockParent</sprite>
     <sprite>sprites\spr_blockDarken</sprite>
+    <sprite>sprites\spr_blockHighlight</sprite>
     <sprite>sprites\spr_blockBackReveal</sprite>
     <sprite>sprites\spr_block_grass</sprite>
     <sprite>sprites\spr_block_sand</sprite>
@@ -52,6 +53,9 @@
       <script>scripts\scr_ChunkAddEntity.gml</script>
       <script>scripts\scr_EntityRemoveFromChunk.gml</script>
       <script>scripts\scr_ChunkGetBlock.gml</script>
+      <script>scripts\scr_ChunkSetBlock.gml</script>
+      <script>scripts\scr_chunkInternalSetBlock.gml</script>
+      <script>scripts\scr_chunkInternalClearBlock.gml</script>
     </scripts>
     <scripts name="worldGenData">
       <script>scripts\scr_WorldGen.gml</script>

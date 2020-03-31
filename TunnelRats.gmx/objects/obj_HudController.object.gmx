@@ -59,8 +59,6 @@ if(!global.gamePaused)
         
         x += lengthdir_x(dis,dir);
         y += lengthdir_y(dis,dir);
-        
-        global.currentCameraZLevel = followObject.z/16;
     }
     
     view_xview[0] = x-view_wview[0]/2;

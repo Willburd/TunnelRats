@@ -158,22 +158,7 @@ for (var i=0; i&lt;genDepths; i+=1)
         {
             // get a ds_map of the block at the location
             var blockData = scr_WorldGenBlock(blockLayers,depthLayer,x/16,y/16,q,c);
-            
-            if(blockData != -1)
-            {
-                blockData[? "x"] = x+(q*16);
-                blockData[? "y"] = y+(c*16);
-                blockData[? "z"] = depthLayer*16;
-                
-                blockData[? "DrawDepth"] = scr_DrawDepth( x+(q*16), y+(c*16), depthLayer*16);
-                blockData[? "Exposed"] = -1; //auto refresh draw status
-                
-                gridLayer[# q,c] = blockData;
-            }
-            else
-            {
-                gridLayer[# q,c] = -1;
-            }
+            scr_chunkInternalSetBlock(id, q,c,depthLayer,blockData);
         }
     }
 }
@@ -291,17 +276,24 @@ for (var i=startAlt; i&lt;startUpdateZ+chunkDepth; i+=1)
                         // refresh status
                         blockData[? "Exposed"] = scr_BlockExposureCheck(blockLayers,i,q,c);
                     }
-                    if(blockData[? "Exposed"] || i == floor(global.currentCameraZLevel-2))
+                    if(blockData[? "Exposed"] || i == floor(global.currentCameraZLevel-1))
                     {
                         // store the data for drawing!
                         if(scr_ZLayerDrawFilter(i) &amp;&amp; rendering) 
                         {
-                            var newPuppet = instance_create(blockData[? "x"],blockData[? "y"],obj_dummyBlock);
+                            var xxx = blockData[? "x"];
+                            var yyy = blockData[? "y"];
+                            var zzz = blockData[? "z"];
+                        
+                            var newPuppet = instance_create( xxx, yyy, obj_dummyBlock);
                             ds_list_add(puppetBlocks, newPuppet);
                             newPuppet.sprite_index = blockData[? "Tex"];
                             newPuppet.depth = blockData[? "DrawDepth"];
-                            newPuppet.z = blockData[? "z"];
+                            newPuppet.z = zzz;
                             newPuppet.exposure = blockData[? "Exposed"];
+                            newPuppet.chunkOwner = id;
+                            newPuppet.q = q;
+                            newPuppet.c = c;
                         }
                     }
                 }

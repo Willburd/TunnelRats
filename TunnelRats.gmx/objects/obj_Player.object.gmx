@@ -104,6 +104,12 @@ attemptedGround = -1;
           <argument>
             <kind>1</kind>
             <string>/// movement code
+var hasCamera = false;
+with obj_HudController
+{
+    if(followObject == other.id) hasCamera = true;
+}
+
 if(loadedCheck)
 {
     if(attemptedGround == -1)
@@ -229,12 +235,22 @@ if(loadedCheck)
         
             if(z == attemptedGround)
             {
+                // set camera location
+                if(hasCamera) global.currentCameraZLevel = lerp(global.currentCameraZLevel, z/16, 0.2);
                 // stop
                 Zmomentum = 0;
                 // jumping!
                 if(keyboard_check(global.keyJump))
                 {
+                    if(hasCamera) global.currentCameraZLevel = lerp(global.currentCameraZLevel, z/16, 0.2);
                     Zmomentum = -64;
+                }
+            }
+            else
+            {
+                if(z/16 &gt; global.currentCameraZLevel +2)
+                {
+                    global.currentCameraZLevel = lerp(global.currentCameraZLevel, z/16, 0.4);
                 }
             }
         }
@@ -244,6 +260,10 @@ if(loadedCheck)
     
     // draw depth
     depth = scr_DrawDepth(x,y,z);
+}
+else
+{
+    if(hasCamera) global.currentCameraZLevel = z/16;
 }
 </string>
           </argument>
