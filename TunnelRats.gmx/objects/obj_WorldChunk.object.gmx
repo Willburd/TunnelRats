@@ -25,7 +25,7 @@
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>chunkDepth = 14; // z update range
+            <string>chunkDepth = 12; // z update range
 
 initialGen = true;
 processing = true; // if entitys should be updated
@@ -221,8 +221,8 @@ if(updateTimer &lt; -updateTimerMax &amp;&amp; global.unloadingTimer == 0 &amp;&
 
 // update lockdown
 if(updateTimer &gt; 0) exit; // skip update
-updateTimer = updateTimerMax + irandom(10);
-if(initialGen) updateTimer = floor(updateTimer/2);
+updateTimer = updateTimerMax + irandom(20);
+if(initialGen) updateTimer = 6;
 
 // cleanout old puppers
 for (var i=0; i&lt;ds_list_size(puppetBlocks); i+=1)
