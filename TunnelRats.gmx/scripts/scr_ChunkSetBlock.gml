@@ -27,9 +27,9 @@ while(true)
         }
         else if(layer != -1)
         {
-            scr_chunkInternalClearBlock(chunk, xxx, yyy, zzz);
-            scr_chunkInternalSetBlock(  chunk, xxx, yyy, zzz, newData);
-            chunk.forceRenderUpdate = true;
+            scr_ChunkInternalClearBlock(chunk, xxx, yyy, zzz);
+            scr_ChunkInternalSetBlock(  chunk, xxx, yyy, zzz, newData);
+            scr_ChunkUpdate( chunk,true);
             return 1;
         }
         else
@@ -97,9 +97,9 @@ while(true)
             }
             else if(layer != -1)
             {
-                scr_chunkInternalClearBlock(chunk, xxx, yyy, zzz);
-                scr_chunkInternalSetBlock(  chunk, xxx, yyy, zzz, newData);
-                chunk.forceRenderUpdate = true;
+                scr_ChunkInternalClearBlock(chunk, xxx, yyy, zzz);
+                scr_ChunkInternalSetBlock(  chunk, xxx, yyy, zzz, newData);
+                scr_ChunkUpdate( chunk,true);
                 return true;
             }
             else

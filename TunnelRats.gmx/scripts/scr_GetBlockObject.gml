@@ -74,6 +74,13 @@ if(database == "Base")
             returnMap[? "Transparent"] = false;
             returnMap[? "Solid"] = false;
             break;
+            
+        case "Brick": 
+            returnMap = ds_map_create();
+            returnMap[? "Tex"] = spr_block_brick;
+            returnMap[? "Transparent"] = false;
+            returnMap[? "Solid"] = true;
+            break;
     }
     
     // basic data blocks all spawn with, this code is only reached if not air or nonexistant

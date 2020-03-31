@@ -45,12 +45,21 @@ global.hillMap_Scale = 1;
 global.unloadingTimer = 400; // if this is under 0 allow unload
 global.loadingTimer = 100; // if this is under 0 allow loading
 
-global.selectedObject = noone;
-global.unselectCoolDown = 0;
-
 // keyboard control
-global.keyLeft = ord('A');
-global.keyRight = ord('D');
-global.keyUp = ord('W');
-global.keyDown = ord('S');
+global.keyLeft = vk_left;
+global.keyRight = vk_right;
+global.keyUp = vk_up;
+global.keyDown = vk_down;
+
 global.keyJump = vk_space;
+global.keyCrouch = vk_lshift;
+
+global.keyUseLeft = ord('A');
+global.keyUseRight = ord('D');
+global.keyUseUp = ord('W');
+global.keyUseDown = ord('S');
+
+global.keyUseTop = ord('Q');
+global.keyUseBot = ord('E');
+
+

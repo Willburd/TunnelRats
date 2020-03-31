@@ -15,10 +15,12 @@
     <sprite>sprites\spr_block_water</sprite>
     <sprite>sprites\spr_block_dirt</sprite>
     <sprite>sprites\spr_block_rock</sprite>
+    <sprite>sprites\spr_block_brick</sprite>
     <sprite>sprites\spr_blockCol</sprite>
     <sprite>sprites\spr_colMask16x</sprite>
     <sprite>sprites\spr_colMask8x</sprite>
     <sprite>sprites\spr_playerTest</sprite>
+    <sprite>sprites\spr_playerCrouch</sprite>
     <sprite>sprites\spr_shadow</sprite>
     <sprite>sprites\spr_controller</sprite>
     <sprite>sprites\spr_World</sprite>
@@ -54,8 +56,8 @@
       <script>scripts\scr_EntityRemoveFromChunk.gml</script>
       <script>scripts\scr_ChunkGetBlock.gml</script>
       <script>scripts\scr_ChunkSetBlock.gml</script>
-      <script>scripts\scr_chunkInternalSetBlock.gml</script>
-      <script>scripts\scr_chunkInternalClearBlock.gml</script>
+      <script>scripts\scr_ChunkInternalSetBlock.gml</script>
+      <script>scripts\scr_ChunkInternalClearBlock.gml</script>
     </scripts>
     <scripts name="worldGenData">
       <script>scripts\scr_WorldGen.gml</script>
@@ -88,6 +90,7 @@
     <object>objects\obj_dummyBlock</object>
     <object>objects\obj_WorldEntityParent</object>
     <object>objects\obj_HudController</object>
+    <object>objects\obj_HighLightBlock</object>
     <object>objects\obj_Player</object>
   </objects>
   <rooms name="rooms">

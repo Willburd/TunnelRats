@@ -158,7 +158,7 @@ for (var i=0; i&lt;genDepths; i+=1)
         {
             // get a ds_map of the block at the location
             var blockData = scr_WorldGenBlock(blockLayers,depthLayer,x/16,y/16,q,c);
-            scr_chunkInternalSetBlock(id, q,c,depthLayer,blockData);
+            scr_ChunkInternalSetBlock(id, q,c,depthLayer,blockData);
         }
     }
 }
