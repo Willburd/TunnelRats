@@ -33,6 +33,7 @@ c = 0;
 
 z = 0;
 exposure = false;
+frontFloorMode = false;
 </string>
           </argument>
         </arguments>
@@ -59,26 +60,59 @@ exposure = false;
 {
     var yOffset = scr_DrawYOffset(x,y,z);
     var solveAlpha = clamp( inverse_lerp(global.currentCameraZLevel-3,global.currentCameraZLevel+global.drawLayerDepth,(z/16)) , 0, 1);
+    var drawAlpha = 1;
     
-    if(exposure == 0)
+    if(exposure == exposureType.none)
     {
-        draw_sprite_ext(spr_blockDarken,0   , x, y + yOffset, 1, 1, 0, image_blend, 1);
+        draw_sprite_ext(spr_blockDarken,0   , x, y + yOffset, 1, 1, 0, image_blend, drawAlpha);
     }
     else if(floor(z/16) &gt;= floor(global.currentCameraZLevel))
     {
-        draw_sprite_ext(sprite_index,0, x, y + yOffset, 1, 1, 0, image_blend, 1);
-        draw_sprite_ext(spr_blockDarken,0   , x, y + yOffset, 1, 1, 0, image_blend, solveAlpha);
-    }
-    else if(floor(z/16) == floor(global.currentCameraZLevel-1))
-    {
-        draw_sprite_ext(sprite_index,0, x, y + yOffset, 1, 1, 0, image_blend, 1);
-        draw_sprite_ext(spr_blockDarken,0   , x, y + yOffset, 1, 1, 0, image_blend, 0.1);
+        if(exposure == exposureType.backWall)
+        {
+            drawAlpha = 0.25;
+            draw_sprite_part_ext(sprite_index   ,0,8,16,16,16, x, y + yOffset - 8, 1, 1, image_blend, drawAlpha);
+            draw_sprite_part_ext(spr_blockDarken,0,8,16,16,16, x, y + yOffset - 8, 1, 1, image_blend, solveAlpha*drawAlpha);
+        }
+        else if(exposure == exposureType.frontWall)
+        {
+            draw_sprite_part_ext(sprite_index   ,0,8,16,16,16, x, y + yOffset + 8, 1, 1, image_blend, drawAlpha);
+            draw_sprite_part_ext(spr_blockDarken,0,8,16,16,16, x, y + yOffset + 8, 1, 1, image_blend, solveAlpha*drawAlpha);
+        }
+        else if(exposure == exposureType.leftWall)
+        {
+            draw_sprite_part_ext(sprite_index   ,0,0,0,8,32, x, y + yOffset + 8, 1, 1, image_blend, drawAlpha);
+            draw_sprite_part_ext(spr_blockDarken,0,8,0,8,32, x, y + yOffset + 8, 1, 1, image_blend, solveAlpha*drawAlpha);
+        }
+        else if(exposure == exposureType.rightWall)
+        {
+            draw_sprite_part_ext(sprite_index   ,0,24,0,8,32, x+8, y + yOffset + 8, 1, 1, image_blend, drawAlpha);
+            draw_sprite_part_ext(spr_blockDarken,0,8,0,8,32,  x+8, y + yOffset + 8, 1, 1, image_blend, solveAlpha*drawAlpha);
+        }
+        else if(exposure == exposureType.bothWalls)
+        {
+            draw_sprite_part_ext(sprite_index   ,0,0,0,8,32, x, y + yOffset + 8, 1, 1, image_blend, drawAlpha);
+            draw_sprite_part_ext(sprite_index   ,0,24,0,8,32, x+8, y + yOffset + 8, 1, 1, image_blend, drawAlpha);
+            draw_sprite_part_ext(spr_blockDarken,0,8,0,8,32, x, y + yOffset + 8, 1, 1, image_blend, solveAlpha*drawAlpha);
+            draw_sprite_part_ext(spr_blockDarken,0,8,0,8,32,  x+8, y + yOffset + 8, 1, 1, image_blend, solveAlpha*drawAlpha);
+        }
+        else if(frontFloorMode)
+        {
+            draw_sprite_part_ext(sprite_index   ,0,0,0,16,16, x, y + yOffset - 8, 1, 1, image_blend, drawAlpha);
+            draw_sprite_part_ext(spr_blockDarken,0,0,0,16,16, x, y + yOffset - 8, 1, 1, image_blend, solveAlpha*drawAlpha);
+        }
+        else
+        {
+            draw_sprite_part_ext(sprite_index   ,0,8,0,16,32, x, y + yOffset - 8, 1, 1, image_blend, drawAlpha);
+            draw_sprite_part_ext(spr_blockDarken,0,8,0,16,32, x, y + yOffset - 8, 1, 1, image_blend, solveAlpha*drawAlpha);
+        }
     }
     else
     {
-        draw_sprite_ext(sprite_index,0, x, y + yOffset, 1, 1, 0, image_blend, 1);
+        draw_sprite_ext(sprite_index,0, x, y + yOffset, 1, 1, 0, image_blend, global.aboveLayerDrawPercent);
     }
 }
+
 </string>
           </argument>
         </arguments>

@@ -9,7 +9,6 @@
     <sprite>sprites\spr_blockParent</sprite>
     <sprite>sprites\spr_blockDarken</sprite>
     <sprite>sprites\spr_blockHighlight</sprite>
-    <sprite>sprites\spr_blockBackReveal</sprite>
     <sprite>sprites\spr_block_grass</sprite>
     <sprite>sprites\spr_block_sand</sprite>
     <sprite>sprites\spr_block_water</sprite>

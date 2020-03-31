@@ -15,7 +15,7 @@ global.animationStep = 0;
 
 // Entities
 global.AllowUpdateCounter = 0;
-global._gravity = 64;
+global._gravity = 32;
 
 // 4:3  1.3333
 // 16:9  1.7777
@@ -31,7 +31,8 @@ global.resMode = 1;
 global.outputResolutionHeight = 144;
 global.chunkWidth = 4;
 global.chunkHeight = 4;
-global.drawLayerDepth = 9;
+global.drawLayerDepth = 3;
+global.aboveLayerDrawPercent = 0;
 
 global.debug_DisableWorldGen = false;
 global.debug_ChunkLoadingInfo = true;
@@ -44,6 +45,8 @@ global.mountainMap_Scale = 2;
 global.hillMap_Scale = 1;
 global.unloadingTimer = 400; // if this is under 0 allow unload
 global.loadingTimer = 100; // if this is under 0 allow loading
+
+global.ZDrawOffset = 16; //height the side of a block is
 
 // keyboard control
 global.keyLeft = vk_left;

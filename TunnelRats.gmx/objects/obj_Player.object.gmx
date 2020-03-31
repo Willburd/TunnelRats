@@ -132,6 +132,7 @@ if(loadedCheck)
             if(block == -2)
             {
                 // nothing to read yet...
+                global.currentCameraZLevel = global.worldData[? "seaLevel"];
                 break;
             }
             else if(block == -1)
@@ -169,7 +170,7 @@ if(loadedCheck)
     // Using a tool!
     var toolX = 0;
     var toolY = 0;
-    var toolZ = -1;
+    var toolZ = 0;
     
     // keyboard check!
     if(keyboard_check(global.keyUseLeft)) toolX += -1;
@@ -178,15 +179,11 @@ if(loadedCheck)
     if(keyboard_check(global.keyUseDown) &amp;&amp; toolX == 0) toolY += 1;
     if(keyboard_check(global.keyUseTop)) 
     {
-        toolZ = -2;
+        toolZ = -1;
     }
     else if(keyboard_check(global.keyUseBot))
     {
         toolZ = 1;
-    }
-    else if(crouching)
-    {
-        toolZ = 0;
     }
     
     
@@ -197,7 +194,7 @@ if(loadedCheck)
         // reset tool
         toolUseCounter = -1;
     }
-    else if( toolX != 0 || toolY != 0 || toolZ != -1)
+    else if( toolX != 0 || toolY != 0 || toolZ != 0)
     {
         // tool is consistant and counting up!
         toolUseCounter += 0.01;
@@ -208,7 +205,7 @@ if(loadedCheck)
         // tool recovery counter when not in use
         if(toolUseCounter&lt;0)
         {
-            toolUseCounter += 0.01;
+            toolUseCounter += scr_TimeCompensate(1);
         }
         else
         {
@@ -220,9 +217,9 @@ if(loadedCheck)
     // acts different base on if placing or breaking!
     if(usingTool)
     {
-        if(toolZ == -2 &amp;&amp; (toolX != 0 || toolY != 0))
+        if(toolZ == -1 &amp;&amp; (toolX != 0 || toolY != 0))
         {
-            var colblockTop = scr_ChunkGetBlock(ActiveChunk, x,y,z-32);
+            var colblockTop = scr_ChunkGetBlock(ActiveChunk, x,y,z-16);
             if( (colblockTop != -2 &amp;&amp; !(colblockTop == -1 || !ds_map_find_value(colblockTop,"Solid"))))
             {
                 // if block above us and trying to go diagonal, hit the ceiling instead!
@@ -332,15 +329,6 @@ if(loadedCheck)
         {   
             x = lastX;
         }
-        else
-        {
-            var colblockTop = scr_ChunkGetBlock(ActiveChunk, x,y,z-16);
-            if( !(colblockTop != -2 &amp;&amp; (colblockTop == -1 || !ds_map_find_value(colblockTop,"Solid"))))
-            {
-                // only allow walking into empty space
-                x = lastX;
-            }
-        }
         if( crouching )
         {
             var colblockUnder = scr_ChunkGetBlock(ActiveChunk, x,y,z+16);
@@ -357,15 +345,6 @@ if(loadedCheck)
         if( !(colblock != -2 &amp;&amp; (colblock == -1 || !ds_map_find_value(colblock,"Solid"))))
         {
             y = lastY;
-        }
-        else
-        {
-            var colblockTop = scr_ChunkGetBlock(ActiveChunk, x,y,z-16);
-            if( !(colblockTop != -2 &amp;&amp; (colblockTop == -1 || !ds_map_find_value(colblockTop,"Solid"))))
-            {
-                // only allow walking into empty space
-                y = lastY;
-            }
         }
         if( crouching )
         {
@@ -413,7 +392,7 @@ if(loadedCheck)
         var zMotion = scr_TimeCompensate(Zmomentum);
         if(zMotion &lt; 0)
         {
-            var colblockTop = scr_ChunkGetBlock(ActiveChunk, x,y,z-24);
+            var colblockTop = scr_ChunkGetBlock(ActiveChunk, x,y,z-16);
             if(colblockTop == -2 || !(colblockTop == -1 || !ds_map_find_value(colblockTop,"Solid")))
             {
                 Zmomentum = -1;
@@ -441,7 +420,7 @@ if(loadedCheck)
                 if(keyboard_check(global.keyJump))
                 {
                     if(hasCamera) global.currentCameraZLevel = lerp(global.currentCameraZLevel, z/16, 0.2);
-                    Zmomentum = -64;
+                    Zmomentum = -32;
                 }
             }
             else

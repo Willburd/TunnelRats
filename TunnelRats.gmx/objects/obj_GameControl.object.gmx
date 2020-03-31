@@ -107,6 +107,15 @@ if(global._game_time &gt;= global._game_max_time)
         }
         
         global.animationStep += 1; // 30fps animation timer
+        
+        if(keyboard_check(global.keyUseTop)) 
+        {
+            global.aboveLayerDrawPercent = lerp(global.aboveLayerDrawPercent,1,0.3);
+        }
+        else
+        {
+            global.aboveLayerDrawPercent = lerp(global.aboveLayerDrawPercent,0,0.3);
+        }
     }
 
     with(obj_alwaysUpdatedParent)

@@ -10,12 +10,6 @@ if(Lay <= 0)
 var gridLayerAbove = argument0[| Lay-1]
 var gridLayer = argument0[| Lay]; // this pulls from the DATA layer!
 
-if(gridLayerAbove == -1)
-{
-    // not genned layer above (out of visible range anyway!
-    return false;
-}
-
 // blunt and quick above check
 if(scr_CheckBlockTransparent(gridLayerAbove[# argument2, argument3]))
 {
@@ -23,9 +17,56 @@ if(scr_CheckBlockTransparent(gridLayerAbove[# argument2, argument3]))
 }
 
 
+enum exposureType
+{
+    retry = -1,
+    none = 0,
+    standard = 1,
+    backWall = 2,
+    frontWall = 3,
+    leftWall = 4,
+    rightWall = 5,
+    bothWalls = 6,
+}
+
 
 
 // leak into other chunks?
+var backwallStateStorage = false;
+if(argument3-1 < 0)
+{
+    // check north before doing left/right walls
+    if(neighbour_north != noone)
+    {
+        if(ds_list_size(neighbour_north.blockLayers) < Lay || neighbour_north.blockLayers[| Lay] == -1)
+        {
+            //not ready?
+            return exposureType.standard;
+        }
+        else
+        {
+            var extLayer = neighbour_north.blockLayers[| Lay];
+            
+            if(is_undefined(extLayer) || extLayer == -1)
+            {
+                return exposureType.none;
+            }
+            if( scr_CheckBlockTransparent(extLayer[# argument2, global.chunkHeight-1]))
+            {
+                backwallStateStorage = true;
+            }
+        }
+    }
+    else
+    {
+        return exposureType.retry; //try again next time
+    }
+}
+
+
+var leftWl = false;
+var rightWl = false;
+
 if(argument2-1 < 0)
 {
     if(neighbour_west != noone)
@@ -33,7 +74,7 @@ if(argument2-1 < 0)
         if(ds_list_size(neighbour_west.blockLayers) < Lay || neighbour_west.blockLayers[| Lay] == -1)
         {
             //not ready?
-            return true;
+            return exposureType.standard;
         }
         else
         {
@@ -41,15 +82,20 @@ if(argument2-1 < 0)
             
             if(is_undefined(extLayer) || extLayer == -1)
             {
-                return false;
+                return exposureType.none;
             }
             if( scr_CheckBlockTransparent(extLayer[# global.chunkWidth-1, argument3]))
             {
-                return true;
+                leftWl = true;
             }
         }
     }
+    else
+    {
+        return exposureType.retry; //try again next time
+    }
 }
+
 
 if(argument2+1 >= ds_grid_width(gridLayer))
 {
@@ -58,7 +104,7 @@ if(argument2+1 >= ds_grid_width(gridLayer))
         if(ds_list_size(neighbour_east.blockLayers) < Lay || neighbour_east.blockLayers[| Lay] == -1)
         {
             //not ready?
-            return true;
+            return exposureType.standard;
         }
         else
         {
@@ -66,89 +112,136 @@ if(argument2+1 >= ds_grid_width(gridLayer))
             
             if(is_undefined(extLayer) || extLayer == -1)
             {
-                return false;
+                return exposureType.none;
             }
             if( scr_CheckBlockTransparent(extLayer[# 0, argument3]))
             {
-                return true;
+                rightWl = true;
             }
         }
+    }
+    else
+    {
+        return exposureType.retry; //try again next time
     }
 }
 
-if(argument3-1 < 0)
+
+
+
+if(!backwallStateStorage)
 {
-    if(neighbour_north != noone)
+    if(argument3+1 >= ds_grid_height(gridLayer))
     {
-        if(ds_list_size(neighbour_north.blockLayers) < Lay || neighbour_north.blockLayers[| Lay] == -1)
+        if(neighbour_south != noone)
         {
-            //not ready?
-            return true;
+            if(ds_list_size(neighbour_south.blockLayers) < Lay || neighbour_south.blockLayers[| Lay] == -1)
+            {
+                //not ready?
+                return true;
+            }
+            else
+            {
+                var extLayer = neighbour_south.blockLayers[| Lay];
+                var extLayerAbove = neighbour_south.blockLayers[| Lay-1];
+                
+                if(is_undefined(extLayer) || extLayer == -1)
+                {
+                    return exposureType.none;
+                }
+                if( scr_CheckBlockTransparent(extLayer[# argument2, 0]))
+                {
+                    if( scr_CheckBlockTransparent(extLayerAbove[# argument2, 0]))
+                    {
+                        return exposureType.standard;
+                    }
+                    else
+                    {
+                        return exposureType.frontWall;
+                    }
+                }
+            }
         }
         else
         {
-            var extLayer = neighbour_north.blockLayers[| Lay];
-            var extLayerAbove = neighbour_north.blockLayers[| Lay-1];
-            
-            if(is_undefined(extLayer) || extLayer == -1)
-            {
-                return false;
-            }
-            if( scr_CheckBlockTransparent(extLayer[# argument2, global.chunkHeight-1]))
-            {
-                return true;
-            }
+            return exposureType.retry; //try again next time
         }
     }
+    
+    if(leftWl && rightWl)
+    {
+        return exposureType.bothWalls;
+    }
+    if(leftWl)
+    {
+        return exposureType.leftWall;
+    }
+    if(rightWl)
+    {
+        return exposureType.rightWall;
+    }
+}
+else
+{
+    // backwall checks for side exposure!
+    return exposureType.backWall;
 }
 
-if(argument3+1 >= ds_grid_height(gridLayer))
-{
-    if(neighbour_south != noone)
-    {
-        if(ds_list_size(neighbour_south.blockLayers) < Lay || neighbour_south.blockLayers[| Lay] == -1)
-        {
-            //not ready?
-            return true;
-        }
-        else
-        {
-            var extLayer = neighbour_south.blockLayers[| Lay];
-            
-            if(is_undefined(extLayer) || extLayer == -1)
-            {
-                return false;
-            }
-            if( scr_CheckBlockTransparent(extLayer[# argument2, 0]))
-            {
-                return true;
-            }
-        }
-    }
-}
 
 
 
 
 // check current chunk for visibility chances
+if(argument3-1 >= 0 && scr_CheckBlockTransparent(gridLayer[# argument2, argument3-1]))
+{
+    // check north before doing left/right walls
+    backwallStateStorage = true;
+}
+
 if(argument2-1 >= 0 && scr_CheckBlockTransparent(gridLayer[# argument2-1, argument3]))
 {
-    return true;
+    leftWl = true;
 }
 
 if(argument2+1 < ds_grid_width(gridLayer) && scr_CheckBlockTransparent(gridLayer[# argument2+1, argument3]))
 {
-    return true;
+    rightWl = true;
 }
 
-if(argument3-1 >= 0 && scr_CheckBlockTransparent(gridLayer[# argument2, argument3-1]))
+
+if(!backwallStateStorage)
 {
-    return true;
+    if(argument3+1 < ds_grid_height(gridLayer) && scr_CheckBlockTransparent(gridLayer[# argument2, argument3+1]))
+    {
+        var extLayerAbove = blockLayers[| Lay-1];
+        if( scr_CheckBlockTransparent(extLayerAbove[# argument2, 0]))
+        {
+            return exposureType.standard;
+        }
+        else
+        {
+            return exposureType.frontWall;
+        }
+    }
+    
+    if(leftWl && rightWl)
+    {
+        return exposureType.bothWalls;
+    }
+    if(leftWl)
+    {
+        return exposureType.leftWall;
+    }
+    if(rightWl)
+    {
+        return exposureType.rightWall;
+    }
 }
-
-if(argument3+1 < ds_grid_height(gridLayer) && scr_CheckBlockTransparent(gridLayer[# argument2, argument3+1]))
+else
 {
-    return true;
+    // backwall checks for side exposure!
+    return exposureType.backWall;
 }
 
-return false;
+
+return exposureType.none;
