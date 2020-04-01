@@ -47,11 +47,12 @@ global.currentCameraZLevel = global.worldData[? "seaLevel"];
 
 loadedChunkList = ds_list_create();
 
+
 var TLgridX = (floor(view_xview[0] / (global.chunkWidth  * 16))-1) * (global.chunkWidth  * 16);
 var TLgridY = (floor(view_yview[0] / (global.chunkHeight * 16))-1) * (global.chunkHeight * 16);
 
-x = TLgridX;
-y = TLgridY;
+x = TLgridX + (global.chunkWidth*16*2);
+y = TLgridY + (global.chunkHeight*16*1);
 
 
 pendingEntitySpawns = ds_list_create();
@@ -131,20 +132,19 @@ if(global.loadingTimer &lt;= 0 &amp;&amp; !chunkAlreadyHere)
         // not new, load chunk data!
         with newChunk
         {
-            if(global.debug_ChunkLoadingInfo) show_debug_message("STARTED Loading chunk " + string(id));
             scr_LoadChunk(worldController.UniverseNumber,id);
             processing = true; // if entitys should be updated
             rendering = true; // if chunk is drawn
             forceRenderUpdate = true;
             initialGen = false;
-            if(global.debug_ChunkLoadingInfo) show_debug_message("Loaded chunk " + string(id));
+            if(global.debug_ChunkLoadingInfo) show_debug_message("Loaded chunk " + string(id) + " at " + string(x) + "." + string(y)  );
         }
     }
     else
     {
         // new! setup for WORLDGEN
         initialGen = true;
-        if(global.debug_ChunkLoadingInfo) show_debug_message("Spawned chunk " + string(newChunk.id));
+        if(global.debug_ChunkLoadingInfo) show_debug_message("Spawned chunk " + string(newChunk.id) + " at " + string(newChunk.x) + "." + string(newChunk.y)   );
     }
     
     
@@ -235,7 +235,7 @@ if(global.unloadingTimer &lt; 0)
 for (i=0; i&lt;ds_list_size(loadedChunkList); i+=1)
 {
     var chunk = loadedChunkList[| i];
-    scr_ChunkUpdate(chunk, (random(10) &lt; 0.1) );
+    scr_ChunkUpdate(chunk, (random(50) &lt; 0.1) );
     scr_ChunkEntityUpdate(chunk);
 }
 

@@ -464,14 +464,14 @@ else
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>draw_sprite_ext(spr_shadow,image_index,x,y + scr_DrawYOffset(x,y,attemptedGround)-8,1,1,0,image_blend,1);
+            <string>draw_sprite_ext(spr_shadow,image_index,x,y + scr_DrawYOffset(x,y,attemptedGround),1,1,0,image_blend,1);
 if(crouching)
 {
-    draw_sprite_ext(spr_playerCrouch,image_index,x,y + scr_DrawYOffset(x,y,z)-8,1,1,0,image_blend,1);
+    draw_sprite_ext(spr_playerCrouch,image_index,x,y + scr_DrawYOffset(x,y,z),1,1,0,image_blend,1);
 }
 else
 {
-    draw_sprite_ext(spr_playerTest,image_index,x,y + scr_DrawYOffset(x,y,z)-8,1,1,0,image_blend,1);
+    draw_sprite_ext(spr_playerTest,image_index,x,y + scr_DrawYOffset(x,y,z),1,1,0,image_blend,1);
 }
 </string>
           </argument>

@@ -29,6 +29,7 @@
   </sprites>
   <backgrounds name="background">
     <background>background\bgTest</background>
+    <background>background\bg_testBlock</background>
   </backgrounds>
   <paths name="paths"/>
   <scripts name="scripts">
@@ -43,8 +44,8 @@
     <scripts name="Blocks">
       <script>scripts\scr_BlockExposureCheck.gml</script>
       <script>scripts\scr_BlockInitData.gml</script>
-      <script>scripts\scr_BlockDataToTile.gml</script>
       <script>scripts\scr_BlockGetTileset.gml</script>
+      <script>scripts\scr_BlockDataToTile.gml</script>
       <script>scripts\scr_BlockCheckTransparent.gml</script>
     </scripts>
     <scripts name="Entities">
@@ -90,7 +91,6 @@
     <object>objects\obj_alwaysUpdatedParent</object>
     <object>objects\obj_WorldController</object>
     <object>objects\obj_WorldChunk</object>
-    <object>objects\obj_dummyBlock</object>
     <object>objects\obj_WorldEntityParent</object>
     <object>objects\obj_HudController</object>
     <object>objects\obj_HighLightBlock</object>

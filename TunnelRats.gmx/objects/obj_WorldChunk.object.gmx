@@ -2,7 +2,7 @@
 <object>
   <spriteName>spr_WorldChunk</spriteName>
   <solid>0</solid>
-  <visible>0</visible>
+  <visible>-1</visible>
   <depth>0</depth>
   <persistent>0</persistent>
   <parentName>&lt;undefined&gt;</parentName>
@@ -74,9 +74,13 @@ depth = -y;
 
 ds_list_destroy(entitys);
 ds_list_destroy(blockLayers);
-for (var i=0; i&lt;ds_list_size(puppetBlocks); i+=1)
+while (ds_list_size(puppetBlocks) &gt; 0)
 {
-    with puppetBlocks[| i] instance_destroy();
+    tile_delete( puppetBlocks[| 3]);
+    ds_list_delete(puppetBlocks, 0);
+    ds_list_delete(puppetBlocks, 0);
+    ds_list_delete(puppetBlocks, 0);
+    ds_list_delete(puppetBlocks, 0);
 }
 ds_list_destroy(puppetBlocks);
 ds_queue_destroy(activeLayers);
@@ -261,45 +265,65 @@ for (var i=startAlt; i&lt;startUpdateZ+chunkDepth; i+=1)
                     // run update script for block type
                     if(blockData[? "NeedUpdate"])
                     {
-                        
+                        blockData[? "NeedUpdate"] = false;
+                        blockData[? "Exposed"] = -1; // if the update made us change visual data in the chunk!
                     }
-                    // do exposure checks here if it was updated!
-                    
                     
                     // set visual state of block for drawing
-                    if(blockData[? "Exposed"] == -1 || forceRenderUpdate)
+                    if(rendering &amp;&amp; (blockData[? "Exposed"] == -1 || forceRenderUpdate || (rendering &amp;&amp; ds_list_size(puppetBlocks) == 0)))
                     {
                         // refresh status
-                        blockData[? "Exposed"] = scr_BlockExposureCheck(blockLayers,i,q,c);
+                        var xxx = blockData[? "x"];
+                        var yyy = blockData[? "y"];
+                        var zzz = blockData[? "z"];
+                        if(scr_ZLayerDrawFilter(i))
+                        {
+                            blockData[? "Exposed"] = scr_BlockExposureCheck(blockLayers,i,q,c);
+                        }
+                        else
+                        {
+                            blockData[? "Exposed"] = exposureType.none;
+                        }
                         
+                        // draw depending on exposure!
                         if(blockData[? "Exposed"] &gt; 0)
                         {
-                            // store the data for drawing!
-                            if(scr_ZLayerDrawFilter(i) &amp;&amp; rendering) 
+                            // remove old puppet
+                            for (var k=0; k&lt;ds_list_size(puppetBlocks); k+=4)
                             {
-                                var xxx = blockData[? "x"];
-                                var yyy = blockData[? "y"];
-                                var zzz = blockData[? "z"];
-                                
-                                // remove old puppet
-                                for (var k=0; k&lt;ds_list_size(puppetBlocks); k+=4)
+                                if(puppetBlocks[| k+0] == xxx &amp;&amp; puppetBlocks[| k+1] == yyy &amp;&amp; puppetBlocks[| k+2] == zzz)
                                 {
-                                    if(puppetBlocks[| k+0] == xxx &amp;&amp; puppetBlocks[| k+1] == yyy &amp;&amp; puppetBlocks[| k+2] == zzz)
-                                    {
-                                        with puppetBlocks[| k+3] instance_destroy();
-                                        ds_list_delete(puppetBlocks, k+0);
-                                        ds_list_delete(puppetBlocks, k+0);
-                                        ds_list_delete(puppetBlocks, k+0);
-                                        ds_list_delete(puppetBlocks, k+0);
-                                        break;
-                                    }
+                                    tile_delete( puppetBlocks[| k+3]);
+                                    ds_list_delete(puppetBlocks, k+0);
+                                    ds_list_delete(puppetBlocks, k+0);
+                                    ds_list_delete(puppetBlocks, k+0);
+                                    ds_list_delete(puppetBlocks, k+0);
+                                    break;
                                 }
-                            
-                                var newPuppet = scr_BlockDataToTile(blockData,gridLayer,i);
-                                ds_list_add(puppetBlocks, xxx);
-                                ds_list_add(puppetBlocks, yyy);
-                                ds_list_add(puppetBlocks, zzz);
-                                ds_list_add(puppetBlocks, newPuppet);
+                            }
+                        
+                            // spawn updated puppet!
+                            var newPuppet = scr_BlockDataToTile(blockData,gridLayer,i,id);
+                            ds_list_add(puppetBlocks, xxx);
+                            ds_list_add(puppetBlocks, yyy);
+                            ds_list_add(puppetBlocks, zzz);
+                            ds_list_add(puppetBlocks, newPuppet);
+                        
+                        }
+                        else
+                        {
+                            // remove old puppet
+                            for (var k=0; k&lt;ds_list_size(puppetBlocks); k+=4)
+                            {
+                                if(puppetBlocks[| k+0] == xxx &amp;&amp; puppetBlocks[| k+1] == yyy &amp;&amp; puppetBlocks[| k+2] == zzz)
+                                {
+                                    tile_delete( puppetBlocks[| k+3]);
+                                    ds_list_delete(puppetBlocks, k+0);
+                                    ds_list_delete(puppetBlocks, k+0);
+                                    ds_list_delete(puppetBlocks, k+0);
+                                    ds_list_delete(puppetBlocks, k+0);
+                                    break;
+                                }
                             }
                         }
                     }
@@ -343,13 +367,39 @@ forceRenderUpdate = false;
 
 ds_list_destroy(entitys);
 ds_list_destroy(blockLayers);
-for (var i=0; i&lt;ds_list_size(puppetBlocks); i+=1)
+while (ds_list_size(puppetBlocks) &gt; 0)
 {
-    with puppetBlocks[| i] instance_destroy();
+    tile_delete( puppetBlocks[| 3]);
+    ds_list_delete(puppetBlocks, 0);
+    ds_list_delete(puppetBlocks, 0);
+    ds_list_delete(puppetBlocks, 0);
+    ds_list_delete(puppetBlocks, 0);
 }
 ds_list_destroy(puppetBlocks);
 ds_queue_destroy(activeLayers);
 </string>
+          </argument>
+        </arguments>
+      </action>
+    </event>
+    <event eventtype="8" enumb="0">
+      <action>
+        <libid>1</libid>
+        <id>605</id>
+        <kind>0</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>0</useapplyto>
+        <exetype>0</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>nodraw</string>
           </argument>
         </arguments>
       </action>
