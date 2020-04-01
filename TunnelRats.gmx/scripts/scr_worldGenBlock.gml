@@ -15,27 +15,27 @@ if(lay < groundHeight)
 {
     if(lay >= global.worldData[? "seaLevel"])
     {
-        return scr_GetBlockObject( "Base:Water")
+        return scr_BlockInitData( "Base:Water")
     }
     else
     {
-        return scr_GetBlockObject( "Base:Air")
+        return scr_BlockInitData( "Base:Air")
     }
 }
 else if(lay < groundHeight +5)
 {
-    if(scr_CheckBlockTransparent(gridLayerAbove[# QQ,CC]))
+    if(scr_BlockCheckTransparent(gridLayerAbove[# QQ,CC]))
     {
-        return scr_GetBlockObject( "Base:Grass")
+        return scr_BlockInitData( "Base:Grass")
     }
     else
     {
-        return scr_GetBlockObject( "Base:Dirt")
+        return scr_BlockInitData( "Base:Dirt")
     }
 }
 else
 {
-    return scr_GetBlockObject( "Base:Rock")
+    return scr_BlockInitData( "Base:Rock")
 }
 
 

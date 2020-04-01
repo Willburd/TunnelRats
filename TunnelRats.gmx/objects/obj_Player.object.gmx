@@ -254,7 +254,7 @@ if(loadedCheck)
                 // When placing blocks, do it instantly and than do cooldown
                 if(scr_ChunkGetBlock(ActiveChunk,x + (toolX * 16) ,y + (toolY * 16),z + (toolZ * 16)) == -1)
                 {
-                    var newBlock = scr_GetBlockObject("Base:Brick");
+                    var newBlock = scr_BlockInitData("Base:Brick");
                     scr_ChunkSetBlock(global.selectedObject.chunkOwner,x + (toolX * 16) ,y + (toolY * 16),z + (toolZ * 16),newBlock);
                 }
                 toolUseCounter = -1;

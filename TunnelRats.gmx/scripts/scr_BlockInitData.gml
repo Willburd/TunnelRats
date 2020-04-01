@@ -1,4 +1,4 @@
-/// scr_GetBlockObject("database:name");
+/// scr_BlockInitData("database:name");
 // returns a ds_map of block data and states
 var database = argument0;
 var i = 0;
@@ -38,7 +38,6 @@ if(database == "Base")
             
         case "Grass": 
             returnMap = ds_map_create();
-            returnMap[? "Tex"] = spr_block_grass;
             returnMap[? "Transparent"] = false;
             returnMap[? "Solid"] = true;
             break;
@@ -46,7 +45,6 @@ if(database == "Base")
             
         case "Dirt": 
             returnMap = ds_map_create();
-            returnMap[? "Tex"] = spr_block_dirt;
             returnMap[? "Transparent"] = false;
             returnMap[? "Solid"] = true;
             break;
@@ -54,7 +52,6 @@ if(database == "Base")
             
         case "Rock": 
             returnMap = ds_map_create();
-            returnMap[? "Tex"] = spr_block_rock;
             returnMap[? "Transparent"] = false;
             returnMap[? "Solid"] = true;
             break;
@@ -62,7 +59,6 @@ if(database == "Base")
             
         case "Sand": 
             returnMap = ds_map_create();
-            returnMap[? "Tex"] = spr_block_sand;
             returnMap[? "Transparent"] = false;
             returnMap[? "Solid"] = true;
             break;
@@ -70,14 +66,12 @@ if(database == "Base")
             
         case "Water": 
             returnMap = ds_map_create();
-            returnMap[? "Tex"] = spr_block_water;
             returnMap[? "Transparent"] = false;
             returnMap[? "Solid"] = false;
             break;
             
         case "Brick": 
             returnMap = ds_map_create();
-            returnMap[? "Tex"] = spr_block_brick;
             returnMap[? "Transparent"] = false;
             returnMap[? "Solid"] = true;
             break;
@@ -86,6 +80,7 @@ if(database == "Base")
     // basic data blocks all spawn with, this code is only reached if not air or nonexistant
     returnMap[? "DataName"] = database;
     returnMap[? "Name"] = name;
+    returnMap[? "NeedUpdate"] = true; 
     
     return returnMap;
 }

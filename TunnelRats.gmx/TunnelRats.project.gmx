@@ -36,18 +36,24 @@
     <script>scripts\scr_SaveWorld.gml</script>
     <script>scripts\scr_LoadWorld.gml</script>
     <script>scripts\inverse_lerp.gml</script>
+    <script>scripts\scr_SafeData.gml</script>
     <script>scripts\scr_DrawDepth.gml</script>
     <script>scripts\scr_DrawYOffset.gml</script>
     <script>scripts\scr_ZLayerDrawFilter.gml</script>
-    <scripts name="entities">
+    <scripts name="Blocks">
+      <script>scripts\scr_BlockExposureCheck.gml</script>
+      <script>scripts\scr_BlockInitData.gml</script>
+      <script>scripts\scr_BlockDataToTile.gml</script>
+      <script>scripts\scr_BlockGetTileset.gml</script>
+      <script>scripts\scr_BlockCheckTransparent.gml</script>
+    </scripts>
+    <scripts name="Entities">
       <script>scripts\scr_SpawnEntity.gml</script>
       <script>scripts\scr_EntityDetectCurrentChunk.gml</script>
       <script>scripts\scr_TimeCompensate.gml</script>
       <script>scripts\scr_ChunkEntityUpdate.gml</script>
     </scripts>
     <scripts name="Chunks">
-      <script>scripts\scr_BlockExposureCheck.gml</script>
-      <script>scripts\scr_CheckBlockTransparent.gml</script>
       <script>scripts\scr_ChunkUpdate.gml</script>
       <script>scripts\scr_SaveChunk.gml</script>
       <script>scripts\scr_LoadChunk.gml</script>
@@ -58,13 +64,11 @@
       <script>scripts\scr_ChunkInternalSetBlock.gml</script>
       <script>scripts\scr_ChunkInternalClearBlock.gml</script>
     </scripts>
-    <scripts name="worldGenData">
+    <scripts name="WorldGenData">
       <script>scripts\scr_WorldGen.gml</script>
       <script>scripts\scr_GenSimplexNoise.gml</script>
-      <script>scripts\scr_WorldGenBlock.gml</script>
       <script>scripts\scr_GetGroundHeight.gml</script>
-      <script>scripts\scr_SafeData.gml</script>
-      <script>scripts\scr_GetBlockObject.gml</script>
+      <script>scripts\scr_WorldGenBlock.gml</script>
     </scripts>
     <scripts name="Simplex">
       <script>scripts\scrGenerateNoise.gml</script>

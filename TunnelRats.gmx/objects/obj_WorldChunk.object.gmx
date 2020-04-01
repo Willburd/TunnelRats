@@ -209,14 +209,6 @@ if(updateTimer &gt; 0) exit; // skip update
 updateTimer = updateTimerMax + irandom(20);
 if(initialGen) updateTimer = 6;
 
-// cleanout old puppers
-for (var i=0; i&lt;ds_list_size(puppetBlocks); i+=1)
-{
-    with puppetBlocks[| i] instance_destroy();
-}
-ds_list_clear(puppetBlocks);
-
-
 // draw distance check
 if(rectangle_in_rectangle(x,y,x+global.chunkWidth*16,y+global.chunkHeight*16,view_xview[0]-64,view_yview[0]-64,view_xview[0]+view_wview[0]+64,view_yview[0]+view_hview[0]+64) &gt; 0)
 {
@@ -267,36 +259,47 @@ for (var i=startAlt; i&lt;startUpdateZ+chunkDepth; i+=1)
                 if(blockData != -1)
                 {
                     // run update script for block type
-                    
+                    if(blockData[? "NeedUpdate"])
+                    {
+                        
+                    }
                     // do exposure checks here if it was updated!
+                    
                     
                     // set visual state of block for drawing
                     if(blockData[? "Exposed"] == -1 || forceRenderUpdate)
                     {
                         // refresh status
                         blockData[? "Exposed"] = scr_BlockExposureCheck(blockLayers,i,q,c);
-                    }
-                    if(blockData[? "Exposed"] &gt; 0)
-                    {
-                        // store the data for drawing!
-                        if(scr_ZLayerDrawFilter(i) &amp;&amp; rendering) 
-                        {
-                            var xxx = blockData[? "x"];
-                            var yyy = blockData[? "y"];
-                            var zzz = blockData[? "z"];
                         
-                            var newPuppet = instance_create( xxx, yyy, obj_dummyBlock);
-                            ds_list_add(puppetBlocks, newPuppet);
-                            newPuppet.sprite_index = blockData[? "Tex"];
-                            newPuppet.depth = blockData[? "DrawDepth"];
-                            newPuppet.z = zzz;
-                            newPuppet.exposure = blockData[? "Exposed"];
-                            newPuppet.chunkOwner = id;
-                            newPuppet.q = q;
-                            newPuppet.c = c;
-                            if(i == floor(global.currentCameraZLevel+1))
+                        if(blockData[? "Exposed"] &gt; 0)
+                        {
+                            // store the data for drawing!
+                            if(scr_ZLayerDrawFilter(i) &amp;&amp; rendering) 
                             {
-                                newPuppet.frontFloorMode = true;
+                                var xxx = blockData[? "x"];
+                                var yyy = blockData[? "y"];
+                                var zzz = blockData[? "z"];
+                                
+                                // remove old puppet
+                                for (var k=0; k&lt;ds_list_size(puppetBlocks); k+=4)
+                                {
+                                    if(puppetBlocks[| k+0] == xxx &amp;&amp; puppetBlocks[| k+1] == yyy &amp;&amp; puppetBlocks[| k+2] == zzz)
+                                    {
+                                        with puppetBlocks[| k+3] instance_destroy();
+                                        ds_list_delete(puppetBlocks, k+0);
+                                        ds_list_delete(puppetBlocks, k+0);
+                                        ds_list_delete(puppetBlocks, k+0);
+                                        ds_list_delete(puppetBlocks, k+0);
+                                        break;
+                                    }
+                                }
+                            
+                                var newPuppet = scr_BlockDataToTile(blockData,gridLayer,i);
+                                ds_list_add(puppetBlocks, xxx);
+                                ds_list_add(puppetBlocks, yyy);
+                                ds_list_add(puppetBlocks, zzz);
+                                ds_list_add(puppetBlocks, newPuppet);
                             }
                         }
                     }

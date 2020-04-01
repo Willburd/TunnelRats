@@ -1,4 +1,4 @@
-/// scr_CheckBlockTransparent( blockData)
+/// scr_BlockCheckTransparent( blockData)
 if(argument0 == -1)
 {
     // empty

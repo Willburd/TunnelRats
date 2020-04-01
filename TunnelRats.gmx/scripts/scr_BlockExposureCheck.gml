@@ -11,7 +11,7 @@ var gridLayerAbove = argument0[| Lay-1]
 var gridLayer = argument0[| Lay]; // this pulls from the DATA layer!
 
 // blunt and quick above check
-if(scr_CheckBlockTransparent(gridLayerAbove[# argument2, argument3]))
+if(scr_BlockCheckTransparent(gridLayerAbove[# argument2, argument3]))
 {
     return true;
 }
@@ -51,7 +51,7 @@ if(argument3-1 < 0)
             {
                 return exposureType.none;
             }
-            if( scr_CheckBlockTransparent(extLayer[# argument2, global.chunkHeight-1]))
+            if( scr_BlockCheckTransparent(extLayer[# argument2, global.chunkHeight-1]))
             {
                 backwallStateStorage = true;
             }
@@ -84,7 +84,7 @@ if(argument2-1 < 0)
             {
                 return exposureType.none;
             }
-            if( scr_CheckBlockTransparent(extLayer[# global.chunkWidth-1, argument3]))
+            if( scr_BlockCheckTransparent(extLayer[# global.chunkWidth-1, argument3]))
             {
                 leftWl = true;
             }
@@ -114,7 +114,7 @@ if(argument2+1 >= ds_grid_width(gridLayer))
             {
                 return exposureType.none;
             }
-            if( scr_CheckBlockTransparent(extLayer[# 0, argument3]))
+            if( scr_BlockCheckTransparent(extLayer[# 0, argument3]))
             {
                 rightWl = true;
             }
@@ -149,9 +149,9 @@ if(!backwallStateStorage)
                 {
                     return exposureType.none;
                 }
-                if( scr_CheckBlockTransparent(extLayer[# argument2, 0]))
+                if( scr_BlockCheckTransparent(extLayer[# argument2, 0]))
                 {
-                    if( scr_CheckBlockTransparent(extLayerAbove[# argument2, 0]))
+                    if( scr_BlockCheckTransparent(extLayerAbove[# argument2, 0]))
                     {
                         return exposureType.standard;
                     }
@@ -192,18 +192,18 @@ else
 
 
 // check current chunk for visibility chances
-if(argument3-1 >= 0 && scr_CheckBlockTransparent(gridLayer[# argument2, argument3-1]))
+if(argument3-1 >= 0 && scr_BlockCheckTransparent(gridLayer[# argument2, argument3-1]))
 {
     // check north before doing left/right walls
     backwallStateStorage = true;
 }
 
-if(argument2-1 >= 0 && scr_CheckBlockTransparent(gridLayer[# argument2-1, argument3]))
+if(argument2-1 >= 0 && scr_BlockCheckTransparent(gridLayer[# argument2-1, argument3]))
 {
     leftWl = true;
 }
 
-if(argument2+1 < ds_grid_width(gridLayer) && scr_CheckBlockTransparent(gridLayer[# argument2+1, argument3]))
+if(argument2+1 < ds_grid_width(gridLayer) && scr_BlockCheckTransparent(gridLayer[# argument2+1, argument3]))
 {
     rightWl = true;
 }
@@ -211,10 +211,10 @@ if(argument2+1 < ds_grid_width(gridLayer) && scr_CheckBlockTransparent(gridLayer
 
 if(!backwallStateStorage)
 {
-    if(argument3+1 < ds_grid_height(gridLayer) && scr_CheckBlockTransparent(gridLayer[# argument2, argument3+1]))
+    if(argument3+1 < ds_grid_height(gridLayer) && scr_BlockCheckTransparent(gridLayer[# argument2, argument3+1]))
     {
         var extLayerAbove = blockLayers[| Lay-1];
-        if( scr_CheckBlockTransparent(extLayerAbove[# argument2, 0]))
+        if( scr_BlockCheckTransparent(extLayerAbove[# argument2, 0]))
         {
             return exposureType.standard;
         }
