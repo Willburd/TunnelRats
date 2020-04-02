@@ -153,7 +153,6 @@
   <sounds name="sound"/>
   <sprites name="sprites">
     <sprite>sprites\spr_blockParent</sprite>
-    <sprite>sprites\spr_blockDarken</sprite>
     <sprite>sprites\spr_blockHighlight</sprite>
     <sprite>sprites\spr_blockCol</sprite>
     <sprite>sprites\spr_colMask16x</sprite>
