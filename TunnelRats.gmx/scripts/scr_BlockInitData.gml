@@ -18,8 +18,6 @@ var name = string_copy(database,i+1,string_length(database)-1);
 database = string_copy(database,0, i-1);
 
 
-
-
 // find block in the base library
 var returnMap = -1;
 
@@ -35,7 +33,16 @@ switch(name)
             
             if(ds_exists(findBlock,ds_type_map))
             {
-                return findBlock;
+                // clone library map
+                returnMap = ds_map_create();
+                ds_map_copy(returnMap,findBlock);
+                
+                // basic data blocks all spawn with, this code is only reached if not air or nonexistant
+                returnMap[? "DataName"] = database;
+                returnMap[? "Name"] = name;
+                returnMap[? "NeedUpdate"] = true; 
+                
+                return returnMap;
             }
             else
             {
@@ -55,12 +62,6 @@ switch(name)
         return -1;
 }
 
-// basic data blocks all spawn with, this code is only reached if not air or nonexistant
-returnMap[? "DataName"] = database;
-returnMap[? "Name"] = name;
-returnMap[? "NeedUpdate"] = true; 
-
-return returnMap;
 
 
 

@@ -1,17 +1,20 @@
 {
 	"Dirt" : {
-		"Solid": true
+		"DisplayName": "Dirt"
+	},
+	"Grass" : {
+		"DisplayName": "Grass"
 	},
 	"Sand" : {
-		"Solid": true
+		"DisplayName": "Sand"
 	},
 	"Rock" : {
-		"Solid": true
+		"DisplayName": "Rock"
 	},
 	"Water" : {
-		"Solid": true
+		"DisplayName": "Water"
 	},
 	"Brick" : {
-		"Solid": true
+		"DisplayName": "Brick"
 	}
 }

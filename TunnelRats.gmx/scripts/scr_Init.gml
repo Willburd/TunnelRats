@@ -64,4 +64,6 @@ global.keyUseBot = ord('E');
 
 // create block database from external files
 global.BlockLibrary = scr_LoadBlockLibrary();
+global.BlockRulesDefault = -1;
 global.BlockRules = scr_LoadRuleLibrary();
+

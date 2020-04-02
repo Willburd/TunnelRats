@@ -77,10 +77,13 @@ depth = -y;
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>scr_SaveChunk(worldController.UniverseNumber,id);
-ds_list_destroy(entitys);
+            <string>if(walls != -1)
+{
+    // only save if genned!
+    scr_SaveChunk(worldController.UniverseNumber,id);
+}
 
-// clean out puppet tiles
+// clean out puppets and tiles! 
 for (q=0; q&lt;global.chunkWidth; q+=1)
 {
     for (c=0; c&lt;global.chunkHeight; c+=1)
@@ -93,7 +96,12 @@ for (q=0; q&lt;global.chunkWidth; q+=1)
                 tile_delete( getPackIn[| 0]);
                 ds_list_delete(getPackIn,0);
             }
+            ds_list_destroy(getPackIn);
             puppetWalls[# q,c] = -1;
+        }
+        if(walls != -1 &amp;&amp; walls[# q,c] != -1)
+        {
+            ds_map_destroy(walls[# q,c]);
         }
         
         if(puppetFloors[# q,c] != -1)
@@ -104,7 +112,12 @@ for (q=0; q&lt;global.chunkWidth; q+=1)
                 tile_delete( getPackIn[| 0]);
                 ds_list_delete(getPackIn,0);
             }
+            ds_list_destroy(getPackIn);
             puppetFloors[# q,c] = -1;
+        }
+        if(floors != -1 &amp;&amp; floors[# q,c] != -1)
+        {
+            ds_map_destroy(floors[# q,c]);
         }
         
         if(puppetGround[# q,c] != -1)
@@ -115,19 +128,26 @@ for (q=0; q&lt;global.chunkWidth; q+=1)
                 tile_delete( getPackIn[| 0]);
                 ds_list_delete(getPackIn,0);
             }
+            ds_list_destroy(getPackIn);
             puppetGround[# q,c] = -1;
+        }
+        if(ground != -1 &amp;&amp; ground[# q,c] != -1)
+        {
+            ds_map_destroy(ground[# q,c]);
         }
     }
 }
 
 // clear grids
-ds_grid_destroy(ground);
-ds_grid_destroy(walls);
-ds_grid_destroy(floors);
+if(walls != -1) ds_grid_destroy(walls);
+if(ground != -1) ds_grid_destroy(ground);
+if(floors != -1) ds_grid_destroy(floors);
+
 ds_grid_destroy(puppetWalls);
 ds_grid_destroy(puppetFloors);
 ds_grid_destroy(puppetGround);
 
+ds_list_destroy(entitys);
 
 // tell controller we are dead
 var chunkId = id;
@@ -193,16 +213,15 @@ if(ground == -1) // check is already genned!
             
             // get a ds_map of the block at the location
             var wallData =   scr_WorldGenWalls(id,zdata[# q,c],floor(x/16),floor(y/16),q,c);
-            var groundData = scr_WorldGenGround(id,zdata[# q,c],floor(x/16),floor(y/16),q,c);
-            var floorsData = scr_WorldGenFloors(id,zdata[# q,c],floor(x/16),floor(y/16),q,c);
-            
             scr_ChunkInternalSetBlock(id, q,c,wallData,BlockGridType.walls);
+            
+            var groundData = scr_WorldGenGround(id,zdata[# q,c],floor(x/16),floor(y/16),q,c);
             scr_ChunkInternalSetBlock(id, q,c,groundData,BlockGridType.ground);
+            
+            var floorsData = scr_WorldGenFloors(id,zdata[# q,c],floor(x/16),floor(y/16),q,c);
             scr_ChunkInternalSetBlock(id, q,c,floorsData,BlockGridType.floors);
         }
     }
-    
-    
     
     if(global.debug_ChunkLoadingInfo) show_debug_message("generated chunk: " + scr_ChunkName(id));
     scr_SaveChunk(worldController.UniverseNumber,id);
@@ -323,6 +342,7 @@ for (q=0; q&lt;global.chunkWidth; q+=1)
                                 tile_delete( getPackIn[| 0]);
                                 ds_list_delete(getPackIn,0);
                             }
+                            ds_list_destroy(getPackIn);
                             puppetGround[# q,c] = -1;
                         }
                         
@@ -370,6 +390,7 @@ for (q=0; q&lt;global.chunkWidth; q+=1)
                                 tile_delete( getPackIn[| 0]);
                                 ds_list_delete(getPackIn,0);
                             }
+                            ds_list_destroy(getPackIn);
                             puppetFloors[# q,c] = -1;
                         }
                         
@@ -411,6 +432,7 @@ for (q=0; q&lt;global.chunkWidth; q+=1)
                         tile_delete( getPackIn[| 0]);
                         ds_list_delete(getPackIn,0);
                     }
+                    ds_list_destroy(getPackIn);
                     puppetWalls[# q,c] = -1;
                 }
                 

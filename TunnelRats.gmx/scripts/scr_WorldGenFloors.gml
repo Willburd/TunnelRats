@@ -7,14 +7,22 @@ var yy = argument3;
 var QQ = argument4;
 var CC = argument5;
 
-var groundData = argument0.ground[# q,c];
+var groundData = argument0.ground[# QQ,CC];
+var wallsData = argument0.walls[# QQ,CC];
 if(groundData != -1 && scr_BlockRules(groundData,"CanGrowGrass") )
 {
-    return scr_BlockInitData( "Base:Grass")
+    if(wallsData == -1)
+    {
+        return scr_BlockInitData( "Base:Grass");
+    }
+    else
+    {
+        return scr_BlockInitData( "Base:Air");
+    }
 }
 else
 {
-    return scr_BlockInitData( "Base:Air")
+    return scr_BlockInitData( "Base:Air");
 }
 
 

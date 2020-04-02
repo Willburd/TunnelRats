@@ -155,7 +155,7 @@ if(loadedCheck)
         // tool recovery counter when not in use
         if(toolUseCounter&lt;0)
         {
-            toolUseCounter += scr_TimeCompensate(1);
+            toolUseCounter += 1;
         }
         else
         {
@@ -247,7 +247,7 @@ if(loadedCheck)
     // x movements
     x += lengthdir_x(dis,dir);
     var colblock = scr_ChunkGetBlock(ActiveChunk, x,y,BlockGridType.walls);
-    if( !(colblock != -2 &amp;&amp; (colblock == -1 || !ds_map_find_value(colblock,"Solid"))))
+    if( !(colblock == -1 || !scr_BlockRules(colblock,"Solid")))
     {   
         x = lastX;
     }
@@ -255,7 +255,7 @@ if(loadedCheck)
     // y movements
     y += lengthdir_y(dis,dir);
     var colblock = scr_ChunkGetBlock(ActiveChunk, x,y,BlockGridType.walls);
-    if( !(colblock != -2 &amp;&amp; (colblock == -1 || !ds_map_find_value(colblock,"Solid"))))
+    if( !(colblock == -1 || !scr_BlockRules(colblock,"Solid")))
     {
         y = lastY;
     }
@@ -308,10 +308,6 @@ if(loadedCheck)
     
     // draw depth
     depth = scr_DrawDepth(x,y,z);
-}
-else
-{
-    if(hasCamera) global.currentCameraZLevel = z/16;
 }
 </string>
           </argument>
@@ -371,7 +367,6 @@ if(instance_exists(ActiveChunk))
             <kind>1</kind>
             <string>draw_sprite_ext(spr_shadow,image_index,x,y + scr_DrawYOffset(attemptedGround),1,1,0,image_blend,1);
 draw_sprite_ext(spr_playerTest,image_index,x,y + scr_DrawYOffset(z),1,1,0,image_blend,1);
-
 </string>
           </argument>
         </arguments>
