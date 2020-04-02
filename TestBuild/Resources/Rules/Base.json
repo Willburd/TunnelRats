@@ -1,0 +1,29 @@
+{
+	"Dirt" : {
+		"IsBlock": true,
+		"IsFloor": false,
+		"CanGrowGrass": true
+	},
+	"Grass" : {
+		"IsBlock": false,
+		"IsFloor": true
+	},
+	"Sand" : {
+		"IsBlock": true,
+		"IsFloor": false
+	},
+	"Rock" : {
+		"IsBlock": true,
+		"IsFloor": false
+	},
+	"Water" : {
+		"IsBlock": true,
+		"IsFloor": false,
+		"Solid": false,
+		"Liquid": true
+	},
+	"Brick" : {
+		"IsBlock": true,
+		"IsFloor": false
+	}
+}

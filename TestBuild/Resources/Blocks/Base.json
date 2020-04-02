@@ -1,0 +1,38 @@
+{
+	"Dirt" : {
+		"DisplayName": "Dirt",
+		"Textures": [
+			"Tex_Dirt"
+		]
+	},
+	"Grass" : {
+		"DisplayName": "Grass",
+		"Textures": [
+			"Tex_Grass"
+		]
+	},
+	"Sand" : {
+		"DisplayName": "Sand",
+		"Textures": [
+			"Tex_Sand"
+		]
+	},
+	"Rock" : {
+		"DisplayName": "Rock",
+		"Textures": [
+			"Tex_Rock"
+		]
+	},
+	"Water" : {
+		"DisplayName": "Water",
+		"Textures": [
+			"Tex_Water"
+		]
+	},
+	"Brick" : {
+		"DisplayName": "Brick",
+		"Textures": [
+			"Tex_Brick"
+		]
+	}
+}
