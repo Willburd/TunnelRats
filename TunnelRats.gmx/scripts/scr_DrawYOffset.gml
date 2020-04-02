@@ -1,7 +1,5 @@
-/// scr_DrawYOffset(x,y,z)
+/// scr_DrawYOffset(z)
 // entity drawing y compensation
-// 
-var xx = argument0;
-var yy = argument1;
-var zz = argument2;
-return (global.ZDrawOffset * ((zz/16) - global.currentCameraZLevel));
+
+var zz = argument0;
+return (global.ZDrawOffset * (zz/16));

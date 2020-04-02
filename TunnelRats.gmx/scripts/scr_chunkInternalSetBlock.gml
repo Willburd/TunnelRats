@@ -1,46 +1,35 @@
-/// scr_chunkInternalSetBlock(chunk, q,c,layer, newData);
-// do not call normally... ASSUMES you've called scr_chunkInternalClearBlock()
+/// scr_ChunkInternalSetBlock(chunk, q,c, newData, BlockGridType);
+// do not call normally... This is an internal function used in scr_ChunkGetBlock() and scr_ChunkSetBlock()
+// ASSUMES you've called scr_chunkInternalClearBlock() before this to prevent a memory leak!
 var chunk = argument0;
 var xx = argument0.x;
 var yy = argument0.y;
-var qq = argument1;
-var cc = argument2;
-var lay = argument3;
-var newData = argument4;
+var QQ = argument1;
+var CC = argument2;
+var newData = argument3;
+var selector = argument4; // wall/ground/floor selector
 
-
-var layerData = chunk.blockLayers[| lay];
-while(true)
+enum BlockGridType
 {
-    if(lay >= ds_list_size(chunk.blockLayers) || is_undefined(layerData))
-    {
-        show_debug_message("Grid in chunk does not exist yet!");
-        return false;
-    }
-    else if(layerData != -1)
-    {
-        if(newData != -1)
-        {
-            newData[? "x"] = xx+(qq*16);
-            newData[? "y"] = yy+(cc*16);
-            newData[? "z"] = lay*16;
-            
-            newData[? "DrawDepth"] = scr_DrawDepth( xx+(qq*16), yy+(cc*16), lay*16);
-            newData[? "Exposed"] = -1; //auto refresh draw status
-            
-            layerData[# qq,cc] = newData;
-        }
-        else
-        {
-            layerData[# qq,cc] = -1;
-        }
-        return true;
-    }
-    else
-    {
-        event_user(1);
-    }
+    walls,
+    ground,
+    floors
 }
 
-
+if(newData != -1)
+{
+    newData[? "x"] = xx+(QQ*16);
+    newData[? "y"] = yy+(CC*16);
+    
+    if(selector == BlockGridType.walls) chunk.walls[# QQ,CC]   = newData;
+    if(selector == BlockGridType.ground) chunk.ground[# QQ,CC] = newData;
+    if(selector == BlockGridType.floors) chunk.floors[# QQ,CC] = newData;
+}
+else
+{
+    if(selector == BlockGridType.walls) chunk.walls[# QQ,CC]   = -1;
+    if(selector == BlockGridType.ground) chunk.ground[# QQ,CC] = -1;
+    if(selector == BlockGridType.floors) chunk.floors[# QQ,CC] = -1;
+}
+return true;
 

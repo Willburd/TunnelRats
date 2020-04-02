@@ -4,7 +4,7 @@ global.worldData = ds_map_create();
 global.worldData[? "seed"] = argument0;
 global.worldData[? "name"] = argument1;
 
-global.worldData[? "seaLevel"] = 240;
+global.worldData[? "seaLevel"] = 58;
 
 global.worldData[? "continentMap"] = -1;
 global.worldData[? "mountainMap"] = -1;
