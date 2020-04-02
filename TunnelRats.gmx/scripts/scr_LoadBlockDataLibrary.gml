@@ -1,7 +1,11 @@
-/// scr_LoadRuleLibrary()
+/// scr_LoadBlockDataLibrary()
 // handles block rulesets and textures
 var ruleLibFull = ds_map_create();
-   
+
+
+            
+            // check for loaded texture
+            if(is_undefined(global.TextureLibrary[? 
 
 // default rules
 global.BlockRulesDefault = ds_map_create();
@@ -32,6 +36,7 @@ if( !is_undefined(scanLibrarys) )
             file_text_close(loadFile);
             
             // decode json and store the block library!
+            
             var newRulesLib = json_decode(stringData);
             if(newRulesLib != -1)
             {

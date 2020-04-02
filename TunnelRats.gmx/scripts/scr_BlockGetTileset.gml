@@ -2,27 +2,16 @@
 // returns the background texture that will be cutup and used as tiles
 // will probably only be called by scr_BlockDataToTile()
 
-if(argument0[? "DataName"] == "Base")
+// hardcoded base:air data
+if(argument0[? "DataName"] == "Base" && argument0[? "Name"] == "Air")
 {
-    // set unique data
-    switch(argument0[? "Name"])
-    {
-        default :
-            return bg_testBlock;
-            
-        case "Air": 
-            return -1;
-            
-        case "Water": 
-            return bg_block_water;
-     
-        case "Sand":
-            return bg_block_sand;   
-            
-        case "Dirt":
-            return bg_testBlock; 
-            
-        case "Grass":
-            return bg_testBlock; 
-    }
+    return -1;
 }
+
+// lets get to this proper....
+var texName = argument0[? "DataName"] + ":" + argument0[? "Name"] + "_" + string(argument0[? "TextureSelect"]);
+if(is_undefined(global.TextureLibrary[? texName]))
+{
+    return bg_testBlock;
+}
+return global.TextureLibrary[? texName];

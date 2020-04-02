@@ -66,4 +66,4 @@ global.keyUseBot = ord('E');
 global.BlockLibrary = scr_LoadBlockLibrary();
 global.BlockRulesDefault = -1;
 global.BlockRules = scr_LoadRuleLibrary();
-
+global.TextureLibrary = scr_LoadTextureLibrary();

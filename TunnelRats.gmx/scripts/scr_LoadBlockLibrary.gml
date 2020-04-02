@@ -24,7 +24,12 @@ if(scanFile != "")
         {
             var libName = string_copy(scanFile,0, string_length(scanFile)-5);
             show_debug_message("Created block library " + string(libName) );
+            
             ds_map_add_map(blockLibFull,libName,newBlockLib);
+        }
+        else
+        {
+            show_debug_message("ERROR could not parse json! " + string(working_directory + "/Resources/Blocks/" + scanFile) );
         }
         
         // get next file

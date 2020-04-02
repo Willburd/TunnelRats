@@ -10,9 +10,13 @@ var yy = newBlock[? "y"];
 
 var depthOffset = -34;
 
-var texture = scr_BlockGetTileset(newBlock); // get texture to cut up for tile data!
-
 var packedTiles = ds_list_create();
+var texture = scr_BlockGetTileset(newBlock); // get texture to cut up for tile data!
+if(texture == -1)
+{
+    // no texture
+    return packedTiles;
+}
 
 
 ds_list_add(packedTiles,scr_ExtractTile(texture,0,0,xx,yy,-(yy+depthOffset)));

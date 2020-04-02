@@ -8,8 +8,13 @@ var CC = argument3;
 var xx = newBlock[? "x"];
 var yy = newBlock[? "y"];
 
+var packedTiles = ds_list_create();
 var texture = scr_BlockGetTileset(newBlock); // get texture to cut up for tile data!
-
+if(texture == -1)
+{
+    // no texture
+    return packedTiles;
+}
 
 // cardinals
 var BlockNorth = scr_ChunkGetBlock(chunk, xx, yy-16, BlockGridType.walls);
@@ -34,7 +39,6 @@ var blockedSouthWest = !( BlockSouthWest == -1 || scr_BlockRules(BlockSouthWest,
 var blockedSouthEast = !( BlockSouthEast == -1 || scr_BlockRules(BlockSouthEast,"Transparent")  );
 
 // tile logic!
-var packedTiles = ds_list_create();
 if(!blockedNorth && blockedSouth)
 {
     // top row
