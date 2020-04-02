@@ -48,7 +48,7 @@
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>draw_sprite_ext(sprite_index,image_index,x,y + scr_DrawYOffset(z),1,1,0,image_blend,image_alpha)
+            <string>draw_sprite_ext(sprite_index,image_index,x,y + scr_DrawYOffset(z)-8,1,1,0,image_blend,image_alpha)
 </string>
           </argument>
         </arguments>

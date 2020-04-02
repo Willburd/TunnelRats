@@ -1,20 +1,38 @@
 {
 	"Dirt" : {
-		"DisplayName": "Dirt"
+		"DisplayName": "Dirt",
+		"Texture": {
+			"Tex_Dirt.png"
+		}
 	},
 	"Grass" : {
-		"DisplayName": "Grass"
+		"DisplayName": "Grass",
+		"Texture": {
+			"Tex_Grass.png"
+		}
 	},
 	"Sand" : {
-		"DisplayName": "Sand"
+		"DisplayName": "Sand",
+		"Texture": {
+			"Tex_Sand.png"
+		}
 	},
 	"Rock" : {
-		"DisplayName": "Rock"
+		"DisplayName": "Rock",
+		"Texture": {
+			"Tex_Rock.png"
+		}
 	},
 	"Water" : {
-		"DisplayName": "Water"
+		"DisplayName": "Water",
+		"Texture": {
+			"Tex_Water.png"
+		}
 	},
 	"Brick" : {
-		"DisplayName": "Brick"
+		"DisplayName": "Brick",
+		"Texture": {
+			"Tex_Brick.png"
+		}
 	}
 }
