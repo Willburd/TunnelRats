@@ -1,6 +1,6 @@
-/// scr_WorldGenGround( chunkGrid,zdata,x,y,q,c);
+/// scr_WorldGenGround( chunk,zdata,x,y,q,c);
 // prepare the data for checking!
-var gridData = argument0;
+var gridData = argument0.ground;
 var zData    = argument1; // NOTE TO SELF, remember the world grows from the sky!
 var xx = argument2;
 var yy = argument3;

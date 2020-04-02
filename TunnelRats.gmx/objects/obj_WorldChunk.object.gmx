@@ -192,9 +192,9 @@ if(ground == -1) // check is already genned!
             zdata[# q,c] = scr_GetGroundHeight(floor(x/16)+q,floor(y/16)+c);
             
             // get a ds_map of the block at the location
-            var wallData =   scr_WorldGenWalls(  walls,zdata[# q,c],floor(x/16),floor(y/16),q,c);
-            var groundData = scr_WorldGenGround(ground,zdata[# q,c],floor(x/16),floor(y/16),q,c);
-            var floorsData = -1;
+            var wallData =   scr_WorldGenWalls(id,zdata[# q,c],floor(x/16),floor(y/16),q,c);
+            var groundData = scr_WorldGenGround(id,zdata[# q,c],floor(x/16),floor(y/16),q,c);
+            var floorsData = scr_WorldGenFloors(id,zdata[# q,c],floor(x/16),floor(y/16),q,c);
             
             scr_ChunkInternalSetBlock(id, q,c,wallData,BlockGridType.walls);
             scr_ChunkInternalSetBlock(id, q,c,groundData,BlockGridType.ground);
@@ -283,7 +283,7 @@ for (q=0; q&lt;global.chunkWidth; q+=1)
         var FData = floors[# q,c];
         
         
-        if(WData == -1 || scr_BlockCheckTransparent(WData))
+        if(WData == -1 || scr_BlockRules(WData,"Transparent"))
         {
             // GROUND UPDATE SEGMENT! ==========================================================================================================
             if(GData != -1)
@@ -309,7 +309,7 @@ for (q=0; q&lt;global.chunkWidth; q+=1)
                 // can see ground under the floor
                 if(rendering &amp;&amp; (forceRenderBlock || forceRenderUpdate))
                 {
-                    if(FData == -1 || scr_BlockCheckTransparent(FData))
+                    if(FData == -1 || scr_BlockRules(FData,"Transparent"))
                     {
                         // render GROUND
                         forceRenderBlock = false;

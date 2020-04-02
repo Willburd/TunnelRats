@@ -1,0 +1,17 @@
+{
+	"Dirt" : {
+		"Solid": true
+	},
+	"Sand" : {
+		"Solid": true
+	},
+	"Rock" : {
+		"Solid": true
+	},
+	"Water" : {
+		"Solid": true
+	},
+	"Brick" : {
+		"Solid": true
+	}
+}

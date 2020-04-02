@@ -17,75 +17,51 @@ if(i >= string_length(database))
 var name = string_copy(database,i+1,string_length(database)-1);
 database = string_copy(database,0, i-1);
 
-if(database == "Base")
+
+
+
+// find block in the base library
+var returnMap = -1;
+
+// set unique data
+switch(name)
 {
-    // find block in the base library
-    // TODO migrate base library to a json
-    var returnMap = -1;
-    
-    // set unique data
-    switch(name)
-    {
-        default :
-            show_debug_message("Block does not exist? " + string(database) + ":" + string(name)); 
+    default :
+        var getLib = global.BlockLibrary[? database];
+        
+        if(ds_exists(getLib,ds_type_map))
+        {
+            var findBlock = getLib[? name];
+            
+            if(ds_exists(findBlock,ds_type_map))
+            {
+                return findBlock;
+            }
+            else
+            {
+                show_debug_message("Block does not exist? " + string(database) + ":" + string(name)); 
+                return -1;
+            }
+        }
+        else
+        {
+            show_debug_message("Database does not exist? " + string(database) + ":" + string(name)); 
             return -1;
-            
-            
-        case "Air": 
-            // air is empty
-            return -1;
-            
-            
-        case "Grass": 
-            returnMap = ds_map_create();
-            returnMap[? "Transparent"] = false;
-            returnMap[? "Solid"] = true;
-            break;
-            
-            
-        case "Dirt": 
-            returnMap = ds_map_create();
-            returnMap[? "Transparent"] = false;
-            returnMap[? "Solid"] = true;
-            break;
-            
-            
-        case "Rock": 
-            returnMap = ds_map_create();
-            returnMap[? "Transparent"] = false;
-            returnMap[? "Solid"] = true;
-            break;
-            
-            
-        case "Sand": 
-            returnMap = ds_map_create();
-            returnMap[? "Transparent"] = false;
-            returnMap[? "Solid"] = true;
-            break;
-            
-            
-        case "Water": 
-            returnMap = ds_map_create();
-            returnMap[? "Transparent"] = false;
-            returnMap[? "Solid"] = false;
-            break;
-            
-        case "Brick": 
-            returnMap = ds_map_create();
-            returnMap[? "Transparent"] = false;
-            returnMap[? "Solid"] = true;
-            break;
-    }
-    
-    // basic data blocks all spawn with, this code is only reached if not air or nonexistant
-    returnMap[? "DataName"] = database;
-    returnMap[? "Name"] = name;
-    returnMap[? "NeedUpdate"] = true; 
-    
-    return returnMap;
+        }
+        
+    // hard coded!
+    case "Air": 
+        // air is empty
+        return -1;
 }
-else
-{
-    show_debug_message("Database does not exist? " + string(database) + ":" + string(name)); 
-    return -1;
-}
+
+// basic data blocks all spawn with, this code is only reached if not air or nonexistant
+returnMap[? "DataName"] = database;
+returnMap[? "Name"] = name;
+returnMap[? "NeedUpdate"] = true; 
+
+return returnMap;
+
+
+
+
