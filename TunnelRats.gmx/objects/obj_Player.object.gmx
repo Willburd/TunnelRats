@@ -42,14 +42,12 @@
             <string>/// Player Data
 Nmomentum = 0;
 Zmomentum = 0;
-attemptedGround = -1;
+attemptedGround = 0;
 
-crouching = false;
 toolUseCounter = 0;
 
 previousToolX = 0;
 previousToolY = 0;
-previousToolZ = 0;
 
 myHighlight = noone;
 </string>
@@ -121,46 +119,6 @@ with obj_HudController
 
 if(loadedCheck)
 {
-    if(attemptedGround == -1)
-    {
-        // snap to ground on spawn
-        var foundGround = false
-        while (foundGround == false)
-        {
-            var block = scr_ChunkGetBlock( ActiveChunk, x, y, z);
-            
-            if(block == -2)
-            {
-                // nothing to read yet...
-                global.currentCameraZLevel = global.worldData[? "seaLevel"];
-                break;
-            }
-            else if(block == -1)
-            {
-                z += 16;
-            }
-            else
-            {
-                foundGround = true;
-                z -= 17;
-                attemptedGround  = z;
-                break;
-            }
-        }
-        
-        // try again next loop, or jump right into it when ready!
-        if(attemptedGround == -1) return 0;
-    }
-
-    // check crouching state 
-    crouching = false;
-    if(keyboard_check(global.keyCrouch))
-    {
-        crouching = true;
-    }
-    
-    
-    
     // tool highlighter
     if(!instance_exists(myHighlight))
     {
@@ -170,21 +128,13 @@ if(loadedCheck)
     // Using a tool!
     var toolX = 0;
     var toolY = 0;
-    var toolZ = 0;
     
     // keyboard check!
     if(keyboard_check(global.keyUseLeft)) toolX += -1;
     if(keyboard_check(global.keyUseRight)) toolX += 1;
     if(keyboard_check(global.keyUseUp) &amp;&amp; toolX == 0) toolY += -1;
     if(keyboard_check(global.keyUseDown) &amp;&amp; toolX == 0) toolY += 1;
-    if(keyboard_check(global.keyUseTop)) 
-    {
-        toolZ = -1;
-    }
-    else if(keyboard_check(global.keyUseBot))
-    {
-        toolZ = 1;
-    }
+    
     
     
     var usingTool = false;
@@ -194,7 +144,7 @@ if(loadedCheck)
         // reset tool
         toolUseCounter = -1;
     }
-    else if( toolX != 0 || toolY != 0 || toolZ != 0)
+    else if( toolX != 0 || toolY != 0)
     {
         // tool is consistant and counting up!
         toolUseCounter += 0.01;
@@ -205,7 +155,7 @@ if(loadedCheck)
         // tool recovery counter when not in use
         if(toolUseCounter&lt;0)
         {
-            toolUseCounter += scr_TimeCompensate(1);
+            toolUseCounter += 1;
         }
         else
         {
@@ -217,31 +167,9 @@ if(loadedCheck)
     // acts different base on if placing or breaking!
     if(usingTool)
     {
-        if(toolZ == -1 &amp;&amp; (toolX != 0 || toolY != 0))
-        {
-            var colblockTop = scr_ChunkGetBlock(ActiveChunk, x,y,z-16);
-            if( (colblockTop != -2 &amp;&amp; !(colblockTop == -1 || !ds_map_find_value(colblockTop,"Solid"))))
-            {
-                // if block above us and trying to go diagonal, hit the ceiling instead!
-                toolX = 0;
-                toolY = 0;
-            }
-        }
-        if(toolZ == 1 &amp;&amp; (toolX != 0 || toolY != 0))
-        {
-            var colblockBot = scr_ChunkGetBlock(ActiveChunk, x + (toolX * 16),y + (toolY * 16),z);
-            if( (colblockBot != -2 &amp;&amp; !(colblockBot == -1 || !ds_map_find_value(colblockBot,"Solid"))))
-            {
-                // if trying to mine diagonal down, but wall in way, hit wall instead
-                toolZ = 0;
-            }
-        }
-    
-    
         myHighlight.visible = true;
         myHighlight.x = floor((x + (toolX * 16))/16)*16;
         myHighlight.y = floor((y + (toolY * 16))/16)*16;
-        myHighlight.z = floor((z + (toolZ * 16))/16)*16;
         myHighlight.depth = scr_DrawDepth(myHighlight.x,myHighlight.y,myHighlight.z)-1;
         
         
@@ -252,10 +180,11 @@ if(loadedCheck)
             if(toolUseCounter == 0)
             {
                 // When placing blocks, do it instantly and than do cooldown
-                if(scr_ChunkGetBlock(ActiveChunk,x + (toolX * 16) ,y + (toolY * 16),z + (toolZ * 16)) == -1)
+                if(scr_ChunkGetBlock(ActiveChunk,x + (toolX * 16) ,y + (toolY * 16),BlockGridType.walls) == -1)
                 {
                     var newBlock = scr_BlockInitData("Base:Brick");
-                    scr_ChunkSetBlock(global.selectedObject.chunkOwner,x + (toolX * 16) ,y + (toolY * 16),z + (toolZ * 16),newBlock);
+                    scr_ChunkSetBlock(ActiveChunk,x + (toolX * 16) ,y + (toolY * 16), newBlock,BlockGridType.walls);
+                    scr_BlockTriggerUpdate(ActiveChunk,x + (toolX * 16) ,y + (toolY * 16), BlockGridType.walls,true);
                 }
                 toolUseCounter = -1;
             }
@@ -266,7 +195,8 @@ if(loadedCheck)
             if(toolUseCounter &gt;= 1)
             {
                 // test delete block!
-                scr_ChunkSetBlock(ActiveChunk,x + (toolX * 16) ,y + (toolY * 16),z + (toolZ * 16),-1);
+                scr_ChunkSetBlock(ActiveChunk,x + (toolX * 16) ,y + (toolY * 16),-1,BlockGridType.walls);
+                scr_BlockTriggerUpdate(ActiveChunk,x + (toolX * 16) ,y + (toolY * 16),BlockGridType.walls,true);
                 toolUseCounter = -1;
             }
         }
@@ -279,169 +209,140 @@ if(loadedCheck)
     // store previous tool data
     previousToolX = toolX;
     previousToolY = toolY;
-    previousToolZ = toolZ;
-    
-    
-    
-    
     
     
     
     
 
-    var block = scr_ChunkGetBlock(ActiveChunk, x,y,z);
-    if(block != -2) // do not move if block is unloaded
+    // control movement
+    var UD = 0;
+    var LR = 0;
+    if(keyboard_check(global.keyLeft)) LR += -1;
+    if(keyboard_check(global.keyRight)) LR += 1;
+    if(keyboard_check(global.keyUp)) UD += -1;
+    if(keyboard_check(global.keyDown)) UD += 1;
+    
+    // apply movement acceleration
+    if(UD != 0 || LR != 0)
     {
-        // control movement
-        var UD = 0;
-        var LR = 0;
-        if(keyboard_check(global.keyLeft)) LR += -1;
-        if(keyboard_check(global.keyRight)) LR += 1;
-        if(keyboard_check(global.keyUp)) UD += -1;
-        if(keyboard_check(global.keyDown)) UD += 1;
-        
-        // apply movement acceleration
-        if(UD != 0 || LR != 0)
+        if(Nmomentum &lt; 11)
         {
-            if(Nmomentum &lt; 11)
-            {
-                Nmomentum += 2.8;
-            }
+            Nmomentum += 2.8;
         }
-        else
+    }
+    else
+    {
+        Nmomentum *= 0.08;
+        if(Nmomentum &lt; 0.01)
         {
-            Nmomentum *= 0.08;
-            if(Nmomentum &lt; 0.01)
-            {
-                Nmomentum = 0;
-            }
+            Nmomentum = 0;
         }
-        var dir = point_direction(0,0, LR, UD);
-        var dis = scr_TimeCompensate(Nmomentum);
-        var lastX = x;
-        var lastY = y;
-        
-        
-        // x movements
-        x += lengthdir_x(dis,dir);
-        var colblock = scr_ChunkGetBlock(ActiveChunk, x,y,z);
-        if( !(colblock != -2 &amp;&amp; (colblock == -1 || !ds_map_find_value(colblock,"Solid"))))
-        {   
-            x = lastX;
-        }
-        if( crouching )
-        {
-            var colblockUnder = scr_ChunkGetBlock(ActiveChunk, x,y,z+16);
-            if( (colblockUnder != -2 &amp;&amp; (colblockUnder == -1 || !ds_map_find_value(colblockUnder,"Solid"))))
-            {
-                // stay on ledges if crouching
-                x = lastX;
-            }
-        }
-        
-        // y movements
-        y += lengthdir_y(dis,dir);
-        var colblock = scr_ChunkGetBlock(ActiveChunk, x,y,z);
-        if( !(colblock != -2 &amp;&amp; (colblock == -1 || !ds_map_find_value(colblock,"Solid"))))
-        {
-            y = lastY;
-        }
-        if( crouching )
-        {
-            var colblockUnder = scr_ChunkGetBlock(ActiveChunk, x,y,z+16);
-            if( (colblockUnder != -2 &amp;&amp; (colblockUnder == -1 || !ds_map_find_value(colblockUnder,"Solid"))))
-            {
-                // stay on ledges if crouching
-                y = lastY;
-            }
-        }
-        
-        
-        
-        
-        
-        // calculate falling speed
-        Zmomentum += scr_TimeCompensate(global._gravity);
-        
-        // find lowest point for shadow, and as a ground check for falling!
-        var checkDist = 8;
-        attemptedGround = z;
-        while(attemptedGround &lt;= z + 512)
-        {
-            var blockUnder = scr_ChunkGetBlock(ActiveChunk, x,y,attemptedGround);
-            if(blockUnder == -2)
-            {
-                // hard physics fail, due to unloaded chunk
-                attemptedGround = z + 512;
-                break;
-            }
-            else if(blockUnder == -1 || ds_map_find_value(blockUnder,"Solid") == false)
-            {
-                // empty air!
-                attemptedGround += checkDist;
-            }
-            else
-            {
-                // found a block to land on!
-                attemptedGround = (floor((attemptedGround)/16)*16)-1;
-                break;
-            }
-        }
-        
-        // apply falling speed
-        var zMotion = scr_TimeCompensate(Zmomentum);
-        if(zMotion &lt; 0)
-        {
-            var colblockTop = scr_ChunkGetBlock(ActiveChunk, x,y,z-16);
-            if(colblockTop == -2 || !(colblockTop == -1 || !ds_map_find_value(colblockTop,"Solid")))
-            {
-                Zmomentum = -1;
-                zMotion = scr_TimeCompensate(Zmomentum);
-                // bonk!
-            }
-        }
-        z += zMotion;
-        
-        
-        
-         
-        // if falling, check if we've reached under our shadow position!
-        if(Zmomentum &gt;= 0)
-        {
-            z = min(z,attemptedGround); // lock to ground
-        
-            if(z == attemptedGround)
-            {
-                // set camera location
-                if(hasCamera) global.currentCameraZLevel = lerp(global.currentCameraZLevel, z/16, 0.2);
-                // stop
-                Zmomentum = 0;
-                // jumping!
-                if(keyboard_check(global.keyJump))
-                {
-                    if(hasCamera) global.currentCameraZLevel = lerp(global.currentCameraZLevel, z/16, 0.2);
-                    Zmomentum = -32;
-                }
-            }
-            else
-            {
-                if(z/16 &gt; global.currentCameraZLevel +2)
-                {
-                    global.currentCameraZLevel = lerp(global.currentCameraZLevel, z/16, 0.4);
-                }
-            }
-        }
+    }
+    var dir = point_direction(0,0, LR, UD);
+    var dis = scr_TimeCompensate(Nmomentum);
+    var lastX = x;
+    var lastY = y;
+    
+    
+    // x movements
+    x += lengthdir_x(dis,dir);
+    var colblock = scr_ChunkGetBlock(ActiveChunk, x,y,BlockGridType.walls);
+    if( !(colblock == -1 || !scr_BlockRules(colblock,"Solid")))
+    {   
+        x = lastX;
+    }
+    
+    // y movements
+    y += lengthdir_y(dis,dir);
+    var colblock = scr_ChunkGetBlock(ActiveChunk, x,y,BlockGridType.walls);
+    if( !(colblock == -1 || !scr_BlockRules(colblock,"Solid")))
+    {
+        y = lastY;
     }
     
     
     
+    
+    
+    // calculate falling speed
+    Zmomentum += scr_TimeCompensate(global._gravity);
+    
+    // find lowest point for shadow, and as a ground check for falling!
+    var checkDist = 8;
+    attemptedGround = z+512;
+    
+    var blockUnderG = scr_ChunkGetBlock(ActiveChunk, x,y,BlockGridType.ground);
+    var blockUnderF = scr_ChunkGetBlock(ActiveChunk, x,y,BlockGridType.floors);
+    if(blockUnderF != -1)
+    {
+        attemptedGround = 0;
+    }
+    else if(blockUnderG != -1)
+    {
+        attemptedGround = 0;
+    }
+    
+    
+    // apply falling speed
+    z += scr_TimeCompensate(Zmomentum);
+    
+    
+     
+    // if falling, check if we've reached under our shadow position!
+    if(Zmomentum &gt;= 0)
+    {
+        z = min(z,attemptedGround); // lock to ground
+    
+        if(z == attemptedGround)
+        {
+            // stop
+            Zmomentum = 0;
+            // jumping!
+            if(keyboard_check(global.keyJump))
+            {
+                Zmomentum = -32;
+            }
+        }
+    }
+
+    
     // draw depth
     depth = scr_DrawDepth(x,y,z);
 }
-else
+</string>
+          </argument>
+        </arguments>
+      </action>
+    </event>
+    <event eventtype="8" enumb="64">
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>/*
+if(instance_exists(ActiveChunk))
 {
-    if(hasCamera) global.currentCameraZLevel = z/16;
+    for (q=0; q&lt;global.chunkWidth; q+=1)
+    {
+        for (c=0; c&lt;global.chunkHeight; c+=1)
+        {
+            draw_text(q*24,c*24,ActiveChunk.zdata[# q,c]);
+        }
+    }
 }
+*/
 </string>
           </argument>
         </arguments>
@@ -464,15 +365,8 @@ else
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>draw_sprite_ext(spr_shadow,image_index,x,y + scr_DrawYOffset(x,y,attemptedGround),1,1,0,image_blend,1);
-if(crouching)
-{
-    draw_sprite_ext(spr_playerCrouch,image_index,x,y + scr_DrawYOffset(x,y,z),1,1,0,image_blend,1);
-}
-else
-{
-    draw_sprite_ext(spr_playerTest,image_index,x,y + scr_DrawYOffset(x,y,z),1,1,0,image_blend,1);
-}
+            <string>draw_sprite_ext(spr_shadow,image_index,x,y + scr_DrawYOffset(attemptedGround),1,1,0,image_blend,1);
+draw_sprite_ext(spr_playerTest,image_index,x,y + scr_DrawYOffset(z),1,1,0,image_blend,1);
 </string>
           </argument>
         </arguments>

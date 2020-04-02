@@ -3,6 +3,48 @@
   <Configs name="configs">
     <Config>Configs\Default</Config>
   </Configs>
+  <datafiles number="2" name="datafiles">
+    <datafiles number="2" name="Resources">
+      <datafiles number="2" name="Blocks">
+        <datafile>
+          <name>Base.json</name>
+          <exists>-1</exists>
+          <size>270</size>
+          <exportAction>2</exportAction>
+          <exportDir></exportDir>
+          <overwrite>0</overwrite>
+          <freeData>-1</freeData>
+          <removeEnd>0</removeEnd>
+          <store>0</store>
+          <ConfigOptions>
+            <Config name="Default">
+              <CopyToMask>9223372036854775807</CopyToMask>
+            </Config>
+          </ConfigOptions>
+          <filename>Base.json</filename>
+        </datafile>
+      </datafiles>
+      <datafiles number="2" name="Rules">
+        <datafile>
+          <name>Base.json</name>
+          <exists>-1</exists>
+          <size>180</size>
+          <exportAction>2</exportAction>
+          <exportDir></exportDir>
+          <overwrite>0</overwrite>
+          <freeData>-1</freeData>
+          <removeEnd>0</removeEnd>
+          <store>0</store>
+          <ConfigOptions>
+            <Config name="Default">
+              <CopyToMask>9223372036854775807</CopyToMask>
+            </Config>
+          </ConfigOptions>
+          <filename>Base.json</filename>
+        </datafile>
+      </datafiles>
+    </datafiles>
+  </datafiles>
   <NewExtensions/>
   <sounds name="sound"/>
   <sprites name="sprites">
@@ -10,10 +52,6 @@
     <sprite>sprites\spr_blockDarken</sprite>
     <sprite>sprites\spr_blockHighlight</sprite>
     <sprite>sprites\spr_block_grass</sprite>
-    <sprite>sprites\spr_block_sand</sprite>
-    <sprite>sprites\spr_block_water</sprite>
-    <sprite>sprites\spr_block_dirt</sprite>
-    <sprite>sprites\spr_block_rock</sprite>
     <sprite>sprites\spr_block_brick</sprite>
     <sprite>sprites\spr_blockCol</sprite>
     <sprite>sprites\spr_colMask16x</sprite>
@@ -30,23 +68,32 @@
   <backgrounds name="background">
     <background>background\bgTest</background>
     <background>background\bg_testBlock</background>
+    <background>background\bg_block_water</background>
+    <background>background\bg_block_sand</background>
+    <background>background\bg_block_dirt</background>
+    <background>background\bg_block_rock</background>
   </backgrounds>
   <paths name="paths"/>
   <scripts name="scripts">
     <script>scripts\scr_Init.gml</script>
+    <script>scripts\scr_LoadBlockLibrary.gml</script>
+    <script>scripts\scr_LoadRuleLibrary.gml</script>
     <script>scripts\scr_SaveWorld.gml</script>
     <script>scripts\scr_LoadWorld.gml</script>
     <script>scripts\inverse_lerp.gml</script>
     <script>scripts\scr_SafeData.gml</script>
     <script>scripts\scr_DrawDepth.gml</script>
     <script>scripts\scr_DrawYOffset.gml</script>
-    <script>scripts\scr_ZLayerDrawFilter.gml</script>
     <scripts name="Blocks">
       <script>scripts\scr_BlockExposureCheck.gml</script>
       <script>scripts\scr_BlockInitData.gml</script>
       <script>scripts\scr_BlockGetTileset.gml</script>
-      <script>scripts\scr_BlockDataToTile.gml</script>
-      <script>scripts\scr_BlockCheckTransparent.gml</script>
+      <script>scripts\scr_BlockRules.gml</script>
+      <script>scripts\scr_ExtractTile.gml</script>
+      <script>scripts\scr_BlockDataToWallTile.gml</script>
+      <script>scripts\scr_BlockDataToGroundTile.gml</script>
+      <script>scripts\scr_BlockDataToFloorTile.gml</script>
+      <script>scripts\scr_BlockTriggerUpdate.gml</script>
     </scripts>
     <scripts name="Entities">
       <script>scripts\scr_SpawnEntity.gml</script>
@@ -55,7 +102,9 @@
       <script>scripts\scr_ChunkEntityUpdate.gml</script>
     </scripts>
     <scripts name="Chunks">
+      <script>scripts\scr_ChunkSpawn.gml</script>
       <script>scripts\scr_ChunkUpdate.gml</script>
+      <script>scripts\scr_ChunkName.gml</script>
       <script>scripts\scr_SaveChunk.gml</script>
       <script>scripts\scr_LoadChunk.gml</script>
       <script>scripts\scr_ChunkAddEntity.gml</script>
@@ -69,7 +118,10 @@
       <script>scripts\scr_WorldGen.gml</script>
       <script>scripts\scr_GenSimplexNoise.gml</script>
       <script>scripts\scr_GetGroundHeight.gml</script>
-      <script>scripts\scr_WorldGenBlock.gml</script>
+      <script>scripts\scr_ChunkForceSpawn.gml</script>
+      <script>scripts\scr_WorldGenWalls.gml</script>
+      <script>scripts\scr_WorldGenGround.gml</script>
+      <script>scripts\scr_WorldGenFloors.gml</script>
     </scripts>
     <scripts name="Simplex">
       <script>scripts\scrGenerateNoise.gml</script>

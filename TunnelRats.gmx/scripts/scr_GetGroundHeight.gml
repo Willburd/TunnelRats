@@ -12,8 +12,8 @@ if(global.debug_DisableWorldGen == false)
     var hillHeight = scr_SafeData(global.worldData[? "hillMap"]        ,xx,yy,global.hillMap_Scale);
     
     groundHeight -= floor(contHeight / 5);
-    groundHeight += 36; //offset continents down!
-    groundHeight -= floor(montHeight / 25);
+    groundHeight += 32; //offset continents down!
+    groundHeight -= floor(montHeight / 22);
     groundHeight -= floor(hillHeight / 20);
 }
 

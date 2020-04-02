@@ -29,6 +29,7 @@
 randomize();
 var worldName = "Test World Rand";
 UniverseNumber = 0;
+CurrentWorldLayer = 0;
 
 // setup world data based on the seed(for fresh chunks!)
 if(file_exists(working_directory + "/Worlds/" + string(worldName) + "/World.dat"))
@@ -78,109 +79,9 @@ pendingEntitySpawns = ds_list_create();
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>ds_list_destroy(loadedChunkList);
+            <string>/// called from obj_WorldChunk's room end function on unload
+ds_list_destroy(loadedChunkList);
 ds_list_destroy(pendingEntitySpawns);
-</string>
-          </argument>
-        </arguments>
-      </action>
-    </event>
-    <event eventtype="7" enumb="11">
-      <action>
-        <libid>1</libid>
-        <id>603</id>
-        <kind>7</kind>
-        <userelative>0</userelative>
-        <isquestion>0</isquestion>
-        <useapplyto>-1</useapplyto>
-        <exetype>2</exetype>
-        <functionname></functionname>
-        <codestring></codestring>
-        <whoName>self</whoName>
-        <relative>0</relative>
-        <isnot>0</isnot>
-        <arguments>
-          <argument>
-            <kind>1</kind>
-            <string>/// create a world chunk
-// x and y of world object should be moved to the spot you want it!
-
-var chunkAlreadyHere = false;
-for (i=0; i&lt;ds_list_size(loadedChunkList); i+=1)
-{
-    var chunk = loadedChunkList[| i];
-    if(chunk.x == x &amp;&amp; chunk.y == y)
-    {
-        chunkAlreadyHere = true;
-        break;
-    }
-};
-
-
-global.loadingTimer -= 1;
-if(global.loadingTimer &lt;= 0 &amp;&amp; !chunkAlreadyHere)
-{
-    // reset loading timer
-    global.loadingTimer = irandom(10) + 5;
-    
-    // spawn world chunk!
-    var newChunk = instance_create(x,y,obj_WorldChunk);
-    newChunk.worldController = id;
-    
-    if(file_exists(working_directory + "/Worlds/" + string(global.worldData[? "name"]) + "/Universe" + string(UniverseNumber) + "/Chunks/" + string(x/16) + "o" + string(y/16) + ".dat"))
-    {
-        // not new, load chunk data!
-        with newChunk
-        {
-            scr_LoadChunk(worldController.UniverseNumber,id);
-            processing = true; // if entitys should be updated
-            rendering = true; // if chunk is drawn
-            forceRenderUpdate = true;
-            initialGen = false;
-            if(global.debug_ChunkLoadingInfo) show_debug_message("Loaded chunk " + string(id) + " at " + string(x) + "." + string(y)  );
-        }
-    }
-    else
-    {
-        // new! setup for WORLDGEN
-        initialGen = true;
-        if(global.debug_ChunkLoadingInfo) show_debug_message("Spawned chunk " + string(newChunk.id) + " at " + string(newChunk.x) + "." + string(newChunk.y)   );
-    }
-    
-    
-    
-    ds_list_add(loadedChunkList, newChunk);
-    
-    
-    // Connect neighbouring chunks!
-    newChunk.neighbour_north = instance_place(x, y - 16*global.chunkHeight, obj_WorldChunk);
-    with newChunk.neighbour_north
-    {
-        neighbour_south = newChunk;
-        forceRenderUpdate = true;
-    }
-    
-    newChunk.neighbour_south = instance_place(x, y + 16*global.chunkHeight, obj_WorldChunk);
-    with newChunk.neighbour_south
-    {
-        neighbour_north = newChunk;
-        forceRenderUpdate = true;
-    }
-    
-    newChunk.neighbour_east = instance_place(x + 16*global.chunkWidth, y, obj_WorldChunk);
-    with newChunk.neighbour_east
-    {
-        neighbour_west = newChunk;
-        forceRenderUpdate = true;
-    }
-    
-    newChunk.neighbour_west = instance_place(x - 16*global.chunkWidth, y, obj_WorldChunk);
-    with newChunk.neighbour_west
-    {
-        neighbour_east = newChunk;
-        forceRenderUpdate = true;
-    }
-}
 </string>
           </argument>
         </arguments>
@@ -214,14 +115,14 @@ var TLgridY = (floor(view_yview[0] / chunkH)-1) * chunkH;
 
 // stepping movements
 x += chunkW;
-if(x &gt; view_xview[0] + view_wview[0] + chunkW * 2)
+if(x &gt; view_xview[0] + view_wview[0] + chunkW)
 {
-    x = TLgridX - (chunkW * 2);
+    x = TLgridX - (chunkW);
     y += chunkH;
 }
-if(y &gt; view_yview[0] + view_hview[0] + chunkH * 2)
+if(y &gt; view_yview[0] + view_hview[0] + chunkH)
 {
-    y = TLgridY - (chunkH * 2);
+    y = TLgridY - (chunkH);
 }
 
 
@@ -236,7 +137,17 @@ for (i=0; i&lt;ds_list_size(loadedChunkList); i+=1)
 {
     var chunk = loadedChunkList[| i];
     scr_ChunkUpdate(chunk, (random(50) &lt; 0.1) );
-    scr_ChunkEntityUpdate(chunk);
+    if(chunk.processing)
+    {
+        scr_ChunkEntityUpdate(chunk);
+    }
+    
+    if(chunk.updateTimer &lt; -chunk.updateTimerMax &amp;&amp; global.unloadingTimer == 0)
+    {
+        // out of range!
+        with chunk instance_destroy();
+        global.unloadingTimer = -1;
+    }
 }
 
 
@@ -262,33 +173,14 @@ if(global.AllowUpdateCounter &lt; 0)
 
 
 
-// spawn chunk
-event_user(1);
+// spawn chunks
+global.loadingTimer -= 1;
+if(global.loadingTimer &lt;= 0)
+{
+    global.loadingTimer = irandom(5) + 5;
+    scr_ChunkSpawn(id,x,y);
+}
 
-</string>
-          </argument>
-        </arguments>
-      </action>
-    </event>
-    <event eventtype="7" enumb="5">
-      <action>
-        <libid>1</libid>
-        <id>603</id>
-        <kind>7</kind>
-        <userelative>0</userelative>
-        <isquestion>0</isquestion>
-        <useapplyto>-1</useapplyto>
-        <exetype>2</exetype>
-        <functionname></functionname>
-        <codestring></codestring>
-        <whoName>self</whoName>
-        <relative>0</relative>
-        <isnot>0</isnot>
-        <arguments>
-          <argument>
-            <kind>1</kind>
-            <string>ds_list_destroy(loadedChunkList);
-ds_list_destroy(pendingEntitySpawns);
 </string>
           </argument>
         </arguments>

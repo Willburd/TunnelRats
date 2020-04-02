@@ -35,7 +35,6 @@ else if(global.currentGame != id)
 }
 
 show_debug_overlay(true);
-scrollCooldown = 0;
 </string>
           </argument>
         </arguments>
@@ -80,15 +79,6 @@ if(global._game_time &gt;= global._game_max_time)
         }
         
         global.animationStep += 1; // 30fps animation timer
-        
-        if(keyboard_check(global.keyUseTop)) 
-        {
-            global.aboveLayerDrawPercent = lerp(global.aboveLayerDrawPercent,1,0.3);
-        }
-        else
-        {
-            global.aboveLayerDrawPercent = lerp(global.aboveLayerDrawPercent,0,0.3);
-        }
     }
 
     with(obj_alwaysUpdatedParent)
@@ -108,63 +98,6 @@ if(global._frame_time &gt;= global._frame_max_time)
 else
 {
     draw_enable_drawevent(false);
-}
-
-scrollCooldown--;
-</string>
-          </argument>
-        </arguments>
-      </action>
-    </event>
-    <event eventtype="5" enumb="109">
-      <action>
-        <libid>1</libid>
-        <id>603</id>
-        <kind>7</kind>
-        <userelative>0</userelative>
-        <isquestion>0</isquestion>
-        <useapplyto>-1</useapplyto>
-        <exetype>2</exetype>
-        <functionname></functionname>
-        <codestring></codestring>
-        <whoName>other</whoName>
-        <relative>0</relative>
-        <isnot>0</isnot>
-        <arguments>
-          <argument>
-            <kind>1</kind>
-            <string>if(scrollCooldown &lt;= 0)
-{
-    if(global.currentCameraZLevel &gt; 0) global.currentCameraZLevel -= 1;
-    scrollCooldown = 50;   
-    
-}
-</string>
-          </argument>
-        </arguments>
-      </action>
-    </event>
-    <event eventtype="5" enumb="107">
-      <action>
-        <libid>1</libid>
-        <id>603</id>
-        <kind>7</kind>
-        <userelative>0</userelative>
-        <isquestion>0</isquestion>
-        <useapplyto>-1</useapplyto>
-        <exetype>2</exetype>
-        <functionname></functionname>
-        <codestring></codestring>
-        <whoName>self</whoName>
-        <relative>0</relative>
-        <isnot>0</isnot>
-        <arguments>
-          <argument>
-            <kind>1</kind>
-            <string>if(scrollCooldown &lt;= 0)
-{
-    global.currentCameraZLevel += 1;
-    scrollCooldown = 50;   
 }
 </string>
           </argument>

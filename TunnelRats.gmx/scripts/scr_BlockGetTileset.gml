@@ -12,6 +12,17 @@ if(argument0[? "DataName"] == "Base")
             
         case "Air": 
             return -1;
-        
+            
+        case "Water": 
+            return bg_block_water;
+     
+        case "Sand":
+            return bg_block_sand;   
+            
+        case "Dirt":
+            return bg_testBlock; 
+            
+        case "Grass":
+            return bg_testBlock; 
     }
 }

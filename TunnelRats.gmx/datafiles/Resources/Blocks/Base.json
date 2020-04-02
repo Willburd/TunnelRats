@@ -1,0 +1,20 @@
+{
+	"Dirt" : {
+		"DisplayName": "Dirt"
+	},
+	"Grass" : {
+		"DisplayName": "Grass"
+	},
+	"Sand" : {
+		"DisplayName": "Sand"
+	},
+	"Rock" : {
+		"DisplayName": "Rock"
+	},
+	"Water" : {
+		"DisplayName": "Water"
+	},
+	"Brick" : {
+		"DisplayName": "Brick"
+	}
+}

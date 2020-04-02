@@ -1,29 +1,62 @@
-/// scr_chunkInternalClearBlock(chunk, q,c,layer);
-// do not call normally...
+/// scr_ChunkInternalClearBlock(chunk, q,c, wall/ground/floor selector)
+// do not call normally... This is an internal function used in scr_ChunkGetBlock() and scr_ChunkSetBlock()
 var chunk = argument0;
-var qq = argument1;
-var cc = argument2;
-var lay = argument3;
+var QQ = argument1;
+var CC = argument2;
+var selector = argument3; // wall/ground/floor
 
-
-var layerData = chunk.blockLayers[| lay];
-while(true)
+if(selector == BlockGridType.walls)
 {
-    if(lay >= ds_list_size(chunk.blockLayers) || is_undefined(layerData))
+    if(chunk.walls[# QQ, CC] != -1)
     {
-        show_debug_message("Grid in chunk does not exist yet!");
-        return false;
-    }
-    else if(layerData != -1)
-    {
-        if(layerData[# qq, cc] != -1)
+        if(chunk.puppetWalls[# QQ, CC] != -1)
         {
-            ds_map_destroy(layerData[# qq, cc]); // clean out out block data
+            var getPackIn = chunk.puppetWalls[# QQ, CC];
+            while(ds_list_size(getPackIn) > 0)
+            {
+                tile_delete( getPackIn[| 0]);
+                ds_list_delete(getPackIn,0);
+            }
+            chunk.puppetWalls[# QQ, CC] = -1;
         }
-        return true;
-    }
-    else
-    {
-        event_user(1);
+        
+        ds_map_destroy(chunk.walls[# QQ, CC]); // clean out out block data
     }
 }
+else if(selector == BlockGridType.ground)
+{
+    if(chunk.ground[# QQ, CC] != -1)
+    {
+        if(chunk.puppetGround[# QQ, CC] != -1)
+        {
+            var getPackIn = chunk.puppetGround[# QQ, CC]
+            while(ds_list_size(getPackIn) > 0)
+            {
+                tile_delete( getPackIn[| 0]);
+                ds_list_delete(getPackIn,0);
+            }
+            chunk.puppetGround[# QQ, CC] = -1;
+        }
+        
+        ds_map_destroy(chunk.ground[# QQ, CC]); // clean out out block data
+    }
+}
+else if(selector == BlockGridType.floors)
+{
+    if(chunk.floors[# QQ, CC] != -1)
+    {
+        if(chunk.puppetFloors[# QQ, CC] != -1)
+        {
+            var getPackIn = chunk.puppetFloors[# QQ, CC]
+            while(ds_list_size(getPackIn) > 0)
+            {
+                tile_delete( getPackIn[| 0]);
+                ds_list_delete(getPackIn,0);
+            }
+            chunk.puppetFloors[# QQ, CC] = -1;
+        }
+        
+        ds_map_destroy(chunk.floors[# QQ, CC]); // clean out out block data
+    }
+}
+
