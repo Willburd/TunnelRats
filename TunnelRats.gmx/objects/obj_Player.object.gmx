@@ -43,6 +43,8 @@
 Nmomentum = 0;
 Zmomentum = 0;
 attemptedGround = 0;
+landingLag = 0;
+holdingJumpStill = false;
 
 toolUseCounter = 0;
 
@@ -225,9 +227,18 @@ if(loadedCheck)
     // apply movement acceleration
     if(UD != 0 || LR != 0)
     {
-        if(Nmomentum &lt; 10)
+        var maxSpd = 0.1;
+        if(keyboard_check(global.keySprint))
         {
-            Nmomentum += 2.1;
+            maxSpd = 0.2;
+        }
+        if(Nmomentum &lt; maxSpd)
+        {
+            Nmomentum += 0.006;
+        }
+        else
+        {
+            Nmomentum *= 0.997;
         }
     }
     else
@@ -239,33 +250,21 @@ if(loadedCheck)
         }
     }
     var dir = point_direction(0,0, LR, UD);
-    var dis = scr_TimeCompensate(Nmomentum);
+    var dis = Nmomentum;
     var lastX = x;
     var lastY = y;
     
     
     // x movements
     x += lengthdir_x(dis,dir);
-    var colblock = scr_ChunkGetBlock(ActiveChunk, x,y,BlockGridType.walls);
-    if( !(colblock == -1 || !scr_BlockRules(colblock,"Solid")))
-    {   
-        x = lastX;
-    }
-    
-    // y movements
     y += lengthdir_y(dis,dir);
-    var colblock = scr_ChunkGetBlock(ActiveChunk, x,y,BlockGridType.walls);
-    if( !(colblock == -1 || !scr_BlockRules(colblock,"Solid")))
-    {
-        y = lastY;
-    }
     
     
     
     
     
     // calculate falling speed
-    Zmomentum += scr_TimeCompensate(global._gravity);
+    Zmomentum += global._gravity;
     
     // find lowest point for shadow, and as a ground check for falling!
     var checkDist = 8;
@@ -284,23 +283,55 @@ if(loadedCheck)
     
     
     // apply falling speed
-    z += scr_TimeCompensate(Zmomentum);
+    z += Zmomentum;
     
     
      
     // if falling, check if we've reached under our shadow position!
     if(Zmomentum &gt;= 0)
     {
-        z = min(z,attemptedGround); // lock to ground
+        // lock to ground
+        z = min(z,attemptedGround); 
     
+        // ground control to major tom!
         if(z == attemptedGround)
         {
+            // jump cooldown (maybe rolling animation?)
+            landingLag -= 1;
+            
             // stop
             Zmomentum = 0;
+            
             // jumping!
+            if(keyboard_check(global.keyJump) &amp;&amp; holdingJumpStill == false)
+            {
+                if(landingLag &lt;= 0)
+                {
+                    if(keyboard_check(global.keySprint))
+                    {
+                        // runjump
+                        Zmomentum = -0.25;
+                        Nmomentum *= 2;
+                        landingLag = 40;
+                    }
+                    else
+                    {
+                        // jump
+                        Zmomentum = -0.4;
+                        Nmomentum *= 1.5;
+                        landingLag = 20;
+                    }
+                }
+            }
+            
+            // prevent jump spam
             if(keyboard_check(global.keyJump))
             {
-                Zmomentum = -32;
+                holdingJumpStill = true;
+            }
+            else
+            {
+                holdingJumpStill = false;
             }
         }
     }

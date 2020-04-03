@@ -194,19 +194,18 @@
       <script>scripts\scr_BlockTriggerUpdate.gml</script>
     </scripts>
     <scripts name="Entities">
-      <script>scripts\scr_SpawnEntity.gml</script>
-      <script>scripts\scr_EntityDetectCurrentChunk.gml</script>
-      <script>scripts\scr_TimeCompensate.gml</script>
       <script>scripts\scr_ChunkEntityUpdate.gml</script>
+      <script>scripts\scr_EntitySpawn.gml</script>
+      <script>scripts\scr_EntityDetectCurrentChunk.gml</script>
+      <script>scripts\scr_EntityRemoveFromChunk.gml</script>
     </scripts>
     <scripts name="Chunks">
       <script>scripts\scr_ChunkSpawn.gml</script>
       <script>scripts\scr_ChunkUpdate.gml</script>
       <script>scripts\scr_ChunkName.gml</script>
-      <script>scripts\scr_SaveChunk.gml</script>
-      <script>scripts\scr_LoadChunk.gml</script>
+      <script>scripts\scr_ChunkSave.gml</script>
+      <script>scripts\scr_ChunkLoad.gml</script>
       <script>scripts\scr_ChunkAddEntity.gml</script>
-      <script>scripts\scr_EntityRemoveFromChunk.gml</script>
       <script>scripts\scr_ChunkGetBlock.gml</script>
       <script>scripts\scr_ChunkSetBlock.gml</script>
       <script>scripts\scr_ChunkInternalSetBlock.gml</script>

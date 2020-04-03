@@ -66,9 +66,6 @@ show_debug_overlay(true);
 global._game_time += delta_time * global._game_max_time;
 if(global._game_time &gt; 1)
 {
-    
-    
-    
     // pause check
     if(!global.gamePaused)
     {
@@ -87,7 +84,6 @@ if(global._game_time &gt; 1)
         // updated always
         event_user(0);
     }
-    
     
     // update time stacker
     global._game_time -= 1;

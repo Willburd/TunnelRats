@@ -38,6 +38,7 @@ walls = -1;   // the chunk sized grid of solid walls
 floors = -1;  // the chunk sized grid of placed flooring/plants
 zdata = -1;
 
+collisionData = ds_grid_create(global.chunkWidth,global.chunkHeight);
 
 // graphical tile storage
 puppetWalls = ds_grid_create(global.chunkWidth,global.chunkHeight);
@@ -80,7 +81,7 @@ depth = -y;
             <string>if(walls != -1)
 {
     // only save if genned!
-    scr_SaveChunk(worldController.UniverseNumber,id);
+    scr_ChunkSave(worldController.UniverseNumber,id);
 }
 
 // clean out puppets and tiles! 
@@ -224,7 +225,7 @@ if(ground == -1) // check is already genned!
     }
     
     if(global.debug_ChunkLoadingInfo) show_debug_message("generated chunk: " + scr_ChunkName(id));
-    scr_SaveChunk(worldController.UniverseNumber,id);
+    scr_ChunkSave(worldController.UniverseNumber,id);
     
     processing = true; // if entitys should be updated
     rendering = true; // if chunk is drawn

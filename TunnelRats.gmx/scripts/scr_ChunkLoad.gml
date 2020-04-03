@@ -1,4 +1,4 @@
-/// scr_LoadChunk(universe,loadingChunkObjec);
+/// scr_Chunk(universe,loadingChunkObjec);
 var universe = argument0;
 var newChunk = argument1;
 

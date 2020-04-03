@@ -36,7 +36,7 @@ with argument0
             // not new, load chunk data!
             with newChunk
             {
-                scr_LoadChunk(worldController.UniverseNumber,id);
+                scr_ChunkLoad(worldController.UniverseNumber,id);
                 processing = true; // if entitys should be updated
                 rendering = true; // if chunk is drawn
                 forceRenderUpdate = true;

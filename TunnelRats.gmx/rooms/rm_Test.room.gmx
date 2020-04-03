@@ -12,7 +12,7 @@
   <showcolour>-1</showcolour>
   <code>with obj_WorldController
 {
-    var player = scr_SpawnEntity(128,80,obj_Player,id);
+    var player = scr_EntitySpawn(128,80,obj_Player,id);
     with obj_HudController followObject = player;
 }</code>
   <enableViews>-1</enableViews>

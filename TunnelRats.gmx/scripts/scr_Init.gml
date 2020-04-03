@@ -15,7 +15,7 @@ global.ZDrawOffset = 16; //Z pixel scale for jumping
 
 // Entities
 global.AllowUpdateCounter = 0;
-global._gravity = 32;
+global._gravity = 0.005;
 
 // 4:3  1.3333
 // 16:9  1.7777
@@ -52,14 +52,13 @@ global.keyUp = vk_up;
 global.keyDown = vk_down;
 
 global.keyJump = vk_space;
+global.keySprint = vk_lshift;
 
 global.keyUseLeft = ord('A');
 global.keyUseRight = ord('D');
 global.keyUseUp = ord('W');
 global.keyUseDown = ord('S');
 
-global.keyUseTop = ord('Q');
-global.keyUseBot = ord('E');
 
 
 // create block database from external files

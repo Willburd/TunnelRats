@@ -1,4 +1,4 @@
-/// scr_SaveChunk(universe,chunk);
+/// scr_ChunkSave(universe,chunk);
 var universe = argument0;
 var chunkObj = argument1;
 // chunkObj.walls;

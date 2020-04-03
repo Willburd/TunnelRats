@@ -1,4 +1,4 @@
-/// scr_SpawnEntity(x,y,object_index,WorldController);
+/// scr_EntitySpawn(x,y,object_index,WorldController);
 var newObj = instance_create(argument0,argument1,argument2);
 with newObj
 {
