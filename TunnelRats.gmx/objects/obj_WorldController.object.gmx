@@ -129,7 +129,7 @@ if(y &gt; view_yview[0] + view_hview[0] + chunkH)
 global.unloadingTimer -= 1;
 if(global.unloadingTimer &lt; 0)
 {
-    global.unloadingTimer = irandom(50) + 50;
+    global.unloadingTimer = irandom(20) + 10;
 }
 
 // update chunks

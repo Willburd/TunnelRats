@@ -55,7 +55,7 @@ if(!global.gamePaused)
     {
         // only move when not paused
         var dir = point_direction(x,y, followObject.x, followObject.y);
-        var dis = scr_TimeCompensate( point_distance(x,y, followObject.x, followObject.y) * 0.40 );
+        var dis = scr_TimeCompensate(point_distance(x,y, followObject.x, followObject.y) * 0.20);
         
         x += lengthdir_x(dis,dir);
         y += lengthdir_y(dis,dir);

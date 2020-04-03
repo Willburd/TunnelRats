@@ -22,14 +22,9 @@ if( !is_undefined(scanLibrarys) )
     {
         // read the file!
         var readDir = working_directory + "/Resources/Rules/" + scanLibrarys + ".json";
-        var stringData = "";
         if(file_exists(readDir))
         {
-            var loadFile = file_text_open_read(readDir);
-                while (!file_text_eof(loadFile)) {
-                    stringData += file_text_read_string(loadFile); file_text_readln(loadFile);
-                }
-            file_text_close(loadFile);
+            var stringData = scr_FileReadAllLines(readDir);
             
             // decode json and store the block library!
             var newRulesLib = json_decode(stringData);

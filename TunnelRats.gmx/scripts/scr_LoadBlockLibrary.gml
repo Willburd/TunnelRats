@@ -10,15 +10,9 @@ if(scanFile != "")
     while(scanFile != "")
     {
         // read the file!
-        var stringData = "";
-        var loadFile = file_text_open_read(working_directory + "/Resources/Blocks/" + scanFile);
-            while (!file_text_eof(loadFile)) {
-                stringData += file_text_read_string(loadFile); file_text_readln(loadFile);
-            }
-        file_text_close(loadFile);
+        var stringData = scr_FileReadAllLines(working_directory + "/Resources/Blocks/" + scanFile);
         
         // decode json and store the block library!
-        
         var newBlockLib = json_decode(stringData);
         if(newBlockLib != -1)
         {
