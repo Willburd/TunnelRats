@@ -6,8 +6,8 @@ global.currentCameraEntity = noone; // entity the camera is following
 // framerate
 global._game_time = 0; // deltatime stacker
 global._frame_time = 0; // deltatime stacker
-global._game_max_time = 1000000 / 30; // 30 ticks target for entities
-global._frame_max_time = 1000000 / 60; // 60 ticks target for framerate
+global._game_max_time = 30; // 30 ticks target for entities
+global._frame_max_time = 60; // 60 ticks target for framerate
 global.gameMaxFrames = 9999; // room lock fps
 
 global.animationStep = 0;

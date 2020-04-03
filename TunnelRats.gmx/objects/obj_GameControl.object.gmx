@@ -63,10 +63,11 @@ show_debug_overlay(true);
 }
 
 // entities and game controller updates
-global._game_time += delta_time;
-if(global._game_time &gt;= global._game_max_time)
+global._game_time += delta_time * global._game_max_time;
+if(global._game_time &gt; 1)
 {
-    global._game_time = global._game_time - delta_time;
+    
+    
     
     // pause check
     if(!global.gamePaused)
@@ -86,14 +87,27 @@ if(global._game_time &gt;= global._game_max_time)
         // updated always
         event_user(0);
     }
+    
+    
+    // update time stacker
+    global._game_time -= 1;
+    if(global._game_time &gt;= 1)
+    {
+        global._game_time = 0;
+    }
 }
 
 
-global._frame_time += delta_time;
-if(global._frame_time &gt;= global._frame_max_time)
+global._frame_time += delta_time * global._frame_max_time;
+if(global._frame_time &gt; 1)
 {
-    global._frame_time = global._frame_time - delta_time;
     draw_enable_drawevent(true);
+    
+    global._frame_time -= 1;
+    if(global._frame_time &gt;= 1)
+    {
+        global._frame_time = 0;
+    }
 }
 else
 {
