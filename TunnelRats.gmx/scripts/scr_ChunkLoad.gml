@@ -11,7 +11,9 @@ var saveDir = working_directory + "/Worlds/" + string(global.worldData[? "name"]
 var loadFile = file_text_open_read(saveDir);
 
     newChunk.zdata = ds_grid_create(global.chunkWidth,global.chunkHeight); // world gen ground Z height
+    newChunk.bdata = ds_grid_create(global.chunkWidth,global.chunkHeight); // world gen ground Z height
     ds_grid_read(newChunk.zdata,file_text_readln(loadFile));
+    ds_grid_read(newChunk.bdata,file_text_readln(loadFile));
 
     while (!file_text_eof(loadFile)) {
         

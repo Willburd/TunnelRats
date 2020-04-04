@@ -2,13 +2,14 @@
 // gets the worldgen ground level at block X,Y
 var xx = argument0;
 var yy = argument1;
-var biome = argument2;
+var bdata = argument2;
 
 // pull data from world gen grids
 var groundHeight = 0;
-if(global.debug_DisableWorldGen == false && biome != -1)
+if(global.debug_DisableWorldGen == false && bdata != -1)
 {
     groundHeight = 0;
+    var biome = global.layerLoadedBiomes[| bdata];
     var genData = biome[? "BlockGenData"];
 
     var contHeight = scr_SafeData(global.worldData[? "continentMap"]   ,xx,yy,global.continentMap_Scale);

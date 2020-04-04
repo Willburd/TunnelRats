@@ -13,5 +13,6 @@ if(bData == -1)
     return scr_BlockInitData( "Base:Air");
 }
 
-var genData = bData[? "BlockGenData"];
+var biome = global.layerLoadedBiomes[| bData];
+var genData = biome[? "BlockGenData"];
 return scr_BlockInitData( scr_BiomeGetBlockSpawn(zData,0,genData,xx+QQ,yy+CC));

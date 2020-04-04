@@ -9,6 +9,7 @@ var saveDir = working_directory + "/Worlds/" + string(global.worldData[? "name"]
 var saveFile = file_text_open_write(saveDir);
 
     file_text_write_string(saveFile,ds_grid_write(chunkObj.zdata));  file_text_writeln(saveFile);
+    file_text_write_string(saveFile,ds_grid_write(chunkObj.bdata));  file_text_writeln(saveFile);
     
 
     for (var q=0; q<global.chunkWidth; q+=1)

@@ -88,7 +88,7 @@ if(global.debug_DisableWorldGen == false && ds_list_size(global.layerLoadedBiome
             if(biomeValid)
             {
                 // new biome!
-                foundBiome = biome;
+                foundBiome = i;
             }
         }
     }

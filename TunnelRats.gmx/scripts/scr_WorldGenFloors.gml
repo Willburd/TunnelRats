@@ -13,11 +13,13 @@ if(bData == -1)
     return scr_BlockInitData( "Base:Air");
 }
 
+
 var groundData = argument0.ground[# QQ,CC];
 var wallsData = argument0.walls[# QQ,CC];
 if(groundData != -1 && scr_BlockRules(groundData,"CanGrowGrass") )
 {
-    var genData = bData[? "BlockGenData"];
+    var biome = global.layerLoadedBiomes[| bData];
+    var genData = biome[? "BlockGenData"];
     if(wallsData == -1 && !is_undefined( genData[? "BiomeGrass"]))
     {
         return scr_BlockInitData( genData[? "BiomeGrass"]);

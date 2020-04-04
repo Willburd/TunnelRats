@@ -227,10 +227,10 @@ if(loadedCheck)
     // apply movement acceleration
     if(UD != 0 || LR != 0)
     {
-        var maxSpd = 0.1;
+        var maxSpd = 0.15;
         if(keyboard_check(global.keySprint))
         {
-            maxSpd = 0.2;
+            maxSpd = 0.25;
         }
         if(Nmomentum &lt; maxSpd)
         {
@@ -362,8 +362,14 @@ if(loadedCheck)
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>
-/*
+            <string>/*
+if(ActiveChunk != noone &amp;&amp; ActiveChunk.bdata != -1 &amp;&amp; ActiveChunk.bdata[# 0,0] != -1)
+{
+    var biome = global.layerLoadedBiomes[| ActiveChunk.bdata[# 0,0]];
+    draw_text(0,0,biome[? "_InternalSaveName"]);
+}
+
+
 if(instance_exists(ActiveChunk))
 {
     for (q=0; q&lt;global.chunkWidth; q+=1)

@@ -254,6 +254,8 @@
       <script>scripts\scr_WorldGen.gml</script>
       <script>scripts\scr_GenSimplexNoise.gml</script>
       <script>scripts\scr_LayerGetBiomes.gml</script>
+      <script>scripts\scr_LayerSaveBiomes.gml</script>
+      <script>scripts\scr_LayerLoadBiomes.gml</script>
       <script>scripts\scr_GetGroundHeight.gml</script>
       <script>scripts\scr_GetBiomeData.gml</script>
       <script>scripts\scr_ChunkForceSpawn.gml</script>

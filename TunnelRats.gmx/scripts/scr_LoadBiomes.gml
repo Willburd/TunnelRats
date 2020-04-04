@@ -24,6 +24,9 @@ while(scanFile != "")
             
             if(newBiomeBlockGenData != -1)
             {
+                // store an internal name for saving
+                newBiomeData[? "_InternalSaveName"] = string_copy(scanFile,0, string_length(scanFile)-5);
+            
                 // combine gen data into biome!
                 ds_map_add_map(newBiomeData, "BlockGenData", newBiomeBlockGenData);
             

@@ -97,7 +97,7 @@ else
 if(file_exists(working_directory + "/Worlds/" + string(worldName) + "/Universe" + string(UniverseNumber) + "/Chunks/LayerData_" + string(global.currentLayer) + ".dat"))
 {
     // load layer biomes
-    //global.layerLoadedBiomes = scr_LayerLoadBiomes(worldName,UniverseNumber,CurrentWorldLayer);
+    global.layerLoadedBiomes = scr_LayerLoadBiomes(worldName,UniverseNumber);
 }
 else
 {
@@ -107,7 +107,7 @@ else
         ds_list_destroy(global.layerLoadedBiomes);
     }
     global.layerLoadedBiomes = scr_LayerGetBiomes(global.currentLayer);
-    // scr_LayerSaveBiomes(worldName,UniverseNumber,CurrentWorldLayer);
+    scr_LayerSaveBiomes(worldName,UniverseNumber);
 }
 
 

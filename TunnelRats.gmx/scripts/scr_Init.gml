@@ -45,7 +45,7 @@ global.unloadingTimer = 400; // if this is under 0 allow unload
 global.loadingTimer = 10; // if this is under 0 allow loading
 
 global.currentLayer = 0;
-global.layerLoadedBiomes = -1;
+global.layerLoadedBiomes = -1; // ds_list of loaded biomes
 
 // keyboard control
 global.keyLeft = vk_left;

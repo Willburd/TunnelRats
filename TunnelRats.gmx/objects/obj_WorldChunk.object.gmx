@@ -221,7 +221,7 @@ if(ground == -1) // check is already genned!
             random_set_seed(global.worldData[? "seed"] + (floor(x/16) + q) + ((floor(y/16) + c)*16) + (256*global.currentLayer))
             
             // get zheight from world gen and store the zdata
-            bdata[# q,c] = scr_GetBiomeData(floor(x/16)+q,floor(y/16)+c);
+            bdata[# q,c] = scr_GetBiomeData(floor(x/16)+q,floor(y/16)+c); // stores the INDEX to the current global.layerLoadedBiomes list!
             zdata[# q,c] = scr_GetGroundHeight(floor(x/16)+q,floor(y/16)+c,bdata[# q,c]);
             
             //show_debug_message("WALLGEN===============================================================");

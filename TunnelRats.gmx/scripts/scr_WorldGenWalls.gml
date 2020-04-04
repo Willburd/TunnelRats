@@ -14,7 +14,8 @@ if(bData == -1)
     return scr_BlockInitData( "Base:Air");
 }
 
-var genData = bData[? "BlockGenData"];
+var biome = global.layerLoadedBiomes[| bData];
+var genData = biome[? "BlockGenData"];
 var checkZ = genData[? "WallZThreshold"];
 if(zData >= checkZ)
 {
