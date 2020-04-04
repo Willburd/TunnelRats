@@ -149,7 +149,7 @@
       </datafiles>
       <datafiles number="10" name="Biomes">
         <datafile>
-          <name>Island.json</name>
+          <name>Base_Island.json</name>
           <exists>-1</exists>
           <size>400</size>
           <exportAction>2</exportAction>
@@ -163,11 +163,11 @@
               <CopyToMask>9223372036854775807</CopyToMask>
             </Config>
           </ConfigOptions>
-          <filename>Island.json</filename>
+          <filename>Base_Island.json</filename>
         </datafile>
         <datafiles number="10" name="BlockGenData">
           <datafile>
-            <name>Gen_Island.json</name>
+            <name>Gen_Base_Island.json</name>
             <exists>-1</exists>
             <size>115</size>
             <exportAction>2</exportAction>
@@ -181,7 +181,7 @@
                 <CopyToMask>9223372036854775807</CopyToMask>
               </Config>
             </ConfigOptions>
-            <filename>Gen_Island.json</filename>
+            <filename>Gen_Base_Island.json</filename>
           </datafile>
         </datafiles>
       </datafiles>

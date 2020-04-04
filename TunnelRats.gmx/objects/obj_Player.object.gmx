@@ -362,7 +362,8 @@ if(loadedCheck)
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>/*
+            <string>// draw_text(0,16, global._game_time / global._game_max_time);
+/*
 if(ActiveChunk != noone &amp;&amp; ActiveChunk.bdata != -1 &amp;&amp; ActiveChunk.bdata[# 0,0] != -1)
 {
     var biome = global.layerLoadedBiomes[| ActiveChunk.bdata[# 0,0]];
