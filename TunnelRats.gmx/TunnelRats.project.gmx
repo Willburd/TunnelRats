@@ -216,6 +216,7 @@
     <script>scripts\scr_LoadBiomes.gml</script>
     <script>scripts\scr_SaveWorld.gml</script>
     <script>scripts\scr_LoadWorld.gml</script>
+    <script>scripts\DTlerp.gml</script>
     <script>scripts\inverse_lerp.gml</script>
     <script>scripts\scr_SafeData.gml</script>
     <script>scripts\scr_DrawDepth.gml</script>
@@ -223,6 +224,7 @@
     <script>scripts\scr_FileReadAllLines.gml</script>
     <script>scripts\scr_UpdateDelta.gml</script>
     <script>scripts\scr_DTscale.gml</script>
+    <script>scripts\scr_DTmultiplier.gml</script>
     <scripts name="Blocks">
       <script>scripts\scr_BlockExposureCheck.gml</script>
       <script>scripts\scr_BlockInitData.gml</script>

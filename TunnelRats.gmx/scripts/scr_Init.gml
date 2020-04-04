@@ -14,7 +14,7 @@ global.animationStep = 0;
 global.ZDrawOffset = 16; //Z pixel scale for jumping
 
 // Entities
-global._gravity = 1;
+global._gravity = 0.4;
 
 // 4:3  1.3333
 // 16:9  1.7777

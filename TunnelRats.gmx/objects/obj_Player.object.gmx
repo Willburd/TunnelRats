@@ -41,6 +41,7 @@
             <kind>1</kind>
             <string>/// Player Data
 Nmomentum = 0;
+Ndirection = 0;
 Zmomentum = 0;
 attemptedGround = 0;
 landingLag = 0;
@@ -232,18 +233,19 @@ if(loadedCheck)
         }
         else
         {
-            Nmomentum = maxSpd;
+            Nmomentum *= scr_DTmultiplier(-0.08);
         }
+        Ndirection = point_direction(0,0, LR, UD);
     }
     else
     {
-        Nmomentum *= 0.08;
+        Nmomentum *= scr_DTmultiplier(-0.15);
         if(Nmomentum &lt; 0.01)
         {
             Nmomentum = 0;
         }
     }
-    var dir = point_direction(0,0, LR, UD);
+    var dir = Ndirection;
     var dis = scr_DTscale(Nmomentum);
     var lastX = x;
     var lastY = y;
@@ -303,21 +305,22 @@ if(loadedCheck)
                     if(keyboard_check(global.keySprint))
                     {
                         // runjump
-                        Zmomentum = -400;
+                        Zmomentum = -3;
                         Nmomentum *= 2;
-                        landingLag = 40;
+                        landingLag = 5;
                     }
                     else
                     {
                         // jump
-                        Zmomentum = -500;
-                        Nmomentum *= 1.5;
-                        landingLag = 20;
+                        Zmomentum = -3;
+                        Nmomentum *= 1.1;
+                        landingLag = 2;
                     }
                 }
             }
         }
     }
+    
     // prevent jump spam
     if(keyboard_check(global.keyJump))
     {
