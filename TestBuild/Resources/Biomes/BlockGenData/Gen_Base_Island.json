@@ -1,0 +1,18 @@
+{
+	"DensityMultiplier" : 	0.0,
+	"DensityOffset" : 		0,
+	"ContinentMultiplier" : 0.2,
+	"ContinentOffset" : 	-34,
+	"MountainMultiplier" : 	0.045,
+	"MountainOffset" : 		0,
+	"HillMultiplier" : 		0.05,
+	"HillOffset" : 			0,
+	"BlockGen" : [
+	["Base:Water", 	["MixedHeight",   -99,    1]],
+	["Base:Sand",	["MixedHeight",     0,    3]],
+	["Base:Dirt",	["MixedHeight",     4,    6]],
+	["Base:Dirt",	["MixedHeight",     7,   8], ["Chance", 0.3]],
+	["Base:Rock",	["MixedHeight",     7,  999]]],
+	"WallZThreshold" : 9,
+	"BiomeGrass" :	"Base:Grass"
+}
