@@ -208,80 +208,25 @@ if(loadedCheck)
     previousToolY = toolY;
     
     
-    
-    
-
-    // control movement
-    var UD = 0;
-    var LR = 0;
-    if(keyboard_check(global.keyLeft)) LR += -1;
-    if(keyboard_check(global.keyRight)) LR += 1;
-    if(keyboard_check(global.keyUp)) UD += -1;
-    if(keyboard_check(global.keyDown)) UD += 1;
-    
-    // apply movement acceleration
-    if(UD != 0 || LR != 0)
-    {
-        var maxSpd = 1;
-        if(keyboard_check(global.keySprint))
-        {
-            maxSpd = 2;
-        }
-        if(Nmomentum &lt; maxSpd)
-        {
-            Nmomentum += scr_DTscale(0.3);
-        }
-        else
-        {
-            Nmomentum *= scr_DTmultiplier(-0.08);
-        }
-        Ndirection = point_direction(0,0, LR, UD);
-    }
-    else
-    {
-        Nmomentum *= scr_DTmultiplier(-0.15);
-        if(Nmomentum &lt; 0.01)
-        {
-            Nmomentum = 0;
-        }
-    }
-    var dir = Ndirection;
-    var dis = scr_DTscale(Nmomentum);
-    var lastX = x;
-    var lastY = y;
-    
-    
-    // x movements
-    x += lengthdir_x(dis,dir);
-    y += lengthdir_y(dis,dir);
-    
-    
-    
-    
-    
     // calculate falling speed
     Zmomentum += scr_DTscale(global._gravity);
     
     // find lowest point for shadow, and as a ground check for falling!
     attemptedGround = z+512;
-    
-    var blockUnderG = scr_ChunkGetBlock(ActiveChunk, x,y,BlockGridType.ground);
-    var blockUnderF = scr_ChunkGetBlock(ActiveChunk, x,y,BlockGridType.floors);
-    if(blockUnderF != -1)
-    {
-        attemptedGround = 0;
-    }
-    else if(blockUnderG != -1)
-    {
-        attemptedGround = 0;
-    }
-    
+
     
     // apply falling speed
     z += scr_DTscale(Zmomentum);
     
     
-     
+    // check floor collisions
+    var getQ = floor((x - ActiveChunk.x)/16);
+    var getC = floor((y - ActiveChunk.y)/16);
+    if(ActiveChunk.collisionData[# getQ,getC] &gt; 0)
+    {
+        attemptedGround = 0;
+    }
+    
     // if falling, check if we've reached under our shadow position!
     if(Zmomentum &gt;= 0)
     {
@@ -321,6 +266,52 @@ if(loadedCheck)
         }
     }
     
+
+    // control XY movement
+    var UD = 0;
+    var LR = 0;
+    if(keyboard_check(global.keyLeft)) LR += -1;
+    if(keyboard_check(global.keyRight)) LR += 1;
+    if(keyboard_check(global.keyUp)) UD += -1;
+    if(keyboard_check(global.keyDown)) UD += 1;
+    
+    // apply movement acceleration
+    if(UD != 0 || LR != 0)
+    {
+        var maxSpd = 0.8;
+        if(keyboard_check(global.keySprint))
+        {
+            maxSpd = 1.5;
+        }
+        if(Nmomentum &lt; maxSpd)
+        {
+            Nmomentum += scr_DTscale(0.3);
+        }
+        else
+        {
+            Nmomentum *= scr_DTmultiplier(-0.08);
+        }
+        Ndirection = point_direction(0,0, LR, UD);
+    }
+    else
+    {
+        Nmomentum *= scr_DTmultiplier(-0.15);
+        if(Nmomentum &lt; 0.01)
+        {
+            Nmomentum = 0;
+        }
+    }
+    var dir = Ndirection;
+    var dis = scr_DTscale(Nmomentum);
+    var lastX = x;
+    var lastY = y;
+    
+    
+    // x movements
+    x += lengthdir_x(dis,dir);
+    y += lengthdir_y(dis,dir);
+    
+    
     // prevent jump spam
     if(keyboard_check(global.keyJump))
     {
@@ -357,14 +348,26 @@ if(loadedCheck)
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>// draw_text(0,16, global._game_time / global._game_max_time);
+            <string>//draw_text(0,16, instance_number(obj_WorldChunk));
+// draw_text(0,16, global._game_time / global._game_max_time);
 /*
+if(ActiveChunk != noone &amp;&amp; ActiveChunk.ground != -1 &amp;&amp; ActiveChunk.ground[# 0,0] != -1)
+{
+    var xx = floor((x-ActiveChunk.x) / 16);
+    var yy = floor((y-ActiveChunk.y) / 16);
+
+    if(xx &gt;= 0 &amp;&amp; yy &gt;= 0 &amp;&amp; xx &lt; global.chunkWidth &amp;&amp; yy &lt; global.chunkHeight)
+    {
+        var block = ActiveChunk.ground[# xx,yy];
+        draw_text(0,0,block[? "Name"]);
+    }
+}
+
 if(ActiveChunk != noone &amp;&amp; ActiveChunk.bdata != -1 &amp;&amp; ActiveChunk.bdata[# 0,0] != -1)
 {
     var biome = global.layerLoadedBiomes[| ActiveChunk.bdata[# 0,0]];
     draw_text(0,0,biome[? "_InternalSaveName"]);
 }
-
 
 if(instance_exists(ActiveChunk))
 {
@@ -372,7 +375,7 @@ if(instance_exists(ActiveChunk))
     {
         for (c=0; c&lt;global.chunkHeight; c+=1)
         {
-            draw_text(q*24,c*24,ActiveChunk.zdata[# q,c]);
+            draw_text(q*24,c*24,ActiveChunk.collisionData[# q,c]);
         }
     }
 }

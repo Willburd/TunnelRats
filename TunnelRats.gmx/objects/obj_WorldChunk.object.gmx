@@ -29,7 +29,7 @@
 rendering = true; // if chunk is drawn
 
 forceRenderUpdate = false;
-updateTimerMax = 10; // delay between updates
+updateTimerMax = 60; // delay between updates
 updateTimer = 0; // timer for it
 
 entitys = ds_list_create(); // all entity ds_map datas
@@ -236,6 +236,9 @@ if(ground == -1) // check is already genned!
             //show_debug_message("FLOORGEN===============================================================");
             var floorsData = scr_WorldGenFloors(id,zdata[# q,c],bdata[# q,c],floor(x/16),floor(y/16),q,c);
             scr_ChunkInternalSetBlock(id, q,c,floorsData,BlockGridType.floors);
+            
+            // update collisions
+            scr_ChunkUpdateCollision(id,q,c);
         }
     }
     
@@ -272,7 +275,7 @@ if(ground == -1) // check is already genned!
             <string>/// chunk update, updates entities in chunk
 
 // update timer
-updateTimer--;
+updateTimer -= scr_DTscale(1);
 
 // too far out of range to update
 if(rectangle_in_rectangle(x,y,x+global.chunkWidth*16,y+global.chunkHeight*16,view_xview[0]-256,view_yview[0]-256,view_xview[0]+view_wview[0]+256,view_yview[0]+view_hview[0]+256) == 0)

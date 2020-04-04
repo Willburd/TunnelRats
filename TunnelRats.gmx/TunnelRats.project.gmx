@@ -213,12 +213,8 @@
     <script>scripts\scr_LoadBlockLibrary.gml</script>
     <script>scripts\scr_LoadRuleLibrary.gml</script>
     <script>scripts\scr_LoadTextureLibrary.gml</script>
-    <script>scripts\scr_LoadBiomes.gml</script>
-    <script>scripts\scr_SaveWorld.gml</script>
-    <script>scripts\scr_LoadWorld.gml</script>
     <script>scripts\DTlerp.gml</script>
     <script>scripts\inverse_lerp.gml</script>
-    <script>scripts\scr_SafeData.gml</script>
     <script>scripts\scr_DrawDepth.gml</script>
     <script>scripts\scr_DrawYOffset.gml</script>
     <script>scripts\scr_FileReadAllLines.gml</script>
@@ -253,9 +249,14 @@
       <script>scripts\scr_ChunkSetBlock.gml</script>
       <script>scripts\scr_ChunkInternalSetBlock.gml</script>
       <script>scripts\scr_ChunkInternalClearBlock.gml</script>
+      <script>scripts\scr_ChunkUpdateCollision.gml</script>
     </scripts>
     <scripts name="WorldGenData">
       <script>scripts\scr_WorldGen.gml</script>
+      <script>scripts\scr_SaveWorld.gml</script>
+      <script>scripts\scr_LoadWorld.gml</script>
+      <script>scripts\scr_LoadBiomes.gml</script>
+      <script>scripts\scr_SafeData.gml</script>
       <script>scripts\scr_GenSimplexNoise.gml</script>
       <script>scripts\scr_LayerGetBiomes.gml</script>
       <script>scripts\scr_LayerSaveBiomes.gml</script>

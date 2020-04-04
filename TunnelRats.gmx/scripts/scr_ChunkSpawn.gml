@@ -41,6 +41,15 @@ with argument0
                 rendering = true; // if chunk is drawn
                 forceRenderUpdate = true;
                 if(global.debug_ChunkLoadingInfo) show_debug_message("Loaded chunk " + string(id) + " at " + string(x) + "." + string(y)  );
+                
+                // reload collision data
+                for (q=0; q<global.chunkWidth; q+=1)
+                {
+                    for (c=0; c<global.chunkHeight; c+=1)
+                    {
+                        scr_ChunkUpdateCollision(id,q,c);
+                    }
+                }
             }
         }
         else

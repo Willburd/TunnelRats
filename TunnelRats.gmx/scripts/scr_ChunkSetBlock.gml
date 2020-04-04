@@ -22,6 +22,7 @@ while(true)
     
         scr_ChunkInternalClearBlock(chunk, xxx, yyy, selector);
         scr_ChunkInternalSetBlock(  chunk, xxx, yyy, newData, selector);
+        scr_ChunkUpdateCollision(chunk, xxx, yyy);
         scr_ChunkUpdate( chunk,true);
         return 1;
     }

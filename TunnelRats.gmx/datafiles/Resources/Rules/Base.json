@@ -1,4 +1,10 @@
 {
+	"Air" : {
+		"IsBlock": true,
+		"IsFloor": false,
+		"Transparent": true,
+		"Solid": false
+	},
 	"Dirt" : {
 		"IsBlock": true,
 		"IsFloor": false,

@@ -165,20 +165,21 @@ if(y &gt; view_yview[0] + view_hview[0] + chunkH)
 
 
 // update chunks
+global.unloadingTimer += 1;
 for (i=0; i&lt;ds_list_size(loadedChunkList); i+=1)
 {
     var chunk = loadedChunkList[| i];
-    scr_ChunkUpdate(chunk, (random(200) &lt; 0.1) );
+    scr_ChunkUpdate(chunk, (random(1000) &lt; 1) );
     if(chunk.processing)
     {
         scr_ChunkEntityUpdate(chunk);
     }
     
-    if(chunk.updateTimer &lt; -chunk.updateTimerMax)
+    if(chunk.updateTimer &lt; -chunk.updateTimerMax &amp;&amp; global.unloadingTimer &gt;= 2)
     {
         // out of range!
         with chunk instance_destroy();
-        global.unloadingTimer = -1;
+        global.unloadingTimer = 0;
     }
 }
 
