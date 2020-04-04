@@ -4,18 +4,17 @@ global.gamePaused = false;
 global.currentCameraEntity = noone; // entity the camera is following
 
 // framerate
-global._game_time = 0; // deltatime stacker
-global._frame_time = 0; // deltatime stacker
-global._game_max_time = 30; // 30 ticks target for entities
-global._frame_max_time = 60; // 60 ticks target for framerate
-global.gameMaxFrames = 9999; // room lock fps
+global._targetDelta = 1/60;
+global._GameSpeed = 1;
+scr_UpdateDelta();
+
+global.gameMaxFrames = 60; // room lock fps
 
 global.animationStep = 0;
 global.ZDrawOffset = 16; //Z pixel scale for jumping
 
 // Entities
-global.AllowUpdateCounter = 0;
-global._gravity = 0.005;
+global._gravity = 1;
 
 // 4:3  1.3333
 // 16:9  1.7777

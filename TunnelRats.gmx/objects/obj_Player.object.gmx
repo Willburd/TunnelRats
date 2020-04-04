@@ -113,12 +113,6 @@ myHighlight = noone;
           <argument>
             <kind>1</kind>
             <string>/// movement code
-var hasCamera = false;
-with obj_HudController
-{
-    if(followObject == other.id) hasCamera = true;
-}
-
 if(loadedCheck)
 {
     // tool highlighter
@@ -149,7 +143,7 @@ if(loadedCheck)
     else if( toolX != 0 || toolY != 0)
     {
         // tool is consistant and counting up!
-        toolUseCounter += 0.01;
+        toolUseCounter += scr_DTscale(0.025);
         usingTool = true;
     }
     else
@@ -157,7 +151,7 @@ if(loadedCheck)
         // tool recovery counter when not in use
         if(toolUseCounter&lt;0)
         {
-            toolUseCounter += 1;
+            toolUseCounter += scr_DTscale(0.1);
         }
         else
         {
@@ -227,18 +221,18 @@ if(loadedCheck)
     // apply movement acceleration
     if(UD != 0 || LR != 0)
     {
-        var maxSpd = 0.15;
+        var maxSpd = 1;
         if(keyboard_check(global.keySprint))
         {
-            maxSpd = 0.25;
+            maxSpd = 2;
         }
         if(Nmomentum &lt; maxSpd)
         {
-            Nmomentum += 0.006;
+            Nmomentum += scr_DTscale(0.3);
         }
         else
         {
-            Nmomentum *= 0.997;
+            Nmomentum = maxSpd;
         }
     }
     else
@@ -250,7 +244,7 @@ if(loadedCheck)
         }
     }
     var dir = point_direction(0,0, LR, UD);
-    var dis = Nmomentum;
+    var dis = scr_DTscale(Nmomentum);
     var lastX = x;
     var lastY = y;
     
@@ -264,10 +258,9 @@ if(loadedCheck)
     
     
     // calculate falling speed
-    Zmomentum += global._gravity;
+    Zmomentum += scr_DTscale(global._gravity);
     
     // find lowest point for shadow, and as a ground check for falling!
-    var checkDist = 8;
     attemptedGround = z+512;
     
     var blockUnderG = scr_ChunkGetBlock(ActiveChunk, x,y,BlockGridType.ground);
@@ -283,7 +276,7 @@ if(loadedCheck)
     
     
     // apply falling speed
-    z += Zmomentum;
+    z += scr_DTscale(Zmomentum);
     
     
      
@@ -297,7 +290,7 @@ if(loadedCheck)
         if(z == attemptedGround)
         {
             // jump cooldown (maybe rolling animation?)
-            landingLag -= 1;
+            landingLag -= scr_DTscale(1);
             
             // stop
             Zmomentum = 0;
@@ -310,30 +303,29 @@ if(loadedCheck)
                     if(keyboard_check(global.keySprint))
                     {
                         // runjump
-                        Zmomentum = -0.25;
+                        Zmomentum = -400;
                         Nmomentum *= 2;
                         landingLag = 40;
                     }
                     else
                     {
                         // jump
-                        Zmomentum = -0.4;
+                        Zmomentum = -500;
                         Nmomentum *= 1.5;
                         landingLag = 20;
                     }
                 }
             }
-            
-            // prevent jump spam
-            if(keyboard_check(global.keyJump))
-            {
-                holdingJumpStill = true;
-            }
-            else
-            {
-                holdingJumpStill = false;
-            }
         }
+    }
+    // prevent jump spam
+    if(keyboard_check(global.keyJump))
+    {
+        holdingJumpStill = true;
+    }
+    else
+    {
+        holdingJumpStill = false;
     }
 
     

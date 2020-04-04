@@ -221,6 +221,8 @@
     <script>scripts\scr_DrawDepth.gml</script>
     <script>scripts\scr_DrawYOffset.gml</script>
     <script>scripts\scr_FileReadAllLines.gml</script>
+    <script>scripts\scr_UpdateDelta.gml</script>
+    <script>scripts\scr_DTscale.gml</script>
     <scripts name="Blocks">
       <script>scripts\scr_BlockExposureCheck.gml</script>
       <script>scripts\scr_BlockInitData.gml</script>

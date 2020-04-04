@@ -2,7 +2,7 @@
 <object>
   <spriteName>spr_WorldChunk</spriteName>
   <solid>0</solid>
-  <visible>-1</visible>
+  <visible>0</visible>
   <depth>0</depth>
   <persistent>0</persistent>
   <parentName>&lt;undefined&gt;</parentName>
@@ -29,7 +29,7 @@
 rendering = true; // if chunk is drawn
 
 forceRenderUpdate = false;
-updateTimerMax = 20; // delay between updates
+updateTimerMax = 10; // delay between updates
 updateTimer = 0; // timer for it
 
 entitys = ds_list_create(); // all entity ds_map datas
@@ -291,6 +291,7 @@ updateTimer = updateTimerMax + irandom(20);
 
 
 // draw distance check
+var lastRendering = rendering;
 if(rectangle_in_rectangle(x,y,x+global.chunkWidth*16,y+global.chunkHeight*16,view_xview[0]-64,view_yview[0]-64,view_xview[0]+view_wview[0]+64,view_yview[0]+view_hview[0]+64) &gt; 0)
 {
     rendering = true;
@@ -298,6 +299,11 @@ if(rectangle_in_rectangle(x,y,x+global.chunkWidth*16,y+global.chunkHeight*16,vie
 else
 {
     rendering = false;
+}
+if(rendering == true &amp;&amp; lastRendering == false)
+{
+    // first viewed??
+    forceRenderUpdate = true;
 }
 
 
@@ -494,28 +500,6 @@ if(instance_number(obj_WorldChunk) &lt;= 0)
     with obj_WorldController instance_destroy();
 }
 </string>
-          </argument>
-        </arguments>
-      </action>
-    </event>
-    <event eventtype="8" enumb="0">
-      <action>
-        <libid>1</libid>
-        <id>605</id>
-        <kind>0</kind>
-        <userelative>0</userelative>
-        <isquestion>0</isquestion>
-        <useapplyto>0</useapplyto>
-        <exetype>0</exetype>
-        <functionname></functionname>
-        <codestring></codestring>
-        <whoName>self</whoName>
-        <relative>0</relative>
-        <isnot>0</isnot>
-        <arguments>
-          <argument>
-            <kind>1</kind>
-            <string>nodraw</string>
           </argument>
         </arguments>
       </action>

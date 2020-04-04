@@ -62,53 +62,31 @@ show_debug_overlay(true);
     room_speed = global.gameMaxFrames;
 }
 
-// entities and game controller updates
-global._game_time += delta_time * global._game_max_time;
-if(global._game_time &gt; 1)
-{
-    // pause check
-    if(!global.gamePaused)
-    {
-        // update game
-        with(obj_gameUpdatedParent)
-        {
-            // updated when not paused
-            event_user(0);
-        }
-        
-        global.animationStep += 1; // 30fps animation timer
-    }
 
-    with(obj_alwaysUpdatedParent)
+// entities and game controller updates
+scr_UpdateDelta();
+
+
+// pause check
+if(!global.gamePaused)
+{
+    // update game
+    with(obj_gameUpdatedParent)
     {
-        // updated always
+        // updated when not paused
         event_user(0);
     }
     
-    // update time stacker
-    global._game_time -= 1;
-    if(global._game_time &gt;= 1)
-    {
-        global._game_time = 0;
-    }
+    global.animationStep += scr_DTscale(1); // 30fps animation timer
+}
+
+with(obj_alwaysUpdatedParent)
+{
+    // updated always
+    event_user(0);
 }
 
 
-global._frame_time += delta_time * global._frame_max_time;
-if(global._frame_time &gt; 1)
-{
-    draw_enable_drawevent(true);
-    
-    global._frame_time -= 1;
-    if(global._frame_time &gt;= 1)
-    {
-        global._frame_time = 0;
-    }
-}
-else
-{
-    draw_enable_drawevent(false);
-}
 </string>
           </argument>
         </arguments>
