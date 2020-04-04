@@ -31,7 +31,7 @@ with argument0
         returnData = newChunk;
         newChunk.worldController = id;
         
-        if(file_exists(working_directory + "/Worlds/" + string(global.worldData[? "name"]) + "/Universe" + string(UniverseNumber) + "/Chunks/Layer" + string(CurrentWorldLayer) + "/" + scr_ChunkName(newChunk) + ".dat"))
+        if(file_exists(working_directory + "/Worlds/" + string(global.worldData[? "name"]) + "/Universe" + string(UniverseNumber) + "/Chunks/Layer" + string(global.currentLayer) + "/" + scr_ChunkName(newChunk) + ".dat"))
         {
             // not new, load chunk data!
             with newChunk

@@ -1,28 +1,17 @@
-/// scr_WorldGenGround( chunk,zdata,x,y,q,c);
+/// scr_WorldGenGround( chunk,zdata,bdata,x,y,q,c);
 // prepare the data for checking!
 var gridData = argument0.ground;
 var zData    = argument1; // NOTE TO SELF, remember the world grows from the sky!
-var xx = argument2;
-var yy = argument3;
-var QQ = argument4;
-var CC = argument5;
+var bData    = argument2;
+var xx = argument3;
+var yy = argument4;
+var QQ = argument5;
+var CC = argument6;
 
-if(zData > global.worldData[? "seaLevel"])
+if(bData == -1)
 {
-    return scr_BlockInitData( "Base:Water")
-}
-else if(zData > global.worldData[? "seaLevel"]-2)
-{
-    return scr_BlockInitData( "Base:Sand")
-}
-else
-{
-    return scr_BlockInitData( "Base:Dirt")
+    return scr_BlockInitData( "Base:Air");
 }
 
-
-
-
-
-
-
+var genData = bData[? "BlockGenData"];
+return scr_BlockInitData( scr_BiomeGetBlockSpawn(zData,0,genData,xx+QQ,yy+CC));

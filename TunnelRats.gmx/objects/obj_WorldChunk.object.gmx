@@ -36,7 +36,8 @@ entitys = ds_list_create(); // all entity ds_map datas
 ground = -1;  // the chunk sized grid of terrain ground under the walls
 walls = -1;   // the chunk sized grid of solid walls 
 floors = -1;  // the chunk sized grid of placed flooring/plants
-zdata = -1;
+zdata = -1; // layer heights
+bdata = -1; // layer biomes
 
 collisionData = ds_grid_create(global.chunkWidth,global.chunkHeight);
 
@@ -139,16 +140,22 @@ for (q=0; q&lt;global.chunkWidth; q+=1)
     }
 }
 
+
 // clear grids
 if(walls != -1) ds_grid_destroy(walls);
 if(ground != -1) ds_grid_destroy(ground);
 if(floors != -1) ds_grid_destroy(floors);
+if(zdata != -1) ds_grid_destroy(zdata);
+if(bdata != -1) ds_grid_destroy(bdata);
+
+ds_grid_destroy(collisionData);
 
 ds_grid_destroy(puppetWalls);
 ds_grid_destroy(puppetFloors);
 ds_grid_destroy(puppetGround);
 
 ds_list_destroy(entitys);
+
 
 // tell controller we are dead
 var chunkId = id;
@@ -201,6 +208,8 @@ if(ground == -1) // check is already genned!
     ground = ds_grid_create(global.chunkWidth,global.chunkHeight);  // the chunk sized grid of terrain ground under the walls
     floors = ds_grid_create(global.chunkWidth,global.chunkHeight);  // the chunk sized grid of placed flooring/plants
     
+    bdata = ds_grid_create(global.chunkWidth,global.chunkHeight); // world gen ground Z height
+    ds_grid_clear( bdata , -1);  // set bdata to -1;
     zdata = ds_grid_create(global.chunkWidth,global.chunkHeight); // world gen ground Z height
     ds_grid_clear( zdata , 0);  // set zdata to 0;
     
@@ -209,20 +218,28 @@ if(ground == -1) // check is already genned!
     {
         for (var c=0; c&lt;global.chunkHeight; c+=1)
         {
-            // get zheight from world gen and store the zdata
-            zdata[# q,c] = scr_GetGroundHeight(floor(x/16)+q,floor(y/16)+c);
+            random_set_seed(global.worldData[? "seed"] + (floor(x/16) + q) + ((floor(y/16) + c)*16) + (256*global.currentLayer))
             
+            // get zheight from world gen and store the zdata
+            bdata[# q,c] = scr_GetBiomeData(floor(x/16)+q,floor(y/16)+c);
+            zdata[# q,c] = scr_GetGroundHeight(floor(x/16)+q,floor(y/16)+c,bdata[# q,c]);
+            
+            //show_debug_message("WALLGEN===============================================================");
             // get a ds_map of the block at the location
-            var wallData =   scr_WorldGenWalls(id,zdata[# q,c],floor(x/16),floor(y/16),q,c);
+            var wallData =   scr_WorldGenWalls(id,zdata[# q,c],bdata[# q,c],floor(x/16),floor(y/16),q,c);
             scr_ChunkInternalSetBlock(id, q,c,wallData,BlockGridType.walls);
             
-            var groundData = scr_WorldGenGround(id,zdata[# q,c],floor(x/16),floor(y/16),q,c);
+            //show_debug_message("GROUNDGEN===============================================================");
+            var groundData = scr_WorldGenGround(id,zdata[# q,c]-1,bdata[# q,c],floor(x/16),floor(y/16),q,c);
             scr_ChunkInternalSetBlock(id, q,c,groundData,BlockGridType.ground);
             
-            var floorsData = scr_WorldGenFloors(id,zdata[# q,c],floor(x/16),floor(y/16),q,c);
+            //show_debug_message("FLOORGEN===============================================================");
+            var floorsData = scr_WorldGenFloors(id,zdata[# q,c],bdata[# q,c],floor(x/16),floor(y/16),q,c);
             scr_ChunkInternalSetBlock(id, q,c,floorsData,BlockGridType.floors);
         }
     }
+    
+    randomize();
     
     if(global.debug_ChunkLoadingInfo) show_debug_message("generated chunk: " + scr_ChunkName(id));
     scr_ChunkSave(worldController.UniverseNumber,id);

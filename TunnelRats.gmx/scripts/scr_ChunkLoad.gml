@@ -7,8 +7,11 @@ newChunk.walls = ds_grid_create( global.chunkWidth, global.chunkHeight);
 newChunk.ground = ds_grid_create( global.chunkWidth, global.chunkHeight);
 newChunk.floors = ds_grid_create( global.chunkWidth, global.chunkHeight);
 
-var saveDir = working_directory + "/Worlds/" + string(global.worldData[? "name"]) + "/Universe" + string(universe) + "/Chunks/Layer" + string(newChunk.worldController.CurrentWorldLayer) + "/" + scr_ChunkName(newChunk) + ".dat";
+var saveDir = working_directory + "/Worlds/" + string(global.worldData[? "name"]) + "/Universe" + string(universe) + "/Chunks/Layer" + string(global.currentLayer) + "/" + scr_ChunkName(newChunk) + ".dat";
 var loadFile = file_text_open_read(saveDir);
+
+    newChunk.zdata = ds_grid_create(global.chunkWidth,global.chunkHeight); // world gen ground Z height
+    ds_grid_read(newChunk.zdata,file_text_readln(loadFile));
 
     while (!file_text_eof(loadFile)) {
         

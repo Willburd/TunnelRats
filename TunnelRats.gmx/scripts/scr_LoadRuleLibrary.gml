@@ -16,38 +16,36 @@ global.BlockRulesDefault[? "IsFloor"] = false;
 // scan for json block libraries
 var scanLibrarys = ds_map_find_first(global.BlockLibrary);
 
-if( !is_undefined(scanLibrarys) )
+while( !is_undefined(scanLibrarys) )
 {
-    while( !is_undefined(scanLibrarys) )
+    // read the file!
+    var readDir = working_directory + "/Resources/Rules/" + scanLibrarys + ".json";
+    if(file_exists(readDir))
     {
-        // read the file!
-        var readDir = working_directory + "/Resources/Rules/" + scanLibrarys + ".json";
-        if(file_exists(readDir))
+        var stringData = scr_FileReadAllLines(readDir);
+        
+        // decode json and store the block library!
+        var newRulesLib = json_decode(stringData);
+        if(newRulesLib != -1)
         {
-            var stringData = scr_FileReadAllLines(readDir);
-            
-            // decode json and store the block library!
-            var newRulesLib = json_decode(stringData);
-            if(newRulesLib != -1)
-            {
-                show_debug_message("Created block rules for " + string(scanLibrarys) + " library" );
-                ds_map_add_map(ruleLibFull,scanLibrarys,newRulesLib);
-            }
-            
-            // get next file
-            scanLibrarys = ds_map_find_next(global.BlockLibrary,scanLibrarys);
+            show_debug_message("Created block rules for " + string(scanLibrarys) + " library" );
+            ds_map_add_map(ruleLibFull,scanLibrarys,newRulesLib);
         }
-        else
-        {
-            // error?
-            show_debug_message("Rule library for " + string(scanLibrarys) + " did not exist, will use default rules for all blocks..." );
-            ds_map_add_map(ruleLibFull,scanLibrarys, -1);
-            
-            // get next file
-            scanLibrarys = ds_map_find_next(global.BlockLibrary,scanLibrarys);
-        }
+        
+        // get next file
+        scanLibrarys = ds_map_find_next(global.BlockLibrary,scanLibrarys);
+    }
+    else
+    {
+        // error?
+        show_debug_message("Rule library for " + string(scanLibrarys) + " did not exist, will use default rules for all blocks..." );
+        ds_map_add_map(ruleLibFull,scanLibrarys, -1);
+        
+        // get next file
+        scanLibrarys = ds_map_find_next(global.BlockLibrary,scanLibrarys);
     }
 }
+
 
 
 // cleanup

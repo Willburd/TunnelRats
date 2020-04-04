@@ -5,8 +5,11 @@ var chunkObj = argument1;
 // chunkObj.ground;
 // chunkObj.floors;
 
-var saveDir = working_directory + "/Worlds/" + string(global.worldData[? "name"]) + "/Universe" + string(universe) + "/Chunks/Layer" + string(chunkObj.worldController.CurrentWorldLayer) + "/" + scr_ChunkName(chunkObj) + ".dat";
+var saveDir = working_directory + "/Worlds/" + string(global.worldData[? "name"]) + "/Universe" + string(universe) + "/Chunks/Layer" + string(global.currentLayer) + "/" + scr_ChunkName(chunkObj) + ".dat";
 var saveFile = file_text_open_write(saveDir);
+
+    file_text_write_string(saveFile,ds_grid_write(chunkObj.zdata));  file_text_writeln(saveFile);
+    
 
     for (var q=0; q<global.chunkWidth; q+=1)
     {

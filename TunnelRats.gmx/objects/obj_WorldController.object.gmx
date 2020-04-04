@@ -26,37 +26,12 @@
           <argument>
             <kind>1</kind>
             <string>/// controller for spawning world chunks
-randomize();
-var worldName = "Test World Rand";
+worldName = "Test World Rand";
 UniverseNumber = 0;
-CurrentWorldLayer = 0;
+global.currentLayer = 0;
 
-// setup world data based on the seed(for fresh chunks!)
-if(file_exists(working_directory + "/Worlds/" + string(worldName) + "/World.dat"))
-{
-    scr_LoadWorld(worldName);
-}
-else
-{
-    scr_WorldGen(random(9999),worldName); 
-    scr_SaveWorld();
-}
-    
-
-
-global.currentCameraZLevel = global.worldData[? "seaLevel"];
-
-loadedChunkList = ds_list_create();
-
-
-var TLgridX = (floor(view_xview[0] / (global.chunkWidth  * 16))-1) * (global.chunkWidth  * 16);
-var TLgridY = (floor(view_yview[0] / (global.chunkHeight * 16))-1) * (global.chunkHeight * 16);
-
-x = TLgridX + (global.chunkWidth*16*2);
-y = TLgridY + (global.chunkHeight*16*1);
-
-
-pendingEntitySpawns = ds_list_create();
+//temp, going to be called after creating this later by a control object that handles world file/universe/layer selection
+event_user(1);
 </string>
           </argument>
         </arguments>
@@ -82,6 +57,69 @@ pendingEntitySpawns = ds_list_create();
             <string>/// called from obj_WorldChunk's room end function on unload
 ds_list_destroy(loadedChunkList);
 ds_list_destroy(pendingEntitySpawns);
+</string>
+          </argument>
+        </arguments>
+      </action>
+    </event>
+    <event eventtype="7" enumb="11">
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>/// Init world
+
+// setup world data based on the seed(for fresh chunks!)
+if(file_exists(working_directory + "/Worlds/" + string(worldName) + "/World.dat"))
+{
+    scr_LoadWorld(worldName,UniverseNumber);
+}
+else
+{
+    scr_WorldGen(random(9999),worldName); 
+    scr_SaveWorld(worldName, UniverseNumber);
+}
+
+   
+//check if layer biome data exists
+if(file_exists(working_directory + "/Worlds/" + string(worldName) + "/Universe" + string(UniverseNumber) + "/Chunks/LayerData_" + string(global.currentLayer) + ".dat"))
+{
+    // load layer biomes
+    //global.layerLoadedBiomes = scr_LayerLoadBiomes(worldName,UniverseNumber,CurrentWorldLayer);
+}
+else
+{
+    // gen layer biomes
+    if(global.layerLoadedBiomes != -1)
+    {
+        ds_list_destroy(global.layerLoadedBiomes);
+    }
+    global.layerLoadedBiomes = scr_LayerGetBiomes(global.currentLayer);
+    // scr_LayerSaveBiomes(worldName,UniverseNumber,CurrentWorldLayer);
+}
+
+
+
+// setup entity loader, and chunk spawning controls!
+loadedChunkList = ds_list_create();
+var TLgridX = (floor(view_xview[0] / (global.chunkWidth  * 16))-1) * (global.chunkWidth  * 16);
+var TLgridY = (floor(view_yview[0] / (global.chunkHeight * 16))-1) * (global.chunkHeight * 16);
+
+x = TLgridX + (global.chunkWidth*16*2);
+y = TLgridY + (global.chunkHeight*16*1);
+pendingEntitySpawns = ds_list_create();
 </string>
           </argument>
         </arguments>

@@ -33,7 +33,7 @@ global.chunkWidth = 5;
 global.chunkHeight = 5;
 
 global.debug_DisableWorldGen = false;
-global.debug_ChunkLoadingInfo = true;
+global.debug_ChunkLoadingInfo = false;
 global.debug_EntityLoadingInfo = false;
 
 // World gen
@@ -44,6 +44,8 @@ global.hillMap_Scale = 1;
 global.unloadingTimer = 400; // if this is under 0 allow unload
 global.loadingTimer = 10; // if this is under 0 allow loading
 
+global.currentLayer = 0;
+global.layerLoadedBiomes = -1;
 
 // keyboard control
 global.keyLeft = vk_left;
@@ -62,7 +64,13 @@ global.keyUseDown = ord('S');
 
 
 // create block database from external files
-global.BlockLibrary = scr_LoadBlockLibrary();
-global.BlockRulesDefault = -1;
-global.BlockRules = scr_LoadRuleLibrary();
-global.TextureLibrary = scr_LoadTextureLibrary();
+global.BlockLibrary = scr_LoadBlockLibrary();       // ds_map filled with ds_maps
+global.BlockRulesDefault = -1;                      
+global.BlockRules = scr_LoadRuleLibrary();          // ds_map filled with ds_maps
+global.TextureLibrary = scr_LoadTextureLibrary();   // ds_map filled with bgs
+global.BiomeLibrary = scr_LoadBiomes();             // ds_priority filled with maps
+
+
+
+// RANDOMIZE!
+randomize();

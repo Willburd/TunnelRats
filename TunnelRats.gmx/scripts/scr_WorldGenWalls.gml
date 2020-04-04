@@ -1,20 +1,30 @@
-/// scr_WorldGenWalls( chunk,zdata,x,y,q,c);
+/// scr_WorldGenWalls( chunk,zdata,bdata,x,y,q,c);
 // prepare the data for checking!
 var gridData = argument0.walls;
 var zData    = argument1; // NOTE TO SELF, remember the world grows from the sky!
-var xx = argument2;
-var yy = argument3;
-var QQ = argument4;
-var CC = argument5;
+var bData    = argument2;
+var xx = argument3;
+var yy = argument4;
+var QQ = argument5;
+var CC = argument6;
 
-if(zData > global.worldData[? "seaLevel"]-11)
+
+if(bData == -1)
 {
-    return scr_BlockInitData( "Base:Air")
+    return scr_BlockInitData( "Base:Air");
 }
-else
+
+var genData = bData[? "BlockGenData"];
+var checkZ = genData[? "WallZThreshold"];
+if(zData >= checkZ)
 {
-    return scr_BlockInitData( "Base:Dirt")
+    return scr_BlockInitData( scr_BiomeGetBlockSpawn(zData,0,genData,xx+QQ,yy+CC));
 }
+else 
+{
+    return scr_BlockInitData( "Base:Air");
+}
+
 
 
 

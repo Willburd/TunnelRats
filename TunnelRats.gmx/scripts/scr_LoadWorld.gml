@@ -1,4 +1,4 @@
-/// scr_LoadWorld(name);
+/// scr_LoadWorld(name, universeNumber);
 if(!ds_exists(global.worldData,ds_type_map))
 {
     global.worldData = ds_map_create();
@@ -32,9 +32,8 @@ if(!is_undefined(global.worldData[? "chunkHeight"]))
 
 
 // load universe data
-var saveDir = working_directory + "/Worlds/" + string(argument0) + "/Universe0/";
+var saveDir = working_directory + "/Worlds/" + string(argument0) + "/Universe" + string(argument1) + "/";
 var saveFile = file_text_open_read(saveDir + "RawMap.dat");
-
     global.worldData[? "continentMap"] = ds_grid_create(0,0);
     ds_grid_read(global.worldData[? "continentMap"],    file_text_readln(saveFile));
     global.worldData[? "mountainMap"] = ds_grid_create(0,0);

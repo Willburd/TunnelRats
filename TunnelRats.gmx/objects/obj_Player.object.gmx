@@ -362,7 +362,7 @@ if(loadedCheck)
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>/*
+            <string>
 if(instance_exists(ActiveChunk))
 {
     for (q=0; q&lt;global.chunkWidth; q+=1)
@@ -373,7 +373,7 @@ if(instance_exists(ActiveChunk))
         }
     }
 }
-*/
+
 </string>
           </argument>
         </arguments>

@@ -1,0 +1,14 @@
+{
+	"Name" : "Archipelago",
+	"BiomeChance" :		0.8,
+	"LayerBounds" : 	[ 0, 0],
+	"Temperature" : 	[ 0, 256],
+	"Humidity" : 		[ 0, 256],
+	"Wind" : 			[ 0, 256],
+	"Magic" : 			[ 0, 256],
+	"Evil" : 			[ 0, 256],
+	"Density" : 		[ 0, 256],
+	"ContinentHeight" : [ 0, 256],
+	"MountainHeight" : 	[ 0, 256],
+	"HillHeight" : 		[ 0, 256]
+}
