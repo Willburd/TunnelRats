@@ -5,6 +5,7 @@ var yy = argument2;
 var selector = argument3; // wall/ground/floor
 var neighbours = argument4;
 
+chunk.updateTimer = 0;
 var blockData = scr_ChunkGetBlock(chunk,xx,yy,selector);
 if(blockData != -1) blockData[? "NeedUpdate"] = true;
 

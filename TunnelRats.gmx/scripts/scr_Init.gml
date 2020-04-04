@@ -28,8 +28,8 @@ global.resMode = 1;
 
 // camera
 global.outputResolutionHeight = 144;
-global.chunkWidth = 5;
-global.chunkHeight = 5;
+global.chunkWidth = 6;
+global.chunkHeight = 6;
 
 global.debug_DisableWorldGen = false;
 global.debug_ChunkLoadingInfo = false;
