@@ -25,7 +25,7 @@ if(xx < startChunk.x)
     }
 }
 
-if(xx > startChunk.x + (global.chunkWidth * 16))
+if(xx >= startChunk.x + (global.chunkWidth * 16))
 {
     if(startChunk.neighbour_east != noone)
     {
@@ -55,7 +55,7 @@ if(yy < startChunk.y)
     }
 }
 
-if(yy > startChunk.y + (global.chunkHeight * 16))
+if(yy >= startChunk.y + (global.chunkHeight * 16))
 {
     if(startChunk.neighbour_south != noone)
     {

@@ -295,6 +295,7 @@
     <object>objects\obj_WorldEntityGravityParent</object>
     <object>objects\obj_HudController</object>
     <object>objects\obj_HighLightBlock</object>
+    <object>objects\obj_testPhysicsObject</object>
     <object>objects\obj_Player</object>
   </objects>
   <rooms name="rooms">

@@ -190,19 +190,25 @@ global.unloadingTimer += 1;
 for (i=0; i&lt;ds_list_size(loadedChunkList); i+=1)
 {
     var chunk = loadedChunkList[| i];
-    scr_ChunkUpdate(chunk, (random(400) &lt; 1) );
-    if(chunk.processing)
-    {
-        scr_ChunkEntityUpdate(chunk);
-    }
-    
     if(chunk.updateTimer &lt; -chunk.updateTimerMax &amp;&amp; global.unloadingTimer &gt;= 2)
     {
         // out of range!
         with chunk instance_destroy();
         global.unloadingTimer = 0;
     }
+    else
+    {
+        // process chunk!
+        scr_ChunkUpdate(chunk, (random(400) &lt; 1) );
+        if(chunk.processing)
+        {
+            scr_ChunkEntityUpdate(chunk);
+        }
+    }
 }
+
+
+
 </string>
           </argument>
         </arguments>

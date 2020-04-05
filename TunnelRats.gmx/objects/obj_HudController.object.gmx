@@ -61,8 +61,8 @@ if(!global.gamePaused)
         y += lengthdir_y(dis,dir);
     }
     
-    view_xview[0] = x-view_wview[0]/2;
-    view_yview[0] = y-view_hview[0]/2;
+    view_xview[0] = floor( x-view_wview[0]/2);
+    view_yview[0] = floor( y-view_hview[0]/2);
 }
 // maybe add pause menu here?
 

@@ -79,7 +79,10 @@ depth = -y;
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>if(walls != -1)
+            <string>processing = false;
+rendering = false;
+
+if(walls != -1)
 {
     // only save if genned!
     scr_ChunkSave(worldController.UniverseNumber,id);
@@ -154,6 +157,11 @@ ds_grid_destroy(puppetWalls);
 ds_grid_destroy(puppetFloors);
 ds_grid_destroy(puppetGround);
 
+
+while (ds_list_size(entitys) &gt; 0)
+{
+    with entitys[| 0] instance_destroy();
+}
 ds_list_destroy(entitys);
 
 

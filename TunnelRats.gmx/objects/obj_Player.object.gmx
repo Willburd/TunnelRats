@@ -132,16 +132,6 @@ if(loadedCheck)
             Nmomentum = 0;
         }
     }
-    
-    // prevent jump spam
-    if(keyboard_check(global.keyJump))
-    {
-        holdingJumpStill = true;
-    }
-    else
-    {
-        holdingJumpStill = false;
-    }
 }
 </string>
           </argument>
@@ -160,6 +150,67 @@ if(loadedCheck)
         <whoName>self</whoName>
         <relative>0</relative>
         <isnot>0</isnot>
+      </action>
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>/// Jump control
+if(loadedCheck)
+{
+    if(z == attemptedGround)
+    {
+        // jump cooldown (maybe rolling animation?)
+        landingLag -= scr_DTscale(1);
+        
+        // jumping!
+        if(keyboard_check(global.keyJump) &amp;&amp; holdingJumpStill == false)
+        {
+            if(landingLag &lt;= 0)
+            {
+                if(keyboard_check(global.keySprint))
+                {
+                    // runjump
+                    Zmomentum = -3;
+                    Nmomentum *= 2;
+                    landingLag = 5;
+                }
+                else
+                {
+                    // jump
+                    Zmomentum = -3;
+                    Nmomentum *= 1.1;
+                    landingLag = 2;
+                }
+            }
+        }
+    }
+    
+    // prevent jump spam
+    if(keyboard_check(global.keyJump))
+    {
+        holdingJumpStill = true;
+    }
+    else
+    {
+        holdingJumpStill = false;
+    }
+}
+</string>
+          </argument>
+        </arguments>
       </action>
       <action>
         <libid>1</libid>
@@ -316,7 +367,7 @@ depth = scr_DrawDepth(x,y,z);
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>//draw_text(0,16, instance_number(obj_WorldChunk));
+            <string>draw_text(0,16, instance_number(obj_WorldEntityParent));
 // draw_text(0,16, global._game_time / global._game_max_time);
 /*
 if(ActiveChunk != noone &amp;&amp; ActiveChunk.ground != -1 &amp;&amp; ActiveChunk.ground[# 0,0] != -1)
@@ -371,7 +422,36 @@ if(instance_exists(ActiveChunk))
           <argument>
             <kind>1</kind>
             <string>draw_sprite_ext(spr_shadow,image_index,x,y + scr_DrawYOffset(attemptedGround),1,1,0,image_blend,1);
-draw_sprite_ext(spr_playerTest,image_index,x,y + scr_DrawYOffset(z),1,1,0,image_blend,1);
+draw_sprite_ext(sprite_index,image_index,x,y + scr_DrawYOffset(z),1,1,0,image_blend,1);
+</string>
+          </argument>
+        </arguments>
+      </action>
+    </event>
+    <event eventtype="9" enumb="113">
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>repeat(irandom(10)) 
+{
+    with obj_WorldController
+    {
+        var player = scr_EntitySpawn(other.x,other.y,obj_testPhysicsObject,id);
+    }
+}
 </string>
           </argument>
         </arguments>
