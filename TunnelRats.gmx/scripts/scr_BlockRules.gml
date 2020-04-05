@@ -22,7 +22,7 @@ if(blockData != -1)
 }
 else
 {
-    var getAir = global.BlockRules[? "Base"];
+    var getAir = global.BlockRules[? "None"];
     returnMap = getAir[? "Air"];
 }
 

@@ -11,7 +11,7 @@ var CC = argument6;
 
 if(bData == -1)
 {
-    return scr_BlockInitData( "Base:Air");
+    return scr_BlockInitData( "None:Air");
 }
 
 var biome = global.layerLoadedBiomes[| bData];
@@ -23,7 +23,7 @@ if(zData >= checkZ)
 }
 else 
 {
-    return scr_BlockInitData( "Base:Air");
+    return scr_BlockInitData( "None:Air");
 }
 
 

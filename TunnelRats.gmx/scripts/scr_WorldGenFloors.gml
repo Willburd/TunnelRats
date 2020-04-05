@@ -10,7 +10,7 @@ var CC = argument6;
 
 if(bData == -1)
 {
-    return scr_BlockInitData( "Base:Air");
+    return scr_BlockInitData( "None:Air");
 }
 
 
@@ -26,12 +26,12 @@ if(groundData != -1 && scr_BlockRules(groundData,"CanGrowGrass") )
     }
     else
     {
-        return scr_BlockInitData( "Base:Air");
+        return scr_BlockInitData( "None:Air");
     }
 }
 else
 {
-    return scr_BlockInitData( "Base:Air");
+    return scr_BlockInitData( "None:Air");
 }
 
 

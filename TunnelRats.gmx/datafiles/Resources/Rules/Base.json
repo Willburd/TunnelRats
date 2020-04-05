@@ -1,34 +1,28 @@
 {
-	"Air" : {
-		"IsBlock": true,
-		"IsFloor": false,
-		"Transparent": true,
-		"Solid": false
-	},
-	"Dirt" : {
+	"Block_Dirt" : {
 		"IsBlock": true,
 		"IsFloor": false,
 		"CanGrowGrass": true
 	},
-	"Grass" : {
+	"Floor_Grass" : {
 		"IsBlock": false,
 		"IsFloor": true
 	},
-	"Sand" : {
+	"Block_Sand" : {
 		"IsBlock": true,
 		"IsFloor": false
 	},
-	"Rock" : {
+	"Block_Rock" : {
 		"IsBlock": true,
 		"IsFloor": false
 	},
-	"Water" : {
+	"Block_Water" : {
 		"IsBlock": true,
 		"IsFloor": false,
 		"Solid": false,
 		"Liquid": true
 	},
-	"Brick" : {
+	"Block_Brick" : {
 		"IsBlock": true,
 		"IsFloor": false
 	}

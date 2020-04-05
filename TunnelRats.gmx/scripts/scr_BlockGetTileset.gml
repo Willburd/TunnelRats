@@ -3,7 +3,7 @@
 // will probably only be called by scr_BlockDataToTile()
 
 // hardcoded base:air data
-if(argument0[? "DataName"] == "Base" && argument0[? "Name"] == "Air")
+if(argument0[? "DataName"] == "None" && argument0[? "Name"] == "Air")
 {
     return -1;
 }

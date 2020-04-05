@@ -1,9 +1,9 @@
 /// scr_BlockInitData("database:name");
 // returns a ds_map of block data and states
 
-// hardcoded base:air data
+// hardcoded None:Air data
 var database = argument0;
-if(database == "Base:Air")
+if(database == "None:Air")
 {
     return -1;
 }

@@ -67,7 +67,7 @@ global.BlockLibrary = scr_LoadBlockLibrary();       // ds_map filled with ds_map
 global.BlockRulesDefault = -1;                      
 global.BlockRules = scr_LoadRuleLibrary();          // ds_map filled with ds_maps
 global.TextureLibrary = scr_LoadTextureLibrary();   // ds_map filled with bgs
-global.BiomeLibrary = scr_LoadBiomes();             // ds_priority filled with maps
+global.BiomeLibrary = scr_LoadBiomeLibrary();             // ds_priority filled with maps
 
 
 
