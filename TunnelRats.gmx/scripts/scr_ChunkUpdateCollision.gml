@@ -6,8 +6,8 @@ var CC = argument2;
 enum colType
 {
     empty,
-    hasWall,
-    hasFloor
+    hasFloor,
+    hasWall
 }
 
 if(scr_BlockRules(chunk.walls[# QQ,CC],"Solid"))

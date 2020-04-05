@@ -237,6 +237,7 @@
       <script>scripts\scr_EntitySpawn.gml</script>
       <script>scripts\scr_EntityDetectCurrentChunk.gml</script>
       <script>scripts\scr_EntityRemoveFromChunk.gml</script>
+      <script>scripts\scr_EntityMoveWithCollisions.gml</script>
     </scripts>
     <scripts name="Chunks">
       <script>scripts\scr_ChunkSpawn.gml</script>
@@ -245,6 +246,7 @@
       <script>scripts\scr_ChunkSave.gml</script>
       <script>scripts\scr_ChunkLoad.gml</script>
       <script>scripts\scr_ChunkAddEntity.gml</script>
+      <script>scripts\scr_ChunkGet.gml</script>
       <script>scripts\scr_ChunkGetBlock.gml</script>
       <script>scripts\scr_ChunkSetBlock.gml</script>
       <script>scripts\scr_ChunkInternalSetBlock.gml</script>
@@ -290,6 +292,7 @@
     <object>objects\obj_WorldController</object>
     <object>objects\obj_WorldChunk</object>
     <object>objects\obj_WorldEntityParent</object>
+    <object>objects\obj_WorldEntityGravityParent</object>
     <object>objects\obj_HudController</object>
     <object>objects\obj_HighLightBlock</object>
     <object>objects\obj_Player</object>
