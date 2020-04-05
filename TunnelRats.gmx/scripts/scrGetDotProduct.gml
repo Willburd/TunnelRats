@@ -1,4 +1,5 @@
 // Get the dot product of a given point for all four vectors
+// returns a ds_list that needs to be destroyed!
 
 var xx = argument0;
 var yy = argument1;

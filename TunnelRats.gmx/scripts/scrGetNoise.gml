@@ -17,5 +17,7 @@ var nx0 = n00 * (1 - scrInterpolate(xx mod 1)) + n10 * scrInterpolate(xx mod 1);
 var nx1 = n01 * (1 - scrInterpolate(xx mod 1)) + n11 * scrInterpolate(xx mod 1);
 var nxy = nx0 * (1 - scrInterpolate(yy mod 1)) + nx1 * scrInterpolate(yy mod 1);
 
+ds_list_destroy(dotprod);
+
 // Returns in a range of -1 to 1
 return nxy;
