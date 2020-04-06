@@ -78,6 +78,9 @@ global.TextureLibrary = scr_LoadTextureLibrary();   // ds_map filled with bgs
 global.BiomeLibrary = scr_LoadBiomeLibrary();             // ds_priority filled with maps
 
 
+// draw configs
+texture_set_interpolation(true);
+draw_set_alpha_test_ref_value(254);
 
 // RANDOMIZE!
 randomize();

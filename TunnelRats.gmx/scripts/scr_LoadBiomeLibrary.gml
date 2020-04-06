@@ -71,6 +71,9 @@ while(scanFile != "")
             
             findBiomeName = ds_map_find_next(newBiomeLibrary,findBiomeName );
         }
+        
+        
+        show_debug_message("Created biome library for " + string(libraryName) + " library" );
     }
     else
     {

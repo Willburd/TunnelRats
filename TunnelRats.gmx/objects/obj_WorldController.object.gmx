@@ -199,7 +199,9 @@ for (i=0; i&lt;ds_list_size(loadedChunkList); i+=1)
     else
     {
         // process chunk!
-        scr_ChunkUpdate(chunk, (random(400) &lt; 1) );
+        var viewDist = point_distance(view_xview[0]+(view_wview[0]/2),view_yview[0]+(view_hview[0]/2),chunk.x + (chunkW/2),chunk.y + (chunkH/2));
+        var reRenderChance = 600*inverse_lerp(view_wview[0],-100,viewDist); // higher chance to rerender when near middle of view
+        scr_ChunkUpdate(chunk, (random(reRenderChance) &lt; 1) );
         if(chunk.processing)
         {
             scr_ChunkEntityUpdate(chunk);

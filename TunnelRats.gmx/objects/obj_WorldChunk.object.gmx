@@ -294,28 +294,27 @@ if(rectangle_in_rectangle(x,y,x+global.chunkWidth*16,y+global.chunkHeight*16,vie
 else
 {
     processing = true;
+    
+    // draw distance check
+    var lastRendering = rendering;
+    if(rectangle_in_rectangle(x,y,x+global.chunkWidth*16,y+global.chunkHeight*16,view_xview[0]-96,view_yview[0]-96,view_xview[0]+view_wview[0]+96,view_yview[0]+view_hview[0]+96) &gt; 0)
+    {
+        rendering = true;
+        if(ds_exists(ds_type_list,puppetGround) &amp;&amp; ds_list_size(puppetGround) == 0)
+        {
+            forceRenderUpdate = true;
+        }
+    }
+    else
+    {
+        rendering = false;
+    }
 }
+
 
 // update lockdown
 if(updateTimer &gt; 0) exit; // skip update
 updateTimer = updateTimerMax + irandom(20);
-
-
-// draw distance check
-var lastRendering = rendering;
-if(rectangle_in_rectangle(x,y,x+global.chunkWidth*16,y+global.chunkHeight*16,view_xview[0]-96,view_yview[0]-96,view_xview[0]+view_wview[0]+96,view_yview[0]+view_hview[0]+96) &gt; 0)
-{
-    rendering = true;
-}
-else
-{
-    rendering = false;
-}
-if(rendering == true &amp;&amp; lastRendering == false)
-{
-    // first viewed??
-    forceRenderUpdate = true;
-}
 
 
 // check if the chunk has been genned yet!
