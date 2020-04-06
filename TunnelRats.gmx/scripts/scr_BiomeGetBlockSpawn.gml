@@ -31,11 +31,6 @@ for (var i=0; i<ds_list_size(generationList); i+=1)
             var minimumHeight = conditionList[| 1];
             var maximumHeight = conditionList[| 2];
             
-            //show_debug_message("MIXED HEIGHT ==================");
-            //show_debug_message(zCheckLevel);
-            //show_debug_message(minimumHeight);
-            //show_debug_message(maximumHeight);
-        
             if(zheight < minimumHeight || zheight > maximumHeight)
             {
                 conditionsPassed = false;
@@ -43,20 +38,22 @@ for (var i=0; i<ds_list_size(generationList); i+=1)
         }
         else if(conditionList[| 0] == "Density")
         {
-            conditionsPassed = false;
+            // remember that the world grows from the sky! 
+            var contHeight = scr_SafeData(global.worldData[? "DensityMap"]   ,XQ,YC,global.continentMap_Scale) * argument2[? "DensityMultiplier"];
+            var minimumHeight = conditionList[| 1];
+            var maximumHeight = conditionList[| 2];
+        
+            if(contHeight < minimumHeight || contHeight > maximumHeight)
+            {
+                conditionsPassed = false;
+            }
         }
         else if(conditionList[| 0] == "ContinentHeight")
         {
             // remember that the world grows from the sky! 
-            var contHeight = scr_SafeData(global.worldData[? "continentMap"]   ,XQ,YC,global.continentMap_Scale) * argument2[? "ContinentMultiplier"];
+            var contHeight = scr_SafeData(global.worldData[? "ContinentMap"]   ,XQ,YC,global.continentMap_Scale) * argument2[? "ContinentMultiplier"];
             var minimumHeight = conditionList[| 1];
             var maximumHeight = conditionList[| 2];
-        
-            //show_debug_message("CONTIHEIGHT ==================");
-            //show_debug_message(zCheckLevel);
-            //show_debug_message(minimumHeight);
-            //show_debug_message(maximumHeight);
-            
         
             if(contHeight < minimumHeight || contHeight > maximumHeight)
             {
@@ -70,11 +67,6 @@ for (var i=0; i<ds_list_size(generationList); i+=1)
             var minimumHeight = conditionList[| 1];
             var maximumHeight = conditionList[| 2];
             
-            //show_debug_message("MOUNTHEIGHT ==================");
-            //show_debug_message(zCheckLevel);
-            //show_debug_message(minimumHeight);
-            //show_debug_message(maximumHeight);
-        
             if(mountHeight < minimumHeight || mountHeight > maximumHeight)
             {
                 conditionsPassed = false;
@@ -87,12 +79,67 @@ for (var i=0; i<ds_list_size(generationList); i+=1)
             var minimumHeight = contHeight + conditionList[| 1];
             var maximumHeight = contHeight + conditionList[| 2];
             
-            //show_debug_message("HILLHEIGHT ==================");
-            //show_debug_message(zCheckLevel);
-            //show_debug_message(minimumHeight);
-            //show_debug_message(maximumHeight);
-        
             if(hillHeight < minimumHeight || hillHeight > maximumHeight)
+            {
+                conditionsPassed = false;
+            }
+        }
+        else if(conditionList[| 0] == "Temperature")
+        {
+            // remember that the world grows from the sky! 
+            var contHeight = scr_SafeData(global.worldData[? "TemperatureMap"]   ,XQ,YC,global.continentMap_Scale);
+            var minimumHeight = conditionList[| 1];
+            var maximumHeight = conditionList[| 2];
+        
+            if(contHeight < minimumHeight || contHeight > maximumHeight)
+            {
+                conditionsPassed = false;
+            }
+        }
+        else if(conditionList[| 0] == "Humidity")
+        {
+            // remember that the world grows from the sky! 
+            var contHeight = scr_SafeData(global.worldData[? "HumidityMap"]   ,XQ,YC,global.continentMap_Scale);
+            var minimumHeight = conditionList[| 1];
+            var maximumHeight = conditionList[| 2];
+        
+            if(contHeight < minimumHeight || contHeight > maximumHeight)
+            {
+                conditionsPassed = false;
+            }
+        }
+        else if(conditionList[| 0] == "Wind")
+        {
+            // remember that the world grows from the sky! 
+            var contHeight = scr_SafeData(global.worldData[? "WindMap"]   ,XQ,YC,global.continentMap_Scale);
+            var minimumHeight = conditionList[| 1];
+            var maximumHeight = conditionList[| 2];
+        
+            if(contHeight < minimumHeight || contHeight > maximumHeight)
+            {
+                conditionsPassed = false;
+            }
+        }
+        else if(conditionList[| 0] == "Magic")
+        {
+            // remember that the world grows from the sky! 
+            var contHeight = scr_SafeData(global.worldData[? "MagicMap"]   ,XQ,YC,global.continentMap_Scale);
+            var minimumHeight = conditionList[| 1];
+            var maximumHeight = conditionList[| 2];
+        
+            if(contHeight < minimumHeight || contHeight > maximumHeight)
+            {
+                conditionsPassed = false;
+            }
+        }
+        else if(conditionList[| 0] == "Evil")
+        {
+            // remember that the world grows from the sky! 
+            var contHeight = scr_SafeData(global.worldData[? "EvilMap"]   ,XQ,YC,global.continentMap_Scale);
+            var minimumHeight = conditionList[| 1];
+            var maximumHeight = conditionList[| 2];
+        
+            if(contHeight < minimumHeight || contHeight > maximumHeight)
             {
                 conditionsPassed = false;
             }
@@ -106,4 +153,4 @@ for (var i=0; i<ds_list_size(generationList); i+=1)
     }
 }
 
-return "Base:Air";
+return "None:Air";

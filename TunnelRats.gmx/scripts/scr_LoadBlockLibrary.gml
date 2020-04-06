@@ -17,6 +17,14 @@ while(scanFile != "")
         var libName = string_copy(scanFile,0, string_length(scanFile)-5);
         show_debug_message("Created block library " + string(libName) );
         
+        var loadBlock = ds_map_find_first(newBlockLib );
+        
+        while (!is_undefined(loadBlock))
+        {
+            show_debug_message("-- Loaded block: " + loadBlock );
+            loadBlock = ds_map_find_next(newBlockLib,loadBlock );
+        }
+        
         ds_map_add_map(blockLibFull,libName,newBlockLib);
     }
     else

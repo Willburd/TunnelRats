@@ -1,15 +1,29 @@
 {
 	"Island" : {
 		"Name" : "Archipelago",
-		"BiomeChance" :		0.8,
+		"BiomePriority" :		1,
 		"LayerBounds" : 	[ 0, 0],
-		"Temperature" : 	[ 0, 256],
+		"Temperature" : 	[ 0, 139],
 		"Humidity" : 		[ 0, 256],
 		"Wind" : 			[ 0, 256],
 		"Magic" : 			[ 0, 256],
 		"Evil" : 			[ 0, 256],
 		"Density" : 		[ 0, 256],
-		"ContinentHeight" : [ 0, 256],
+		"ContinentHeight" : [49, 256],
+		"MountainHeight" : 	[ 0, 256],
+		"HillHeight" : 		[ 0, 256]
+	},
+	"Desert" : {
+		"Name" : "Arid Wasteland",
+		"BiomePriority" :		1,
+		"LayerBounds" : 	[ 0, 0],
+		"Temperature" : 	[ 140, 256],
+		"Humidity" : 		[ 0, 256],
+		"Wind" : 			[ 0, 256],
+		"Magic" : 			[ 0, 256],
+		"Evil" : 			[ 0, 256],
+		"Density" : 		[ 0, 256],
+		"ContinentHeight" : [50, 256],
 		"MountainHeight" : 	[ 0, 256],
 		"HillHeight" : 		[ 0, 256]
 	}

@@ -367,7 +367,7 @@ depth = scr_DrawDepth(x,y,z);
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>draw_text(0,16, instance_number(obj_WorldEntityParent));
+            <string>//draw_text(0,16, instance_number(obj_WorldEntityParent));
 // draw_text(0,16, global._game_time / global._game_max_time);
 /*
 if(ActiveChunk != noone &amp;&amp; ActiveChunk.ground != -1 &amp;&amp; ActiveChunk.ground[# 0,0] != -1)
@@ -381,13 +381,13 @@ if(ActiveChunk != noone &amp;&amp; ActiveChunk.ground != -1 &amp;&amp; ActiveChu
         draw_text(0,0,block[? "Name"]);
     }
 }
-
+*/
 if(ActiveChunk != noone &amp;&amp; ActiveChunk.bdata != -1 &amp;&amp; ActiveChunk.bdata[# 0,0] != -1)
 {
     var biome = global.layerLoadedBiomes[| ActiveChunk.bdata[# 0,0]];
     draw_text(0,0,biome[? "_InternalSaveName"]);
 }
-
+/*
 if(instance_exists(ActiveChunk))
 {
     for (q=0; q&lt;global.chunkWidth; q+=1)
@@ -449,8 +449,24 @@ draw_sprite_ext(sprite_index,image_index,x,y + scr_DrawYOffset(z),1,1,0,image_bl
 {
     with obj_WorldController
     {
-        var player = scr_EntitySpawn(other.x,other.y,obj_testPhysicsObject,id);
+        //var player = scr_EntitySpawn(other.x,other.y,obj_testPhysicsObject,id);
     }
+    
+    
+    var xx = floor(x/16);
+    var yy = floor(y/16);
+    
+    show_debug_message("Data at current XY ------------------------------------------------------------");
+    show_debug_message("Temp " + string(scr_SafeData(global.worldData[? "TemperatureMap"]   ,xx,yy,global.temperatureMap_Scale)));
+    show_debug_message("Humi " + string(scr_SafeData(global.worldData[? "HumidityMap"]      ,xx,yy,global.humidityMap_Scale)));
+    show_debug_message("Wind " + string(scr_SafeData(global.worldData[? "WindMap"]          ,xx,yy,global.windMap_Scale)));
+    show_debug_message("Magi " + string(scr_SafeData(global.worldData[? "MagicMap"]         ,xx,yy,global.magicMap_Scale)));
+    show_debug_message("Evil " + string(scr_SafeData(global.worldData[? "EvilMap"]          ,xx,yy,global.evilMap_Scale)));
+    show_debug_message("Deni " + string(scr_SafeData(global.worldData[? "DensityMap"]       ,xx,yy,global.densityMap_Scale)));
+    show_debug_message("Cont " + string(scr_SafeData(global.worldData[? "ContinentMap"]     ,xx,yy,global.continentMap_Scale)));
+    show_debug_message("Moun " + string(scr_SafeData(global.worldData[? "MountainMap"]      ,xx,yy,global.mountainMap_Scale)));
+    show_debug_message("Hill " + string(scr_SafeData(global.worldData[? "HillMap"]          ,xx,yy,global.hillMap_Scale)));
+    show_debug_message("------------------------------------------------------------------------------");
 }
 </string>
           </argument>

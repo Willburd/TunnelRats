@@ -12,9 +12,13 @@ if(global.debug_DisableWorldGen == false && bdata != -1)
     var biome = global.layerLoadedBiomes[| bdata];
     var genData = biome[? "BlockGenData"];
 
-    var contHeight = scr_SafeData(global.worldData[? "continentMap"]   ,xx,yy,global.continentMap_Scale);
-    var montHeight = scr_SafeData(global.worldData[? "mountainMap"]    ,xx,yy,global.mountainMap_Scale);
-    var hillHeight = scr_SafeData(global.worldData[? "hillMap"]        ,xx,yy,global.hillMap_Scale);
+    var densHeight = scr_SafeData(global.worldData[? "DensityMap"]   ,xx,yy,global.continentMap_Scale);
+    var contHeight = scr_SafeData(global.worldData[? "ContinentMap"]   ,xx,yy,global.continentMap_Scale);
+    var montHeight = scr_SafeData(global.worldData[? "MountainMap"]    ,xx,yy,global.mountainMap_Scale);
+    var hillHeight = scr_SafeData(global.worldData[? "HillMap"]        ,xx,yy,global.hillMap_Scale);
+    
+    groundHeight += floor(densHeight * genData[? "DensityMultiplier"]);
+    groundHeight += genData[? "DensityOffset"];
     
     groundHeight += floor(contHeight * genData[? "ContinentMultiplier"]);
     groundHeight += genData[? "ContinentOffset"];

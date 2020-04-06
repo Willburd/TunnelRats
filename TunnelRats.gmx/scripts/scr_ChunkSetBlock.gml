@@ -29,6 +29,7 @@ while(true)
     else
     {
         // force spawn a new chunk!
+        scr_ChunkUpdate( chunk,true); // update the last chunk!
         chunk = scr_ChunkForceSpawn(worldController, xx, yy);
         
         // HAHA RECURSION

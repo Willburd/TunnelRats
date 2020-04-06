@@ -1,0 +1,19 @@
+{
+	"DensityMultiplier" : 	0.0,
+	"DensityOffset" : 		0,
+	"ContinentMultiplier" : 0.2,
+	"ContinentOffset" : 	-34,
+	"MountainMultiplier" : 	0.045,
+	"MountainOffset" : 		0,
+	"HillMultiplier" : 		0.05,
+	"HillOffset" : 			0,
+	"BlockGen" : [
+	["Base:Block_Water",	["MixedHeight",    -99,    -50],["Humidity",   	     130,    256]],
+	["Base:Block_Rock",		["MixedHeight",    -99,    -50]],
+	["Base:Block_Dirt",		["MixedHeight",    -49,      9],["Humidity",   	     130,    256], ["Chance", 0.04]],
+	["Base:Block_Sand",		["MixedHeight",    -49,      9]],
+	["Base:Block_Dirt",		["MixedHeight",     10,     12],["Chance", 0.2]],
+	["Base:Block_Rock",		["MixedHeight",     10,    256]]],
+	"WallZThreshold" : 12,
+	"BiomeGrass" :	"Base:Floor_Grass"
+}

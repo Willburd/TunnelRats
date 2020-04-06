@@ -51,6 +51,8 @@ while(scanFile != "")
                         boundingData = LayerBounds[? "LayerBounds"];
                     }
                     
+                    show_debug_message("-- Loaded biome: " + string(libraryName) + ":" + string(findBiomeName) );
+                    
                     // store the biome in priority list, sorted by their starting gen layer
                     ds_priority_add(biomeLibFull,biomeData,boundingData[| 0]); 
                 }
