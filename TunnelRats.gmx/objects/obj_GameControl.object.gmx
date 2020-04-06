@@ -77,7 +77,11 @@ if(!global.gamePaused)
         event_user(0);
     }
     
-    global.animationStep += scr_DTscale(1); // 30fps animation timer
+    // animation timer
+    global.animationStep += scr_DTscale(1);
+    
+    // part system update
+    part_system_update(global.partSys);
 }
 
 with(obj_alwaysUpdatedParent)

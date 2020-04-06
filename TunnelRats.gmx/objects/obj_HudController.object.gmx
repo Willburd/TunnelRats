@@ -61,6 +61,8 @@ if(!global.gamePaused)
         y += lengthdir_y(dis,dir);
     }
     
+    part_system_depth( global.partSys, scr_DrawDepth(followObject.x, followObject.y, followObject.z ) - 99999);
+    
     view_xview[0] = floor( x-view_wview[0]/2);
     view_yview[0] = floor( y-view_hview[0]/2);
 }

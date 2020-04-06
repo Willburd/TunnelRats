@@ -51,6 +51,28 @@ Ndirection = 0;
         <isnot>0</isnot>
       </action>
     </event>
+    <event eventtype="7" enumb="15">
+      <action>
+        <libid>1</libid>
+        <id>605</id>
+        <kind>0</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>0</useapplyto>
+        <exetype>0</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>landing event for children objects!</string>
+          </argument>
+        </arguments>
+      </action>
+    </event>
     <event eventtype="7" enumb="10">
       <action>
         <libid>1</libid>
@@ -108,8 +130,15 @@ if(loadedCheck)
     if(Zmomentum &gt;= 0)
     {
         // lock to ground
+        var zbeforelock = z;
         z = min(z,attemptedGround); 
-    
+        
+        if(zbeforelock &lt; z)
+        {
+            // land on ground event
+            event_user(5);
+        }
+        
         // ground control to major tom!
         if(z == attemptedGround)
         {

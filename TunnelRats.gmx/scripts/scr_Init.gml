@@ -78,6 +78,12 @@ global.TextureLibrary = scr_LoadTextureLibrary();   // ds_map filled with bgs
 global.BiomeLibrary = scr_LoadBiomeLibrary();             // ds_priority filled with maps
 
 
+// particle system
+global.partSys = part_system_create();
+part_system_automatic_update(global.partSys, false);
+global.partLibrary = scr_LoadParticleLibrary();
+
+
 // draw configs
 texture_set_interpolation(true);
 draw_set_alpha_test_ref_value(254);

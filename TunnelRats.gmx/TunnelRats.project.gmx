@@ -226,19 +226,26 @@
   <NewExtensions/>
   <sounds name="sound"/>
   <sprites name="sprites">
-    <sprite>sprites\spr_blockParent</sprite>
-    <sprite>sprites\spr_blockHighlight</sprite>
-    <sprite>sprites\spr_blockCol</sprite>
-    <sprite>sprites\spr_colMask16x</sprite>
-    <sprite>sprites\spr_colMask8x</sprite>
+    <sprites name="Collision">
+      <sprite>sprites\spr_blockParent</sprite>
+      <sprite>sprites\spr_blockHighlight</sprite>
+      <sprite>sprites\spr_blockCol</sprite>
+      <sprite>sprites\spr_colMask16x</sprite>
+      <sprite>sprites\spr_colMask8x</sprite>
+    </sprites>
+    <sprites name="Particles">
+      <sprite>sprites\spr_part_DustPuff</sprite>
+    </sprites>
+    <sprites name="Controllers">
+      <sprite>sprites\spr_controller</sprite>
+      <sprite>sprites\spr_World</sprite>
+      <sprite>sprites\spr_WorldChunk</sprite>
+      <sprite>sprites\spr_WorldEntity</sprite>
+      <sprite>sprites\spr_cam</sprite>
+    </sprites>
     <sprite>sprites\spr_playerTest</sprite>
     <sprite>sprites\spr_playerCrouch</sprite>
     <sprite>sprites\spr_shadow</sprite>
-    <sprite>sprites\spr_controller</sprite>
-    <sprite>sprites\spr_World</sprite>
-    <sprite>sprites\spr_WorldChunk</sprite>
-    <sprite>sprites\spr_WorldEntity</sprite>
-    <sprite>sprites\spr_cam</sprite>
   </sprites>
   <backgrounds name="background">
     <background>background\bg_testBlock</background>
@@ -250,6 +257,7 @@
     <script>scripts\scr_LoadRuleLibrary.gml</script>
     <script>scripts\scr_LoadTextureLibrary.gml</script>
     <script>scripts\scr_LoadBiomeLibrary.gml</script>
+    <script>scripts\scr_LoadParticleLibrary.gml</script>
     <script>scripts\inverse_lerp.gml</script>
     <script>scripts\scr_DrawDepth.gml</script>
     <script>scripts\scr_DrawYOffset.gml</script>

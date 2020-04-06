@@ -54,6 +54,31 @@ myHighlight = noone;
         </arguments>
       </action>
     </event>
+    <event eventtype="7" enumb="15">
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>/// landing event called by gravity parent
+// landing dust puff.
+part_particles_create(global.partSys,x + random_range(-8,8) ,y + random_range(-2,2), global.partLibrary[? "DustPuff"],8);
+</string>
+          </argument>
+        </arguments>
+      </action>
+    </event>
     <event eventtype="7" enumb="11">
       <action>
         <libid>1</libid>
@@ -311,6 +336,8 @@ if(loadedCheck)
                 scr_ChunkSetBlock(ActiveChunk,x + (toolX * 16) ,y + (toolY * 16),-1,BlockGridType.walls);
                 scr_BlockTriggerUpdate(ActiveChunk,x + (toolX * 16) ,y + (toolY * 16),BlockGridType.walls,true);
                 toolUseCounter = -1;
+                
+                part_particles_create(global.partSys,floor(((x + (toolX * 16))/16)*16)+8 ,(floor((y + (toolY * 16))/16)*16)+8, global.partLibrary[? "DustPuff"],10);
             }
         }
     }
