@@ -9,7 +9,7 @@ if(argument0[? "DataName"] == "None" && argument0[? "Name"] == "Air")
 }
 
 // lets get to this proper....
-var texName = argument0[? "DataName"] + ":" + argument0[? "Name"] + "_" + string(argument0[? "TextureSelect"]);
+var texName = "Blocks:" + argument0[? "DataName"] + ":" + argument0[? "Name"] + "_" + string(argument0[? "TextureSelect"]);
 if(is_undefined(global.TextureLibrary[? texName]))
 {
     return bg_testBlock;

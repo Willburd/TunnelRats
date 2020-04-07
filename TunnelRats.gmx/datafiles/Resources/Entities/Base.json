@@ -1,8 +1,11 @@
 {
 	"Entity_Dirt" : {
 		"DisplayName": "Dirt",
+		"internalObjectType" : "obj_testPhysicsObject",
 		"Textures": [
 			"Tex_Dirt"
-		]
+		],
+		"SavedByChunk" : true,
+		"DestroyedOnUnload" : false
 	}
 }

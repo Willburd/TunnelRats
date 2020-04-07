@@ -20,6 +20,12 @@ while(scanFile != "")
         while (!is_undefined(loadBlock))
         {
             show_debug_message("-- Loaded block: " + loadBlock );
+            
+            // presetup block
+            var findBlock = newBlockLib[? loadBlock]; 
+            findBlock[? "DataName"] = libName;
+            findBlock[? "Name"] = loadBlock;
+            
             loadBlock = ds_map_find_next(newBlockLib,loadBlock );
         }
         

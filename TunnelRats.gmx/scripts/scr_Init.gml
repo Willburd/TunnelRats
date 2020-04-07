@@ -84,9 +84,9 @@ global.keyPause = vk_enter;
 global.BlockLibrary = scr_LoadBlockLibrary();       // ds_map filled with ds_maps
 global.BlockRulesDefault = -1;                      
 global.BlockRules = scr_LoadRuleLibrary();          // ds_map filled with ds_maps
-global.TextureLibrary = scr_LoadTextureLibrary();   // ds_map filled with bgs
-global.BiomeLibrary = scr_LoadBiomeLibrary();             // ds_priority filled with maps
 global.EntityLibrary = scr_LoadEntityLibrary();
+global.BiomeLibrary = scr_LoadBiomeLibrary();             // ds_priority filled with maps
+global.TextureLibrary = scr_LoadTextureLibrary();   // ds_map filled with bgs
 
 // particle system
 global.partSys = part_system_create();
