@@ -1,0 +1,8 @@
+{
+	"Entity_Dirt" : {
+		"DisplayName": "Dirt",
+		"Textures": [
+			"Tex_Dirt"
+		]
+	}
+}
