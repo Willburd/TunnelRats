@@ -1,4 +1,4 @@
-/// scr_ChunkAddEntity(chunk, entity)]
+/// scr_EntityAddToChunk(chunk, entity)]
 // has no safety, expects good data!
 var chunk = argument0;
 var entity = argument1;
@@ -10,5 +10,5 @@ scr_EntityRemoveFromChunk(entity);
 ds_list_add(chunk.entitys,entity)
 entity.ActiveChunk = chunk;
 
-if(global.debug_EntityLoadingInfo) show_debug_message("Entity " + string(entity.id) + " added to chunk " + string(entity.ActiveChunk));
+if(global.debug_EntityLoadingInfo) show_debug_message("Entity " + string(entity.id) + " added to chunk " + string(scr_ChunkName(entity.ActiveChunk)));
 

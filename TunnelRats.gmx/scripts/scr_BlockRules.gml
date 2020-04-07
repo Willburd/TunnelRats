@@ -4,7 +4,7 @@ var ruleData = argument1;
 
 var returnMap = -1;
 
-// Base:Air check
+// None:Air check
 if(blockData != -1)
 {
     // load from rule library

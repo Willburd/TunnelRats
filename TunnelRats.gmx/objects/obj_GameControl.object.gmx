@@ -4,7 +4,7 @@
   <solid>0</solid>
   <visible>0</visible>
   <depth>-99999999</depth>
-  <persistent>0</persistent>
+  <persistent>-1</persistent>
   <parentName>&lt;undefined&gt;</parentName>
   <maskName>spr_colMask16x</maskName>
   <events>
@@ -114,21 +114,7 @@ with(obj_alwaysUpdatedParent)
           <argument>
             <kind>1</kind>
             <string>/// setup game cameras
-var viewh = global.outputResolutionHeight;
-var vieww = global.resArray[global.resMode];
-
-// default view
-view_visible[0] = true;
-view_hview[0] = viewh;
-view_wview[0] = vieww;
-view_hport[0] = viewh;
-view_wport[0] = vieww;
-
-/// Update window size to new data!
-window_set_rectangle(window_get_x(),window_get_y(), vieww,viewh);
-
-surface_resize(application_surface,vieww,viewh);
-display_set_gui_size(vieww,viewh);
+scr_SetupViewRes();
 </string>
           </argument>
         </arguments>

@@ -79,7 +79,21 @@ part_particles_create(global.partSys,x + random_range(-8,8) ,y + random_range(-2
         </arguments>
       </action>
     </event>
-    <event eventtype="7" enumb="11">
+    <event eventtype="7" enumb="12">
+      <action>
+        <libid>1</libid>
+        <id>604</id>
+        <kind>0</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>0</useapplyto>
+        <exetype>1</exetype>
+        <functionname>action_inherited</functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+      </action>
       <action>
         <libid>1</libid>
         <id>603</id>
@@ -96,8 +110,11 @@ part_particles_create(global.partSys,x + random_range(-8,8) ,y + random_range(-2
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>/// first spawn code!
-
+            <string>/// entity save called, write personal data before destruction
+if(EntityData[? "Identity"] == global.PlayerProfile[? "ProfileName"])
+{
+    scr_EntityPlayerProfileUpdate(EntityData[? "Identity"],x,y,z,worldController.UniverseNumber,global.currentLayer);
+}
 </string>
           </argument>
         </arguments>
@@ -376,6 +393,28 @@ depth = scr_DrawDepth(x,y,z);
           </argument>
         </arguments>
       </action>
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>/// set update flag
+EntityData[? "NeedUpdate"] = true;
+</string>
+          </argument>
+        </arguments>
+      </action>
     </event>
     <event eventtype="8" enumb="64">
       <action>
@@ -405,14 +444,14 @@ if(ActiveChunk != noone &amp;&amp; ActiveChunk.ground != -1 &amp;&amp; ActiveChu
     if(xx &gt;= 0 &amp;&amp; yy &gt;= 0 &amp;&amp; xx &lt; global.chunkWidth &amp;&amp; yy &lt; global.chunkHeight)
     {
         var block = ActiveChunk.ground[# xx,yy];
-        draw_text(0,0,block[? "Name"]);
+        draw_text(0,0,string_upper(block[? "Name"]));
     }
 }
 */
 if(ActiveChunk != noone &amp;&amp; ActiveChunk.bdata != -1 &amp;&amp; ActiveChunk.bdata[# 0,0] != -1)
 {
     var biome = global.layerLoadedBiomes[| ActiveChunk.bdata[# 0,0]];
-    draw_text(0,0,biome[? "_InternalSaveName"]);
+    draw_text(0,0,string_upper(biome[? "_InternalSaveName"]));
 }
 /*
 if(instance_exists(ActiveChunk))

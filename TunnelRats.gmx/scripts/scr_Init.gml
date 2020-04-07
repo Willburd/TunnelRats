@@ -33,9 +33,15 @@ global.chunkHeight = 6;
 
 global.debug_DisableWorldGen = false;
 global.debug_ChunkLoadingInfo = false;
-global.debug_EntityLoadingInfo = false;
+global.debug_EntityLoadingInfo = true;
+
+// player management
+global.PlayerProfileName = "Default";
+global.PlayerProfile = -1;
 
 // World gen
+global.worldInitialName = -1;
+global.worldInitialSeed = -1;
 global.worldData = -1;
 
 global.temperatureMap_Scale = 5;
@@ -68,7 +74,11 @@ global.keyUseRight = ord('D');
 global.keyUseUp = ord('W');
 global.keyUseDown = ord('S');
 
+global.keyItemRotateRight = ord('E');
+global.keyItemRotateLeft = ord('Q');
 
+global.keyExit = vk_escape;
+global.keyPause = vk_enter;
 
 // create block database from external files
 global.BlockLibrary = scr_LoadBlockLibrary();       // ds_map filled with ds_maps
@@ -76,7 +86,7 @@ global.BlockRulesDefault = -1;
 global.BlockRules = scr_LoadRuleLibrary();          // ds_map filled with ds_maps
 global.TextureLibrary = scr_LoadTextureLibrary();   // ds_map filled with bgs
 global.BiomeLibrary = scr_LoadBiomeLibrary();             // ds_priority filled with maps
-
+global.EntityLibrary = scr_LoadEntityLibrary();
 
 // particle system
 global.partSys = part_system_create();
@@ -90,3 +100,12 @@ draw_set_alpha_test_ref_value(254);
 
 // RANDOMIZE!
 randomize();
+
+// setup view!
+scr_SetupViewRes();
+window_set_rectangle(window_get_x(),window_get_y(), view_wport[0],view_hport[0]);
+
+// font
+global.font = font_add_sprite_ext(spr_temp_text, " |'      + ,-.!0123456789  (=)? ABCDEFGHIJKLMNOPQRSTUVWXYZ#$%^&   ", false, 0);
+draw_set_font(global.font);
+

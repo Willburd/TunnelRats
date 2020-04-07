@@ -26,7 +26,7 @@
           <argument>
             <kind>1</kind>
             <string>/// controller for spawning world chunks
-worldName = "Test World Rand";
+worldName = global.worldInitialName;
 UniverseNumber = 0;
 global.currentLayer = 0;
 
@@ -57,6 +57,8 @@ event_user(1);
             <string>/// called from obj_WorldChunk's room end function on unload
 ds_list_destroy(loadedChunkList);
 ds_list_destroy(pendingEntitySpawns);
+
+scr_EntityPlayerSave(global.PlayerProfile);
 </string>
           </argument>
         </arguments>
@@ -81,15 +83,60 @@ ds_list_destroy(pendingEntitySpawns);
             <kind>1</kind>
             <string>/// Init world
 
+// setup entity loader, and chunk spawning controls!
+pendingEntitySpawns = ds_list_create();
+loadedChunkList = ds_list_create();
+var TLgridX = (floor(view_xview[0] / (global.chunkWidth  * 16))-1) * (global.chunkWidth  * 16);
+var TLgridY = (floor(view_yview[0] / (global.chunkHeight * 16))-1) * (global.chunkHeight * 16);
+
+x = TLgridX + (global.chunkWidth*16*2);
+y = TLgridY + (global.chunkHeight*16*1);
+
 // setup world data based on the seed(for fresh chunks!)
+var playerData = -1;
 if(file_exists(working_directory + "/Worlds/" + string(worldName) + "/World.dat"))
 {
+    // load previous data
     scr_LoadWorld(worldName,UniverseNumber);
+    
+    // load the player
+    global.PlayerProfile = scr_EntityPlayerLoad(global.PlayerProfileName);
+    
+    // warp camera to player profile
+    with obj_HudController
+    {
+        x = global.PlayerProfile[? "EntityX"];
+        y = global.PlayerProfile[? "EntityY"];
+        view_xview[0] = floor( x-view_wview[0]/2);
+        view_yview[0] = floor( y-view_hview[0]/2);
+    }
+    
+    // clear loader
+    global.worldInitialName = -1;
+    global.worldInitialSeed = -1;
 }
 else
 {
-    scr_WorldGen(random(9999),worldName); 
+    // create world
+    scr_WorldGen(global.worldInitialSeed,worldName); 
     scr_SaveWorld(worldName, UniverseNumber);
+
+    // force set player info to -1 to trigger a spawn
+    global.PlayerProfile = -1;
+    
+    // clear loader
+    global.worldInitialName = -1; 
+    global.worldInitialSeed = -1;
+}
+
+
+// spawn player if one has not been found!
+if(global.PlayerProfile == -1)
+{
+    global.PlayerProfile = scr_EntityPlayerProfileCreate(global.PlayerProfileName,128,80,0,UniverseNumber,global.currentLayer)
+
+    scr_EntityRealizePlayer(global.PlayerProfile,true);
+    scr_EntityPlayerSave(global.PlayerProfile);
 }
 
    
@@ -109,17 +156,6 @@ else
     global.layerLoadedBiomes = scr_LayerGetBiomes(global.currentLayer);
     scr_LayerSaveBiomes(worldName,UniverseNumber);
 }
-
-
-
-// setup entity loader, and chunk spawning controls!
-loadedChunkList = ds_list_create();
-var TLgridX = (floor(view_xview[0] / (global.chunkWidth  * 16))-1) * (global.chunkWidth  * 16);
-var TLgridY = (floor(view_yview[0] / (global.chunkHeight * 16))-1) * (global.chunkHeight * 16);
-
-x = TLgridX + (global.chunkWidth*16*2);
-y = TLgridY + (global.chunkHeight*16*1);
-pendingEntitySpawns = ds_list_create();
 </string>
           </argument>
         </arguments>

@@ -51,6 +51,12 @@
             <string>/// update
 if(!global.gamePaused)
 {
+    if(followObject == id)
+    {
+        show_debug_message("Camera self assigned self as follow object?")
+        followObject = noone;
+    }
+
     if(instance_exists(followObject))
     {
         // only move when not paused
@@ -59,9 +65,9 @@ if(!global.gamePaused)
         
         x += lengthdir_x(dis,dir);
         y += lengthdir_y(dis,dir);
+        
+        part_system_depth( global.partSys, scr_DrawDepth(followObject.x, followObject.y, followObject.z ) - 99999);
     }
-    
-    part_system_depth( global.partSys, scr_DrawDepth(followObject.x, followObject.y, followObject.z ) - 99999);
     
     view_xview[0] = floor( x-view_wview[0]/2);
     view_yview[0] = floor( y-view_hview[0]/2);

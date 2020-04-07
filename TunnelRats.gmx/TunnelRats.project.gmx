@@ -246,6 +246,7 @@
     <sprite>sprites\spr_playerTest</sprite>
     <sprite>sprites\spr_playerCrouch</sprite>
     <sprite>sprites\spr_shadow</sprite>
+    <sprite>sprites\spr_temp_text</sprite>
   </sprites>
   <backgrounds name="background">
     <background>background\bg_testBlock</background>
@@ -258,11 +259,13 @@
     <script>scripts\scr_LoadTextureLibrary.gml</script>
     <script>scripts\scr_LoadBiomeLibrary.gml</script>
     <script>scripts\scr_LoadParticleLibrary.gml</script>
+    <script>scripts\scr_LoadEntityLibrary.gml</script>
     <script>scripts\inverse_lerp.gml</script>
     <script>scripts\scr_DrawDepth.gml</script>
     <script>scripts\scr_DrawYOffset.gml</script>
     <script>scripts\scr_FileReadAllLines.gml</script>
     <script>scripts\scr_UpdateDelta.gml</script>
+    <script>scripts\scr_SetupViewRes.gml</script>
     <script>scripts\scr_DTscale.gml</script>
     <script>scripts\scr_DTmultiplier.gml</script>
     <script>scripts\DTlerp.gml</script>
@@ -279,10 +282,18 @@
     </scripts>
     <scripts name="Entities">
       <script>scripts\scr_ChunkEntityUpdate.gml</script>
-      <script>scripts\scr_EntitySpawn.gml</script>
+      <script>scripts\scr_EntityRealizeInstance.gml</script>
+      <script>scripts\scr_EntitySave.gml</script>
+      <script>scripts\scr_EntityLoad.gml</script>
       <script>scripts\scr_EntityDetectCurrentChunk.gml</script>
+      <script>scripts\scr_EntityAddToChunk.gml</script>
       <script>scripts\scr_EntityRemoveFromChunk.gml</script>
       <script>scripts\scr_EntityMoveWithCollisions.gml</script>
+      <script>scripts\scr_EntityRealizePlayer.gml</script>
+      <script>scripts\scr_EntityPlayerProfileCreate.gml</script>
+      <script>scripts\scr_EntityPlayerProfileUpdate.gml</script>
+      <script>scripts\scr_EntityPlayerSave.gml</script>
+      <script>scripts\scr_EntityPlayerLoad.gml</script>
     </scripts>
     <scripts name="Chunks">
       <script>scripts\scr_ChunkSpawn.gml</script>
@@ -290,7 +301,6 @@
       <script>scripts\scr_ChunkName.gml</script>
       <script>scripts\scr_ChunkSave.gml</script>
       <script>scripts\scr_ChunkLoad.gml</script>
-      <script>scripts\scr_ChunkAddEntity.gml</script>
       <script>scripts\scr_ChunkGet.gml</script>
       <script>scripts\scr_ChunkGetBlock.gml</script>
       <script>scripts\scr_ChunkSetBlock.gml</script>
@@ -331,6 +341,7 @@
   </scripts>
   <objects name="objects">
     <object>objects\obj_GameControl</object>
+    <object>objects\obj_MainMenu</object>
     <object>objects\obj_gameUpdatedParent</object>
     <object>objects\obj_alwaysUpdatedParent</object>
     <object>objects\obj_WorldController</object>
@@ -344,7 +355,8 @@
   </objects>
   <rooms name="rooms">
     <room>rooms\rm_Init</room>
-    <room>rooms\rm_Test</room>
+    <room>rooms\rm_Menu</room>
+    <room>rooms\rm_World</room>
   </rooms>
   <help>
     <rtf>help.rtf</rtf>

@@ -10,11 +10,24 @@ newChunk.floors = ds_grid_create( global.chunkWidth, global.chunkHeight);
 var saveDir = working_directory + "/Worlds/" + string(global.worldData[? "name"]) + "/Universe" + string(universe) + "/Chunks/Layer" + string(global.currentLayer) + "/" + scr_ChunkName(newChunk) + ".dat";
 var loadFile = file_text_open_read(saveDir);
 
+    // load entities
+    var entityCount = real(file_text_readln(loadFile));
+    for (var i=0; i<entityCount; i+=1)
+    {
+        var loadData = scr_EntityLoad(file_text_read_string(loadFile)); file_text_readln(loadFile);
+        if(!is_undefined(loadData))
+        {
+            scr_EntityRealizeInstance(loadData,newChunk,-1); // use current chunk's controller
+        }
+    }
+
+    // load Z and biome data
     newChunk.zdata = ds_grid_create(global.chunkWidth,global.chunkHeight); // world gen ground Z height
     newChunk.bdata = ds_grid_create(global.chunkWidth,global.chunkHeight); // world gen ground Z height
     ds_grid_read(newChunk.zdata,file_text_readln(loadFile));
     ds_grid_read(newChunk.bdata,file_text_readln(loadFile));
-
+    
+    // load block data
     while (!file_text_eof(loadFile)) {
         
         for (var q=0; q<global.chunkWidth; q+=1)

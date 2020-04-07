@@ -12,7 +12,7 @@ if(oldChunk != noone)
         if( entityData == entity )
         {
             // remove entity from old chunk
-            if(global.debug_EntityLoadingInfo) show_debug_message("Entity " + string(entity.id) + " removed from chunk " + string(entity.ActiveChunk));
+            if(global.debug_EntityLoadingInfo) show_debug_message("Entity " + string(entity.id) + " removed from chunk " + string(scr_ChunkName(entity.ActiveChunk)));
             ds_list_delete(oldChunk.entitys,i);
             entity.ActiveChunk = noone;
             break;

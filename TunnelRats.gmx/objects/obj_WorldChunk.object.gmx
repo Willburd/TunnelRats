@@ -151,19 +151,18 @@ if(floors != -1) ds_grid_destroy(floors);
 if(zdata != -1) ds_grid_destroy(zdata);
 if(bdata != -1) ds_grid_destroy(bdata);
 
+// clean out entities on unload
+while (ds_list_size(entitys) &gt; 0)
+{
+    with entitys[| 0] instance_destroy(); // handles the entity clearing
+}
+ds_list_destroy(entitys);
+
 ds_grid_destroy(collisionData);
 
 ds_grid_destroy(puppetWalls);
 ds_grid_destroy(puppetFloors);
 ds_grid_destroy(puppetGround);
-
-
-while (ds_list_size(entitys) &gt; 0)
-{
-    with entitys[| 0] instance_destroy();
-}
-ds_list_destroy(entitys);
-
 
 // tell controller we are dead
 var chunkId = id;

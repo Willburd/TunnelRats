@@ -28,7 +28,7 @@ for (var i=0; i<ds_list_size(worldController.loadedChunkList); i+=1)
     if(entity.x >= chunkFind.x && entity.y >= chunkFind.y && entity.x < chunkFind.x + (global.chunkWidth * 16) && entity.y < chunkFind.y + (global.chunkHeight * 16))
     {
         // In range!
-        scr_ChunkAddEntity(chunkFind,entity);
+        scr_EntityAddToChunk(chunkFind,entity);
         entity.loadedCheck = true;
         if(firstLoad)
         {

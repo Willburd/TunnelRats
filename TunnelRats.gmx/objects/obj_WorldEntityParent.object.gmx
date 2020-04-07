@@ -54,7 +54,36 @@ z = 0 // z depth in the world, compliments x and y. 16 pips per tile
           <argument>
             <kind>1</kind>
             <string>scr_EntityRemoveFromChunk(id);
-if(global.debug_EntityLoadingInfo) show_debug_message("Entity " + string(entity.id) + " unloaded");
+ds_map_destroy(EntityData);
+if(global.debug_EntityLoadingInfo) show_debug_message("Entity " + string(id) + " unloaded");
+
+</string>
+          </argument>
+        </arguments>
+      </action>
+    </event>
+    <event eventtype="7" enumb="12">
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>/// entity save called, write personal data before destruction
+EntityData[? "SaveX"] = x;
+EntityData[? "SaveY"] = y;
+EntityData[? "SaveZ"] = z;
+EntityData[? "SaveDrawDepth"] = depth;
 
 </string>
           </argument>
@@ -126,6 +155,21 @@ if(global.debug_EntityLoadingInfo) show_debug_message("Entity " + string(entity.
 // detect loaded state
 if(scr_EntityDetectCurrentChunk(id))
 {
+    // check if we are meant for the camera!
+    if(loadedCheck == false)
+    {
+        with obj_HudController
+        {
+            if(followObject == noone)
+            {
+                if(other.EntityData[? "CameraIsFollowing"])
+                {
+                    followObject = other.id;
+                }
+            }
+        }
+    }
+    
     // run code ahead in child object's event!
     loadedCheck = true;
 }
