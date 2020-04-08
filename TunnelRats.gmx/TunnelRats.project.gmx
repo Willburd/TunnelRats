@@ -297,6 +297,7 @@
       <script>scripts\scr_BlockDataToWallTile.gml</script>
       <script>scripts\scr_BlockDataToGroundTile.gml</script>
       <script>scripts\scr_BlockDataToFloorTile.gml</script>
+      <script>scripts\scr_BlockCanReplace.gml</script>
       <script>scripts\scr_BlockBreak.gml</script>
       <script>scripts\scr_BlockTriggerUpdate.gml</script>
     </scripts>

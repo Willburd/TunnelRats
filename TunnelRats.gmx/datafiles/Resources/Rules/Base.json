@@ -4,29 +4,41 @@
 		"IsFloor": false,
 		"DropsOnBreak": [["Base:Entity_Dirt",1]],
 		"ExtraDropOnFirstBreak": [["Base:Entity_Rock",0.25]],
-		"CanGrowGrass": true
+		"CanGrowGrass": true,
+		"AllowFloorReplacement" : false,
+		"AllowWallReplacement" : false
 	},
 	"Floor_Grass" : {
 		"IsBlock": false,
-		"IsFloor": true
+		"IsFloor": true,
+		"AllowFloorReplacement" : true,
+		"AllowWallReplacement" : false
 	},
 	"Block_Sand" : {
 		"IsBlock": true,
-		"IsFloor": false
+		"IsFloor": false,
+		"AllowFloorReplacement" : false,
+		"AllowWallReplacement" : false
 	},
 	"Block_Rock" : {
 		"IsBlock": true,
 		"IsFloor": false,
-		"DropsOnBreak": [["Base:Entity_Rock",1]]
+		"DropsOnBreak": [["Base:Entity_Rock",1]],
+		"AllowFloorReplacement" : false,
+		"AllowWallReplacement" : false
 	},
 	"Block_Water" : {
 		"IsBlock": true,
 		"IsFloor": false,
 		"Solid": false,
-		"Liquid": true
+		"Liquid": true,
+		"AllowFloorReplacement" : true,
+		"AllowWallReplacement" : true
 	},
 	"Block_Brick" : {
 		"IsBlock": true,
-		"IsFloor": false
+		"IsFloor": false,
+		"AllowFloorReplacement" : false,
+		"AllowWallReplacement" : false
 	}
 }

@@ -13,6 +13,8 @@ global.BlockRulesDefault[? "IsBlock"] = false;
 global.BlockRulesDefault[? "IsFloor"] = false;
 global.BlockRulesDefault[? "DropsOnBreak"] = -1;
 global.BlockRulesDefault[? "ExtraDropOnFirstBreak"] = -1;
+global.BlockRulesDefault[? "AllowFloorReplacement"] = false;
+global.BlockRulesDefault[? "AllowWallReplacement"] = false;
 
 // scan for json block libraries
 var scanLibrarys = ds_map_find_first(global.BlockLibrary);
