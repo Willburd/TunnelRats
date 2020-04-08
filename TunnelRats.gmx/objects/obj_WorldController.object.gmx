@@ -135,7 +135,7 @@ if(global.PlayerProfile == -1)
 {
     global.PlayerProfile = scr_EntityPlayerProfileCreate(global.PlayerProfileName,128,80,0,UniverseNumber,global.currentLayer)
 
-    scr_EntityRealizePlayer(global.PlayerProfile,true);
+    scr_EntityRealizePlayer(global.PlayerProfile,id,true);
     scr_EntityPlayerSave(global.PlayerProfile);
 }
 

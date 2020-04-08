@@ -2,6 +2,8 @@
 	"Block_Dirt" : {
 		"IsBlock": true,
 		"IsFloor": false,
+		"DropsOnBreak": [["Base:Entity_Dirt",1]],
+		"ExtraDropOnFirstBreak": [["Base:Entity_Rock",0.25]],
 		"CanGrowGrass": true
 	},
 	"Floor_Grass" : {
@@ -14,7 +16,8 @@
 	},
 	"Block_Rock" : {
 		"IsBlock": true,
-		"IsFloor": false
+		"IsFloor": false,
+		"DropsOnBreak": [["Base:Entity_Rock",1]]
 	},
 	"Block_Water" : {
 		"IsBlock": true,

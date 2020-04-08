@@ -5,7 +5,7 @@ var chunkID = argument1;
 var worldControl = argument2;
 
 // load entity data!
-var newObj = instance_create(entityData[? "SaveX"],entityData[? "SaveY"],asset_get_index(entityData[? "internalObjectType"]));
+var newObj = instance_create(entityData[? "SaveX"],entityData[? "SaveY"],asset_get_index(entityData[? "InternalObjectType"]));
 newObj.z = entityData[? "SaveZ"];
 newObj.depth = entityData[? "SaveDrawDepth"];
 newObj.EntityData = entityData;

@@ -11,6 +11,8 @@ global.BlockRulesDefault[? "CanGrosGrass"] = false;
 global.BlockRulesDefault[? "Liquid"] = false;
 global.BlockRulesDefault[? "IsBlock"] = false;
 global.BlockRulesDefault[? "IsFloor"] = false;
+global.BlockRulesDefault[? "DropsOnBreak"] = -1;
+global.BlockRulesDefault[? "ExtraDropOnFirstBreak"] = -1;
 
 // scan for json block libraries
 var scanLibrarys = ds_map_find_first(global.BlockLibrary);

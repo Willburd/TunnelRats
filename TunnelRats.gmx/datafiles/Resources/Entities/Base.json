@@ -1,11 +1,22 @@
 {
 	"Entity_Dirt" : {
 		"DisplayName": "Dirt",
-		"internalObjectType" : "obj_testPhysicsObject",
+		"InternalObjectType" : "obj_PickupItem",
 		"Textures": [
 			"Tex_Dirt"
 		],
 		"SavedByChunk" : true,
-		"DestroyedOnUnload" : false
+		"DestroyedOnUnload" : false,
+		"BecomesBlockOnPlace" : "Base:Block_Dirt"
+	},
+	"Entity_Rock" : {
+		"DisplayName": "Rock",
+		"InternalObjectType" : "obj_PickupItem",
+		"Textures": [
+			"Tex_Dirt"
+		],
+		"SavedByChunk" : true,
+		"DestroyedOnUnload" : false,
+		"BecomesBlockOnPlace" : "Base:Block_Rock"
 	}
 }

@@ -6,7 +6,7 @@ var newLib = ds_map_create();
     var newEnt = ds_map_create();
     
     ds_map_add(newEnt, "Name", "-Player-");
-    ds_map_add(newEnt, "internalObjectType", "obj_player") ;
+    ds_map_add(newEnt, "InternalObjectType", "obj_Player") ;
     ds_map_add(newEnt, "SaveX", 0);
     ds_map_add(newEnt, "SaveY", 0);
     ds_map_add(newEnt, "SaveZ", 0);

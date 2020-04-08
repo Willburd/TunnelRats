@@ -297,10 +297,11 @@
       <script>scripts\scr_BlockDataToWallTile.gml</script>
       <script>scripts\scr_BlockDataToGroundTile.gml</script>
       <script>scripts\scr_BlockDataToFloorTile.gml</script>
+      <script>scripts\scr_BlockBreak.gml</script>
       <script>scripts\scr_BlockTriggerUpdate.gml</script>
     </scripts>
     <scripts name="Entities">
-      <script>scripts\scr_ChunkEntityUpdate.gml</script>
+      <script>scripts\scr_EntityInitData.gml</script>
       <script>scripts\scr_EntityRealizeInstance.gml</script>
       <script>scripts\scr_EntitySave.gml</script>
       <script>scripts\scr_EntityLoad.gml</script>
@@ -317,6 +318,7 @@
     <scripts name="Chunks">
       <script>scripts\scr_ChunkSpawn.gml</script>
       <script>scripts\scr_ChunkUpdate.gml</script>
+      <script>scripts\scr_ChunkEntityUpdate.gml</script>
       <script>scripts\scr_ChunkName.gml</script>
       <script>scripts\scr_ChunkSave.gml</script>
       <script>scripts\scr_ChunkLoad.gml</script>
@@ -369,7 +371,7 @@
     <object>objects\obj_WorldEntityGravityParent</object>
     <object>objects\obj_HudController</object>
     <object>objects\obj_HighLightBlock</object>
-    <object>objects\obj_testPhysicsObject</object>
+    <object>objects\obj_PickupItem</object>
     <object>objects\obj_Player</object>
   </objects>
   <rooms name="rooms">

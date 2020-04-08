@@ -338,6 +338,7 @@ if(loadedCheck)
                 if(scr_ChunkGetBlock(ActiveChunk,x + (toolX * 16) ,y + (toolY * 16),BlockGridType.walls) == -1)
                 {
                     var newBlock = scr_BlockInitData("Base:Brick");
+                    newBlock[? "FirstSpawn"] = false;
                     scr_ChunkSetBlock(ActiveChunk,x + (toolX * 16) ,y + (toolY * 16), newBlock,BlockGridType.walls);
                     scr_BlockTriggerUpdate(ActiveChunk,x + (toolX * 16) ,y + (toolY * 16), BlockGridType.walls,true);
                 }
@@ -349,11 +350,8 @@ if(loadedCheck)
             myHighlight.image_alpha = inverse_lerp(0,1,max(-1,toolUseCounter));
             if(toolUseCounter &gt;= 1)
             {
-                // test delete block!
-                scr_ChunkSetBlock(ActiveChunk,x + (toolX * 16) ,y + (toolY * 16),-1,BlockGridType.walls);
-                scr_BlockTriggerUpdate(ActiveChunk,x + (toolX * 16) ,y + (toolY * 16),BlockGridType.walls,true);
+                scr_BlockBreak(ActiveChunk, x + (toolX * 16), y + (toolY * 16),0,BlockGridType.walls);
                 toolUseCounter = -1;
-                
                 part_particles_create(global.partSys,floor(((x + (toolX * 16))/16)*16)+8 ,(floor((y + (toolY * 16))/16)*16)+8, global.partLibrary[? "DustPuff"],10);
             }
         }
