@@ -266,6 +266,7 @@
     <sprite>sprites\spr_playerCrouch</sprite>
     <sprite>sprites\spr_shadow</sprite>
     <sprite>sprites\spr_temp_text</sprite>
+    <sprite>sprites\spr_PlayerSuction</sprite>
   </sprites>
   <backgrounds name="background">
     <background>background\bg_testBlock</background>
@@ -315,6 +316,7 @@
       <script>scripts\scr_EntityPlayerProfileUpdate.gml</script>
       <script>scripts\scr_EntityPlayerSave.gml</script>
       <script>scripts\scr_EntityPlayerLoad.gml</script>
+      <script>scripts\scr_EntityAddToInventory.gml</script>
     </scripts>
     <scripts name="Chunks">
       <script>scripts\scr_ChunkSpawn.gml</script>
@@ -374,6 +376,7 @@
     <object>objects\obj_HighLightBlock</object>
     <object>objects\obj_PickupItem</object>
     <object>objects\obj_Player</object>
+    <object>objects\obj_PlayerSuction</object>
   </objects>
   <rooms name="rooms">
     <room>rooms\rm_Init</room>

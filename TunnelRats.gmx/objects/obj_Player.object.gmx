@@ -53,9 +53,48 @@ myHighlight = noone;
 sprinting = false;
 crouching = false;
 prevCrouching = false;
+
+itemSuction = noone;
 </string>
           </argument>
         </arguments>
+      </action>
+    </event>
+    <event eventtype="1" enumb="0">
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>with itemSuction instance_destroy();
+</string>
+          </argument>
+        </arguments>
+      </action>
+      <action>
+        <libid>1</libid>
+        <id>604</id>
+        <kind>0</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>0</useapplyto>
+        <exetype>1</exetype>
+        <functionname>action_inherited</functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
       </action>
     </event>
     <event eventtype="7" enumb="15">
@@ -514,8 +553,17 @@ depth = scr_DrawDepth(x,y,z);
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>/// set update flag
+            <string>/// set update flag and other post update things
 EntityData[? "NeedUpdate"] = true;
+
+if(itemSuction == noone)
+{
+    itemSuction = instance_create(x,y,obj_PlayerSuction);
+}
+
+itemSuction.playerID = id;
+itemSuction.x = x;
+itemSuction.y = y;
 </string>
           </argument>
         </arguments>
@@ -570,6 +618,17 @@ if(instance_exists(ActiveChunk))
     }
 }
 */
+
+if(EntityData != -1)
+{
+    var invList = EntityData[? "Inventory"];
+    for (var i=0; i&lt; ds_list_size(invList); i+=1)
+    {
+        var slot = invList[| i];
+        draw_text(8,8+(18*i),string_upper(string(slot[| 0])) + " X " + string(slot[| 1]));
+    }
+    
+}
 </string>
           </argument>
         </arguments>

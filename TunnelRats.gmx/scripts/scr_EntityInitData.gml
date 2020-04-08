@@ -67,6 +67,13 @@ if(ds_exists(getLib,ds_type_map))
         returnMap[? "SaveY"] = argument2;
         returnMap[? "SaveZ"] = argument3;
         
+        // spawn inventory
+        if(returnMap[? "Inventory"])
+        {
+            ds_map_delete(returnMap,"Inventory");
+            ds_map_add_list(returnMap,"Inventory",ds_list_create());
+        }
+            
         // return
         return returnMap;
     }

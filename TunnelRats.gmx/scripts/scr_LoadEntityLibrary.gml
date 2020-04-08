@@ -17,7 +17,9 @@ var newLib = ds_map_create();
     ds_map_add(newEnt, "DestroyedOnUnload", false); // set dynamically by the update function, and controls if the entity saves or not
     ds_map_add(newEnt, "SavedByChunk", true); // direct flag check for misc entities that don't save
     // unique flags
-    ds_map_add_list(newEnt,"Inventory", ds_list_create()); //a list of lists, encoded as [ "entityName", count]
+    ds_map_add(newEnt,"Inventory", true); //a list of lists, encoded as [ "entityName", count] NOTICE this entry of "true" or "false" just gives it an inventory or not!
+    ds_map_add(newEnt,"InventorySize", 10);
+    ds_map_add(newEnt,"MaxStack",1);
     
     ds_map_add_map(newLib,"Player",newEnt);
 ds_map_add_map(entityLib,"None",newLib);
