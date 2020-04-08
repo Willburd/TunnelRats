@@ -61,18 +61,14 @@ global.currentLayer = 0;
 global.layerLoadedBiomes = -1; // ds_list of loaded biomes
 
 // keyboard control
-global.keyLeft = vk_left;
-global.keyRight = vk_right;
-global.keyUp = vk_up;
-global.keyDown = vk_down;
+global.keyLeft = ord('A');
+global.keyRight = ord('D');
+global.keyUp = ord('W');
+global.keyDown = ord('S');
 
 global.keyJump = vk_space;
 global.keySprint = vk_lshift;
-
-global.keyUseLeft = ord('A');
-global.keyUseRight = ord('D');
-global.keyUseUp = ord('W');
-global.keyUseDown = ord('S');
+global.keyCrouch = vk_lcontrol;
 
 global.keyItemRotateRight = ord('E');
 global.keyItemRotateLeft = ord('Q');
