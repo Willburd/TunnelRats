@@ -512,13 +512,13 @@ if(ActiveChunk != noone &amp;&amp; ActiveChunk.ground != -1 &amp;&amp; ActiveChu
         draw_text(0,0,string_upper(block[? "Name"]));
     }
 }
-*/
+
 if(ActiveChunk != noone &amp;&amp; ActiveChunk.bdata != -1 &amp;&amp; ActiveChunk.bdata[# 0,0] != -1)
 {
     var biome = global.layerLoadedBiomes[| ActiveChunk.bdata[# 0,0]];
     draw_text(0,0,string_upper(biome[? "_InternalSaveName"]));
 }
-/*
+
 if(instance_exists(ActiveChunk))
 {
     for (q=0; q&lt;global.chunkWidth; q+=1)
