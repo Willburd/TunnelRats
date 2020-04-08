@@ -274,21 +274,29 @@
   <paths name="paths"/>
   <scripts name="scripts">
     <script>scripts\scr_Init.gml</script>
-    <script>scripts\scr_LoadBlockLibrary.gml</script>
-    <script>scripts\scr_LoadRuleLibrary.gml</script>
-    <script>scripts\scr_LoadEntityLibrary.gml</script>
-    <script>scripts\scr_LoadBiomeLibrary.gml</script>
-    <script>scripts\scr_LoadTextureLibrary.gml</script>
-    <script>scripts\scr_LoadParticleLibrary.gml</script>
-    <script>scripts\inverse_lerp.gml</script>
-    <script>scripts\scr_DrawDepth.gml</script>
-    <script>scripts\scr_DrawYOffset.gml</script>
-    <script>scripts\scr_FileReadAllLines.gml</script>
-    <script>scripts\scr_UpdateDelta.gml</script>
-    <script>scripts\scr_SetupViewRes.gml</script>
-    <script>scripts\scr_DTscale.gml</script>
-    <script>scripts\scr_DTmultiplier.gml</script>
-    <script>scripts\DTlerp.gml</script>
+    <scripts name="Libraries">
+      <script>scripts\scr_FileReadAllLines.gml</script>
+      <script>scripts\scr_LoadBlockLibrary.gml</script>
+      <script>scripts\scr_LoadRuleLibrary.gml</script>
+      <script>scripts\scr_LoadEntityLibrary.gml</script>
+      <script>scripts\scr_LoadBiomeLibrary.gml</script>
+      <script>scripts\scr_LoadTextureLibrary.gml</script>
+      <script>scripts\scr_LoadParticleLibrary.gml</script>
+    </scripts>
+    <scripts name="DeltaTime">
+      <script>scripts\scr_UpdateDelta.gml</script>
+      <script>scripts\scr_DTscale.gml</script>
+      <script>scripts\scr_DTmultiplier.gml</script>
+    </scripts>
+    <scripts name="Utility">
+      <script>scripts\DTlerp.gml</script>
+      <script>scripts\inverse_lerp.gml</script>
+    </scripts>
+    <scripts name="Drawing">
+      <script>scripts\scr_SetupViewRes.gml</script>
+      <script>scripts\scr_DrawDepth.gml</script>
+      <script>scripts\scr_DrawYOffset.gml</script>
+    </scripts>
     <scripts name="Blocks">
       <script>scripts\scr_BlockExposureCheck.gml</script>
       <script>scripts\scr_BlockInitData.gml</script>
