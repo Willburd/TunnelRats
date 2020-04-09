@@ -617,7 +617,7 @@ if(instance_exists(ActiveChunk))
         }
     }
 }
-*/
+
 
 if(EntityData != -1)
 {
@@ -628,7 +628,7 @@ if(EntityData != -1)
         draw_text(8,8+(18*i),string_upper(string(slot[| 0])) + " X " + string(slot[| 1]));
     }
     
-}
+}*/
 </string>
           </argument>
         </arguments>
