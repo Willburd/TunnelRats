@@ -31,33 +31,6 @@ with argument0
         returnData = newChunk;
         newChunk.worldController = id;
         
-        if(file_exists(working_directory + "/Worlds/" + string(global.worldData[? "name"]) + "/Universe" + string(UniverseNumber) + "/Chunks/Layer" + string(global.currentLayer) + "/" + scr_ChunkName(newChunk) + ".dat"))
-        {
-            // not new, load chunk data!
-            with newChunk
-            {
-                scr_ChunkLoad(worldController.UniverseNumber,id);
-                processing = true; // if entitys should be updated
-                rendering = true; // if chunk is drawn
-                forceRenderUpdate = true;
-                if(global.debug_ChunkLoadingInfo) show_debug_message("Loaded chunk " + string(id) + " at " + string(x) + "." + string(y)  );
-                
-                // reload collision data
-                for (q=0; q<global.chunkWidth; q+=1)
-                {
-                    for (c=0; c<global.chunkHeight; c+=1)
-                    {
-                        scr_ChunkUpdateCollision(id,q,c);
-                    }
-                }
-            }
-        }
-        else
-        {
-            // new! setup for WORLDGEN
-            if(global.debug_ChunkLoadingInfo) show_debug_message("Spawned chunk " + string(newChunk.id) + " at " + string(newChunk.x) + "." + string(newChunk.y)   );
-        }
-        
         
         
         ds_list_add(loadedChunkList, newChunk);

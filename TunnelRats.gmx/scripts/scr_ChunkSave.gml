@@ -5,6 +5,8 @@ var chunkObj = argument1;
 // chunkObj.ground;
 // chunkObj.floors;
 
+return 1;
+
 var saveDir = working_directory + "/Worlds/" + string(global.worldData[? "name"]) + "/Universe" + string(universe) + "/Chunks/Layer" + string(global.currentLayer) + "/" + scr_ChunkName(chunkObj) + ".dat";
 var saveFile = file_text_open_write(saveDir);
 

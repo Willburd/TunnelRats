@@ -4,12 +4,6 @@ global.gamePaused = false;
 global.currentCameraEntity = noone; // entity the camera is following
 
 // framerate
-global._targetDelta = 1/60;
-global._GameSpeed = 1;
-scr_UpdateDelta();
-
-global.gameMaxFrames = 120; // room lock fps
-
 global.animationStep = 0;
 global.ZDrawOffset = 16; //Z pixel scale for jumping
 

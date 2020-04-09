@@ -35,6 +35,7 @@ else if(global.currentGame != id)
 }
 
 show_debug_overlay(true);
+dtStacker = 0;
 </string>
           </argument>
         </arguments>
@@ -57,17 +58,7 @@ show_debug_overlay(true);
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>if(room_speed != global.gameMaxFrames)
-{
-    room_speed = global.gameMaxFrames;
-}
-
-
-// entities and game controller updates
-scr_UpdateDelta();
-
-
-// pause check
+            <string>// pause check
 if(!global.gamePaused)
 {
     // update game
@@ -78,7 +69,7 @@ if(!global.gamePaused)
     }
     
     // animation timer
-    global.animationStep += scr_DTscale(1);
+    global.animationStep += 1;
     
     // part system update
     part_system_update(global.partSys);
@@ -89,8 +80,6 @@ with(obj_alwaysUpdatedParent)
     // updated always
     event_user(0);
 }
-
-
 </string>
           </argument>
         </arguments>

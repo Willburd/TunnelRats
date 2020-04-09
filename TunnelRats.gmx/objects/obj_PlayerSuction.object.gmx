@@ -71,15 +71,15 @@ if(playerID != noone &amp;&amp; playerID.EntityData != -1)
     {
         if(other.pickupDelay &lt;= 0)
         {
-            other.Ndirection += scr_DTscale( angle_difference(other.Ndirection,dir)/20);
-            other.Nmomentum += scr_DTscale( dis/20);
+            other.Ndirection += angle_difference(other.Ndirection,dir)/20;
+            other.Nmomentum += dis/20;
         }
     }
     else
     {
         if(other.pickupDelay &lt;= 0)
         {
-            other.Nmomentum *= scr_DTmultiplier(-0.15);
+            other.Nmomentum *= 0.85;
             if(other.Nmomentum &lt;= 0.01)
             {
                 other.Ndirection = dir;

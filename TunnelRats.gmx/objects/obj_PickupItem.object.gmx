@@ -121,11 +121,11 @@ if(loadedCheck)
 {
     if(z == attemptedGround)
     {
-        Nmomentum *= scr_DTmultiplier(-0.20);
+        Nmomentum *= -0.20;
     }
     else
     {
-        Nmomentum *= scr_DTmultiplier(-0.02);
+        Nmomentum *= -0.02;
     }
 }
 </string>
@@ -173,7 +173,7 @@ depth = scr_DrawDepth(x,y,z);
             <string>/// set update flag
 EntityData[? "NeedUpdate"] = true;
 
-pickupDelay -= scr_DTscale(1);
+pickupDelay -= 1;
 if(pickupDelay &lt; 0) pickupDelay = 0;
 </string>
           </argument>

@@ -108,14 +108,14 @@ Ndirection = 0;
 if(loadedCheck)
 {
     // calculate falling speed
-    Zmomentum += scr_DTscale(global._gravity);
+    Zmomentum += global._gravity;
     
     // find lowest point for shadow, and as a ground check for falling!
     attemptedGround = z+512;
 
     
     // apply falling speed
-    z += scr_DTscale(Zmomentum);
+    z += Zmomentum;
     
     
     // check floor collisions
@@ -171,7 +171,7 @@ if(loadedCheck)
 if(loadedCheck)
 {
     var dir = Ndirection;
-    var dis = scr_DTscale(Nmomentum);
+    var dis = Nmomentum;
     scr_EntityMoveWithCollisions( lengthdir_x(dis,dir), lengthdir_y(dis,dir), ActiveChunk);
 }   
 </string>

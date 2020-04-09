@@ -222,11 +222,11 @@ if(loadedCheck)
         
         if(Nmomentum &lt; maxSpd)
         {
-            Nmomentum += scr_DTscale(0.3);
+            Nmomentum += 0.3;
         }
         else
         {
-            Nmomentum *= scr_DTmultiplier(-0.08);
+            Nmomentum *= 0.92;
             if(sprinting &amp;&amp; z == attemptedGround &amp;&amp; random(1) &lt; 0.4)
             {
                 part_particles_create(global.partSys,x+random_range(-8,8),y+random_range(-1,1), global.partLibrary[? "RunPuff"],1);
@@ -236,7 +236,7 @@ if(loadedCheck)
     }
     else
     {
-        Nmomentum *= scr_DTmultiplier(-0.15);
+        Nmomentum *= 0.85;
         if(Nmomentum &lt; 0.01)
         {
             Nmomentum = 0;
@@ -283,7 +283,7 @@ if(loadedCheck)
     if(z == attemptedGround)
     {
         // jump cooldown (maybe rolling animation?)
-        landingLag -= scr_DTscale(1);
+        landingLag -= 1;
         
         // jumping!
         if(keyboard_check(global.keyJump) &amp;&amp; holdingJumpStill == false)
@@ -385,11 +385,11 @@ if(loadedCheck)
         // tool is consistant and counting up!
         if(blockPlaceMode)
         {
-            toolUseCounter += scr_DTscale(0.1);
+            toolUseCounter += 0.1;
         }
         else
         {
-            toolUseCounter += scr_DTscale(0.03);
+            toolUseCounter += 0.03;
         }
         usingTool = true;
     }
@@ -398,7 +398,7 @@ if(loadedCheck)
         // tool recovery counter when not in use
         if(toolUseCounter&lt;0)
         {
-            toolUseCounter += scr_DTscale(0.2);
+            toolUseCounter += 0.2;
             
         }
         else

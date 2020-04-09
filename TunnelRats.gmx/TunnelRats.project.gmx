@@ -283,13 +283,7 @@
       <script>scripts\scr_LoadTextureLibrary.gml</script>
       <script>scripts\scr_LoadParticleLibrary.gml</script>
     </scripts>
-    <scripts name="DeltaTime">
-      <script>scripts\scr_UpdateDelta.gml</script>
-      <script>scripts\scr_DTscale.gml</script>
-      <script>scripts\scr_DTmultiplier.gml</script>
-    </scripts>
     <scripts name="Utility">
-      <script>scripts\DTlerp.gml</script>
       <script>scripts\inverse_lerp.gml</script>
     </scripts>
     <scripts name="Drawing">
