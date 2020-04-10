@@ -3,11 +3,11 @@
 var entity = argument0;
 if(entity.ActiveChunk != noone)
 {
-    // check if we are outside our home chunk
+    // check if we are inside our current chunk
     if(entity.x >= entity.ActiveChunk.x && entity.y >= entity.ActiveChunk.y && entity.x < entity.ActiveChunk.x + (global.chunkWidth * 16) && entity.y < entity.ActiveChunk.y + (global.chunkHeight * 16))
     {
         // In chunk already
-        return true; // return if we are loaded
+        return true; // return if we should update
     }
 }
 
@@ -22,10 +22,10 @@ for (var i=0; i<ds_list_size(worldController.loadedChunkList); i+=1)
     {
         // In range!
         scr_EntityAddToChunk(chunkFind,entity);
-        return true; // return if we are loaded
+        return true; // return if we should update
     }
 }
 
-// Run code for entity on how we should unload!
-return false; // return if we are loaded
+// couldn't locate a loaded chunk...?
+return false; // return if we should update
 

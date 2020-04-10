@@ -43,9 +43,6 @@ if(ds_exists(getLib,ds_type_map))
         returnMap = ds_map_create();
         ds_map_copy(returnMap,findEntity);
         
-        // basic data blocks all spawn with, this code is only reached if not air or nonexistant
-        returnMap[? "NeedUpdate"] = true; 
-        
         // use the temporary texture list to choose a random texture!
         var texList = returnMap[? "Textures"];
         if(!is_undefined(texList) && ds_list_size(texList) > 0)
@@ -62,6 +59,7 @@ if(ds_exists(getLib,ds_type_map))
         ds_map_delete(returnMap,"Textures");
         
         // setup data
+        returnMap[? "NeedUpdate"] = true; 
         returnMap[? "FirstSpawn"] = true;
         returnMap[? "SaveX"] = argument1; 
         returnMap[? "SaveY"] = argument2;

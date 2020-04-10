@@ -9,6 +9,7 @@ chunk.updateTimer = 0;
 var blockData = scr_ChunkGetBlock(chunk,xx,yy,selector);
 if(blockData != -1) blockData[? "NeedUpdate"] = true;
 
+
 if(neighbours)
 {
     scr_BlockTriggerUpdate(chunk,xx-16,yy,selector,false);

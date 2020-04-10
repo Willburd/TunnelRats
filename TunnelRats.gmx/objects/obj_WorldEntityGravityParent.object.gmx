@@ -105,48 +105,47 @@ Ndirection = 0;
           <argument>
             <kind>1</kind>
             <string>/// Gravity update!
-if(loadedCheck)
-{
-    // calculate falling speed
-    Zmomentum += scr_DTscale(global._gravity);
-    
-    // find lowest point for shadow, and as a ground check for falling!
-    attemptedGround = z+512;
 
+// calculate falling speed
+Zmomentum += scr_DTscale(global._gravity);
+
+// find lowest point for shadow, and as a ground check for falling!
+attemptedGround = z+512;
+
+
+// apply falling speed
+z += scr_DTscale(Zmomentum);
+
+
+// check floor collisions
+var getQ = floor((x - ActiveChunk.x)/16);
+var getC = floor((y - ActiveChunk.y)/16);
+if(ActiveChunk.collisionData[# getQ,getC] &gt; 0)
+{
+    attemptedGround = 0;
+}
+
+// if falling, check if we've reached under our shadow position!
+if(Zmomentum &gt;= 0)
+{
+    // lock to ground
+    var zbeforelock = z;
+    z = min(z,attemptedGround); 
     
-    // apply falling speed
-    z += scr_DTscale(Zmomentum);
-    
-    
-    // check floor collisions
-    var getQ = floor((x - ActiveChunk.x)/16);
-    var getC = floor((y - ActiveChunk.y)/16);
-    if(ActiveChunk.collisionData[# getQ,getC] &gt; 0)
+    if(zbeforelock &lt; z)
     {
-        attemptedGround = 0;
+        // land on ground event
+        event_user(5);
     }
     
-    // if falling, check if we've reached under our shadow position!
-    if(Zmomentum &gt;= 0)
+    // ground control to major tom!
+    if(z == attemptedGround)
     {
-        // lock to ground
-        var zbeforelock = z;
-        z = min(z,attemptedGround); 
-        
-        if(zbeforelock &lt; z)
-        {
-            // land on ground event
-            event_user(5);
-        }
-        
-        // ground control to major tom!
-        if(z == attemptedGround)
-        {
-            // stop
-            Zmomentum = 0;
-        }
+        // stop
+        Zmomentum = 0;
     }
 }
+
 </string>
           </argument>
         </arguments>
@@ -168,12 +167,10 @@ if(loadedCheck)
           <argument>
             <kind>1</kind>
             <string>/// Move xy
-if(loadedCheck)
-{
-    var dir = Ndirection;
-    var dis = scr_DTscale(Nmomentum);
-    scr_EntityMoveWithCollisions( lengthdir_x(dis,dir), lengthdir_y(dis,dir), ActiveChunk);
-}   
+var dir = Ndirection;
+var dis = scr_DTscale(Nmomentum);
+scr_EntityMoveWithCollisions( lengthdir_x(dis,dir), lengthdir_y(dis,dir), ActiveChunk);
+
 </string>
           </argument>
         </arguments>

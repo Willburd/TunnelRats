@@ -62,5 +62,4 @@ if(breaking != -1)
 
 // convert block
 scr_ChunkSetBlock(chunk,xx ,yy,-1,selector);
-scr_BlockTriggerUpdate(chunk,yy,yy,selector,true);
 

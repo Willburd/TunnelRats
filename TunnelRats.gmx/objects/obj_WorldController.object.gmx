@@ -56,7 +56,6 @@ event_user(1);
             <kind>1</kind>
             <string>/// called from obj_WorldChunk's room end function on unload
 ds_list_destroy(loadedChunkList);
-ds_list_destroy(pendingEntitySpawns);
 
 scr_EntityPlayerSave(global.PlayerProfile);
 </string>
@@ -84,7 +83,6 @@ scr_EntityPlayerSave(global.PlayerProfile);
             <string>/// Init world
 
 // setup entity loader, and chunk spawning controls!
-pendingEntitySpawns = ds_list_create();
 loadedChunkList = ds_list_create();
 var TLgridX = (floor(view_xview[0] / (global.chunkWidth  * 16))-1) * (global.chunkWidth  * 16);
 var TLgridY = (floor(view_yview[0] / (global.chunkHeight * 16))-1) * (global.chunkHeight * 16);
@@ -210,14 +208,16 @@ if(global.loadingTimer &lt;= 0)
 
 
 // entity loading control
-if(ds_list_size(pendingEntitySpawns) &gt; 0)
+with obj_WorldEntityParent
 {
-    with pendingEntitySpawns[| 0] event_user(0); // attempt spawn
-    if(pendingEntitySpawns[| 0].ActiveChunk != noone)
+    // not yet spawned!
+    if(ActiveChunk == noone)
     {
-        // clear from list
-        ds_list_delete(pendingEntitySpawns,0);
+        scr_EntityDetectCurrentChunk(id);
     }
+    
+    // ready for next update!
+    EntityData[? "NeedUpdate"] = true;
 }
 
 
@@ -236,7 +236,7 @@ for (i=0; i&lt;ds_list_size(loadedChunkList); i+=1)
     {
         // process chunk!
         var viewDist = point_distance(view_xview[0]+(view_wview[0]/2),view_yview[0]+(view_hview[0]/2),chunk.x + (chunkW/2),chunk.y + (chunkH/2));
-        var reRenderChance = 600*inverse_lerp(view_wview[0],-100,viewDist); // higher chance to rerender when near middle of view
+        var reRenderChance = 400*inverse_lerp(view_wview[0],-50,viewDist); // higher chance to rerender when near middle of view
         scr_ChunkUpdate(chunk, (random(reRenderChance) &lt; 1) );
         if(chunk.processing)
         {

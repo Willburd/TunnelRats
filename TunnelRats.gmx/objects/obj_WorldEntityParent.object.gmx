@@ -131,60 +131,7 @@ EntityData[? "SaveDrawDepth"] = depth;
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>entity update!</string>
-          </argument>
-        </arguments>
-      </action>
-      <action>
-        <libid>1</libid>
-        <id>603</id>
-        <kind>7</kind>
-        <userelative>0</userelative>
-        <isquestion>0</isquestion>
-        <useapplyto>-1</useapplyto>
-        <exetype>2</exetype>
-        <functionname></functionname>
-        <codestring></codestring>
-        <whoName>self</whoName>
-        <relative>0</relative>
-        <isnot>0</isnot>
-        <arguments>
-          <argument>
-            <kind>1</kind>
-            <string>/// Base update for detection and unloading
-
-// detect loaded state
-if(scr_EntityDetectCurrentChunk(id))
-{
-    if(loadedCheck == false)
-    {
-        // camera assignment check
-        with obj_HudController
-        {
-            if(other.EntityData[? "CameraIsFollowing"])
-            {
-                followObject = other.id;
-            }
-        }
-        
-        // first time spawn called
-        if(EntityData[? "FirstSpawn"])
-        {
-            EntityData[? "FirstSpawn"] = false;
-            event_user(1);
-        }
-    }
-
-    // run code ahead in child object's event!
-    loadedCheck = true;
-}
-else
-{
-    // run unloading code
-    loadedCheck = false;
-}
-
-</string>
+            <string>Entity update</string>
           </argument>
         </arguments>
       </action>

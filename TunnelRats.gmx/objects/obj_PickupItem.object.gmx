@@ -117,17 +117,15 @@ Ndirection = random(360);
           <argument>
             <kind>1</kind>
             <string>/// slowdown and stop
-if(loadedCheck)
+if(z == attemptedGround)
 {
-    if(z == attemptedGround)
-    {
-        Nmomentum *= scr_DTmultiplier(-0.20);
-    }
-    else
-    {
-        Nmomentum *= scr_DTmultiplier(-0.02);
-    }
+    Nmomentum *= scr_DTmultiplier(-0.20);
 }
+else
+{
+    Nmomentum *= scr_DTmultiplier(-0.02);
+}
+
 </string>
           </argument>
         </arguments>
@@ -171,8 +169,6 @@ depth = scr_DrawDepth(x,y,z);
           <argument>
             <kind>1</kind>
             <string>/// set update flag
-EntityData[? "NeedUpdate"] = true;
-
 pickupDelay -= scr_DTscale(1);
 if(pickupDelay &lt; 0) pickupDelay = 0;
 </string>

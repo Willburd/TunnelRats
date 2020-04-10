@@ -15,7 +15,6 @@ if(chunkID == noone)
 {
     if(global.debug_EntityLoadingInfo) show_debug_message("Entity created " + string(newObj.id));
     newObj.worldController = worldControl;
-    ds_list_add(worldControl.pendingEntitySpawns,newObj.id);
 }
 else
 {

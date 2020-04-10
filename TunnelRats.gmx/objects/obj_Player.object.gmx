@@ -181,68 +181,67 @@ if(EntityData[? "Identity"] == global.PlayerProfile[? "ProfileName"])
           <argument>
             <kind>1</kind>
             <string>/// movement code
-if(loadedCheck)
+
+// crouching
+prevCrouching = crouching;
+crouching = false;
+if(keyboard_check(global.keyCrouch))
 {
-    // crouching
-    prevCrouching = crouching;
-    crouching = false;
-    if(keyboard_check(global.keyCrouch))
+    crouching = true;
+}
+
+sprinting = false;
+if(keyboard_check(global.keySprint))
+{
+    sprinting = true;
+}
+
+
+// control XY movement
+var UD = 0;
+var LR = 0;
+if(keyboard_check(global.keyLeft)) LR += -1;
+if(keyboard_check(global.keyRight)) LR += 1;
+if(keyboard_check(global.keyUp)) UD += -1;
+if(keyboard_check(global.keyDown)) UD += 1;
+
+
+// apply movement acceleration
+if(UD != 0 || LR != 0)
+{
+    var maxSpd = 0.8;
+    if(crouching)
     {
-        crouching = true;
+        maxSpd = 0.42;
+    }
+    else if(sprinting)
+    {
+        maxSpd = 1.5;
     }
     
-    sprinting = false;
-    if(keyboard_check(global.keySprint))
+    if(Nmomentum &lt; maxSpd)
     {
-        sprinting = true;
-    }
-    
-    
-    // control XY movement
-    var UD = 0;
-    var LR = 0;
-    if(keyboard_check(global.keyLeft)) LR += -1;
-    if(keyboard_check(global.keyRight)) LR += 1;
-    if(keyboard_check(global.keyUp)) UD += -1;
-    if(keyboard_check(global.keyDown)) UD += 1;
-    
-    
-    // apply movement acceleration
-    if(UD != 0 || LR != 0)
-    {
-        var maxSpd = 0.8;
-        if(crouching)
-        {
-            maxSpd = 0.42;
-        }
-        else if(sprinting)
-        {
-            maxSpd = 1.5;
-        }
-        
-        if(Nmomentum &lt; maxSpd)
-        {
-            Nmomentum += scr_DTscale(0.3);
-        }
-        else
-        {
-            Nmomentum *= scr_DTmultiplier(-0.08);
-            if(sprinting &amp;&amp; z == attemptedGround &amp;&amp; random(1) &lt; 0.4)
-            {
-                part_particles_create(global.partSys,x+random_range(-8,8),y+random_range(-1,1), global.partLibrary[? "RunPuff"],1);
-            }
-        }
-        Ndirection = point_direction(0,0, LR, UD);
+        Nmomentum += scr_DTscale(0.3);
     }
     else
     {
-        Nmomentum *= scr_DTmultiplier(-0.15);
-        if(Nmomentum &lt; 0.01)
+        Nmomentum *= scr_DTmultiplier(-0.08);
+        if(sprinting &amp;&amp; z == attemptedGround &amp;&amp; random(1) &lt; 0.4)
         {
-            Nmomentum = 0;
+            part_particles_create(global.partSys,x+random_range(-8,8),y+random_range(-1,1), global.partLibrary[? "RunPuff"],1);
         }
     }
+    Ndirection = point_direction(0,0, LR, UD);
 }
+else
+{
+    Nmomentum *= scr_DTmultiplier(-0.15);
+    if(Nmomentum &lt; 0.01)
+    {
+        Nmomentum = 0;
+    }
+}
+
 </string>
           </argument>
         </arguments>
@@ -278,46 +277,44 @@ if(loadedCheck)
           <argument>
             <kind>1</kind>
             <string>/// Jump control
-if(loadedCheck)
+if(z == attemptedGround)
 {
-    if(z == attemptedGround)
+    // jump cooldown (maybe rolling animation?)
+    landingLag -= scr_DTscale(1);
+    
+    // jumping!
+    if(keyboard_check(global.keyJump) &amp;&amp; holdingJumpStill == false)
     {
-        // jump cooldown (maybe rolling animation?)
-        landingLag -= scr_DTscale(1);
-        
-        // jumping!
-        if(keyboard_check(global.keyJump) &amp;&amp; holdingJumpStill == false)
+        if(landingLag &lt;= 0)
         {
-            if(landingLag &lt;= 0)
+            if(keyboard_check(global.keySprint))
             {
-                if(keyboard_check(global.keySprint))
-                {
-                    // runjump
-                    Zmomentum = -3;
-                    Nmomentum *= 2;
-                    landingLag = 5;
-                }
-                else
-                {
-                    // jump
-                    Zmomentum = -3;
-                    Nmomentum *= 1.1;
-                    landingLag = 2;
-                }
+                // runjump
+                Zmomentum = -3;
+                Nmomentum *= 2;
+                landingLag = 5;
+            }
+            else
+            {
+                // jump
+                Zmomentum = -3;
+                Nmomentum *= 1.1;
+                landingLag = 2;
             }
         }
     }
-    
-    // prevent jump spam
-    if(keyboard_check(global.keyJump))
-    {
-        holdingJumpStill = true;
-    }
-    else
-    {
-        holdingJumpStill = false;
-    }
 }
+
+// prevent jump spam
+if(keyboard_check(global.keyJump))
+{
+    holdingJumpStill = true;
+}
+else
+{
+    holdingJumpStill = false;
+}
+
 </string>
           </argument>
         </arguments>
@@ -339,151 +336,157 @@ if(loadedCheck)
           <argument>
             <kind>1</kind>
             <string>/// Tool use control!
-if(loadedCheck)
+
+// tool highlighter
+if(!instance_exists(myHighlight))
 {
-    // tool highlighter
-    if(!instance_exists(myHighlight))
-    {
-        myHighlight = instance_create(x,y,obj_HighLightBlock);
-    }
-    
-
-    // Using a tool!
-    var toolX = 0;
-    var toolY = 0;
-    
-    // mouse aiming
-    var dir = point_direction(x,y-8,mouse_x,mouse_y);
-    var dis = clamp(point_distance(x,y-8,mouse_x,mouse_y),0,64);
-    toolX = x + lengthdir_x(dis,dir);
-    toolY = y + lengthdir_y(dis,dir);
-    
-    // check if tool use is consistant!
-    var blockPlaceMode = false;
-    var usingTool = false;
-    if(prevCrouching != crouching)
-    {
-        // reset tool
-        toolUseCounter = -1;
-    }
-    else if(floor(x/16) != floor(xprevious/16) || floor(y/16) != floor(yprevious/16) || z != attemptedGround)
-    {
-        // reset tool
-        toolUseCounter = -1;
-    }
-    else if(floor(previousToolX/16) != floor(toolX/16) || floor(previousToolY/16) != floor(toolY/16))
-    {
-        // reset tool
-        toolUseCounter = -1;
-    }
-    else if( mouse_check_button(mb_left) ^^ mouse_check_button(mb_right) )
-    {
-        // tool mode
-        if(mouse_check_button(mb_left)) blockPlaceMode = false;
-        if(mouse_check_button(mb_right)) blockPlaceMode = true;
-
-        // tool is consistant and counting up!
-        if(blockPlaceMode)
-        {
-            toolUseCounter += scr_DTscale(0.1);
-        }
-        else
-        {
-            toolUseCounter += scr_DTscale(0.03);
-        }
-        usingTool = true;
-    }
-    else
-    {
-        // tool recovery counter when not in use
-        if(toolUseCounter&lt;0)
-        {
-            toolUseCounter += scr_DTscale(0.2);
-            
-        }
-        else
-        {
-            toolUseCounter = 0;
-        }
-    }
-    
-    
-    
-    // acts different base on if placing or breaking!
-    var toolGlow = 0.2 * (0.5 + (sin(global.animationStep/20)/3));
-    var toolLocX = floor((toolX)/16)*16;
-    var toolLocY = floor((toolY)/16)*16;
-    
-    myHighlight.x = toolLocX;
-    myHighlight.y = toolLocY;
-    myHighlight.depth = scr_DrawDepth(myHighlight.x,myHighlight.y,myHighlight.z)-1;
-    if(usingTool)
-    {
-        var selection = BlockGridType.walls;
-        if(crouching) selection = BlockGridType.floors;
-        
-        if( blockPlaceMode)
-        {
-            var canReplaceBlock = scr_BlockCanReplace(ActiveChunk,toolLocX ,toolLocY, selection);
-            if(canReplaceBlock)
-            {
-                myHighlight.image_alpha = lerp( toolGlow, 1, inverse_lerp(-1,0,toolUseCounter));
-                if(toolUseCounter &gt;= 0)
-                {
-                    var canBuild = false;
-                    // break floors if placing a wall, and break walls if placing a floor
-                    if(selection == BlockGridType.walls || selection == BlockGridType.floors)
-                    {
-                        if(scr_BlockCanReplace(ActiveChunk,toolLocX ,toolLocY, BlockGridType.floors))
-                        {
-                            scr_BlockBreak(ActiveChunk, toolLocX ,toolLocY,0, BlockGridType.floors);
-                            part_particles_create(global.partSys,toolLocX ,toolLocY, global.partLibrary[? "DustPuff"],10);
-                            canBuild = true;
-                        }
-                    }
-                    
-                    if(canBuild)
-                    {
-                        // When placing blocks, do it instantly and than do cooldown
-                        if(scr_ChunkGetBlock(ActiveChunk,toolLocX ,toolLocY, selection) == -1)
-                        {
-                            var newBlock = scr_BlockInitData("Base:Block_Brick");
-                            newBlock[? "FirstSpawn"] = false;
-                            scr_ChunkSetBlock(ActiveChunk,toolLocX ,toolLocY, newBlock, selection);
-                            scr_BlockTriggerUpdate(ActiveChunk,toolLocX ,toolLocY, selection,true);
-                        }
-                        toolUseCounter = -1;
-                    }
-                }
-            }
-            else
-            {
-                toolUseCounter = -1;
-            }
-        }
-        else
-        {
-            myHighlight.image_alpha = lerp( toolGlow, 1, inverse_lerp(-1,1,toolUseCounter));
-            if(toolUseCounter &gt;= 1)
-            {
-                if(scr_ChunkGetBlock(ActiveChunk,toolLocX ,toolLocY, selection) != -1)
-                {
-                    scr_BlockBreak(ActiveChunk,toolLocX ,toolLocY,0, selection);
-                    part_particles_create(global.partSys,toolLocX ,toolLocY, global.partLibrary[? "DustPuff"],10);
-                }
-                toolUseCounter = -1;
-            }
-        }
-    }
-    else
-    {
-        myHighlight.image_alpha = lerp(myHighlight.image_alpha,toolGlow,0.6);
-    }
-    
-    // store previous tool data
-    previousToolX = toolX;
-    previousToolY = toolY;
+    myHighlight = instance_create(x,y,obj_HighLightBlock);
 }
+
+
+// Using a tool!
+var toolX = 0;
+var toolY = 0;
+
+// mouse aiming
+var dir = point_direction(x,y-8,mouse_x,mouse_y);
+var dis = clamp(point_distance(x,y-8,mouse_x,mouse_y),0,64);
+toolX = x + lengthdir_x(dis,dir);
+toolY = y + lengthdir_y(dis,dir);
+
+// check if tool use is consistant!
+var blockPlaceMode = false;
+var usingTool = false;
+if(prevCrouching != crouching)
+{
+    // reset tool
+    toolUseCounter = -1;
+}
+else if(floor(x/16) != floor(xprevious/16) || floor(y/16) != floor(yprevious/16) || z != attemptedGround)
+{
+    // reset tool
+    toolUseCounter = -1;
+}
+else if(floor(previousToolX/16) != floor(toolX/16) || floor(previousToolY/16) != floor(toolY/16))
+{
+    // reset tool
+    toolUseCounter = -1;
+}
+else if( mouse_check_button(mb_left) ^^ mouse_check_button(mb_right) )
+{
+    // tool mode
+    if(mouse_check_button(mb_left)) blockPlaceMode = false;
+    if(mouse_check_button(mb_right)) blockPlaceMode = true;
+
+    // tool is consistant and counting up!
+    if(blockPlaceMode)
+    {
+        toolUseCounter += scr_DTscale(0.15);
+    }
+    else
+    {
+        toolUseCounter += scr_DTscale(0.03);
+    }
+    usingTool = true;
+}
+else
+{
+    // tool recovery counter when not in use
+    if(toolUseCounter&lt;0)
+    {
+        toolUseCounter += scr_DTscale(0.2);
+        
+    }
+    else
+    {
+        toolUseCounter = 0;
+    }
+}
+
+
+
+// acts different base on if placing or breaking!
+var toolGlow = 0.3 * (0.5 + (sin(global.animationStep/20)/4));
+var toolLocX = floor((toolX)/16)*16;
+var toolLocY = floor((toolY)/16)*16;
+
+myHighlight.x = toolLocX;
+myHighlight.y = toolLocY;
+myHighlight.depth = scr_DrawDepth(myHighlight.x,myHighlight.y,myHighlight.z)-1;
+if(usingTool)
+{
+    var selection = BlockGridType.walls;
+    if(crouching) selection = BlockGridType.floors;
+    
+    if( blockPlaceMode)
+    {
+        var canReplaceBlock = scr_BlockCanReplace(ActiveChunk,toolLocX ,toolLocY, selection);
+        if(canReplaceBlock)
+        {
+            myHighlight.image_alpha = lerp( toolGlow, 1, inverse_lerp(-1,0,toolUseCounter));
+            if(toolUseCounter &gt;= 0)
+            {
+                var canBuild = false;
+                // break floors if placing a wall, and break walls if placing a floor
+                if(selection == BlockGridType.walls || selection == BlockGridType.floors)
+                {
+                    if(scr_BlockCanReplace(ActiveChunk,toolLocX ,toolLocY, BlockGridType.floors))
+                    {
+                        scr_BlockBreak(ActiveChunk, toolLocX ,toolLocY,0, BlockGridType.floors);
+                        
+                        part_particles_create(global.partSys,toolLocX ,toolLocY, global.partLibrary[? "DustPuff"],10);
+                        canBuild = true;
+                    }
+                }
+                
+                if(canBuild)
+                {
+                    // When placing blocks, do it instantly and than do cooldown
+                    if(scr_ChunkGetBlock(ActiveChunk,toolLocX ,toolLocY, selection) == -1)
+                    {
+                        var newBlock = scr_BlockInitData("Base:Block_Brick");
+                        newBlock[? "FirstSpawn"] = false;
+                        scr_ChunkSetBlock(ActiveChunk,toolLocX ,toolLocY, newBlock, selection);
+                        scr_BlockTriggerUpdate(ActiveChunk,toolLocX ,toolLocY, BlockGridType.floors,true);
+                        scr_BlockTriggerUpdate(ActiveChunk,toolLocX ,toolLocY, BlockGridType.walls,true);
+                        scr_ChunkUpdate(ActiveChunk,true);
+                    }
+                    toolUseCounter = -1;
+                }
+            }
+        }
+        else
+        {
+            toolUseCounter = -1;
+        }
+    }
+    else
+    {
+        myHighlight.image_alpha = lerp( toolGlow, 1, inverse_lerp(-1,1,toolUseCounter));
+        if(toolUseCounter &gt;= 1)
+        {
+            if(scr_ChunkGetBlock(ActiveChunk,toolLocX ,toolLocY, selection) != -1)
+            {
+                scr_BlockBreak(ActiveChunk,toolLocX ,toolLocY,0, selection);
+                scr_BlockTriggerUpdate(ActiveChunk,toolLocX ,toolLocY, BlockGridType.floors,true);
+                scr_BlockTriggerUpdate(ActiveChunk,toolLocX ,toolLocY, BlockGridType.walls,true);
+                scr_ChunkUpdate(ActiveChunk,true);
+                
+                part_particles_create(global.partSys,toolLocX ,toolLocY, global.partLibrary[? "DustPuff"],10);
+            }
+            toolUseCounter = -1;
+        }
+    }
+}
+else
+{
+    myHighlight.image_alpha = lerp(myHighlight.image_alpha,toolGlow,0.6);
+}
+
+// store previous tool data
+previousToolX = toolX;
+previousToolY = toolY;
+
 </string>
           </argument>
         </arguments>
@@ -526,9 +529,7 @@ depth = scr_DrawDepth(x,y,z);
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>/// set update flag and other post update things
-EntityData[? "NeedUpdate"] = true;
-
+            <string>/// post update stuff
 if(itemSuction == noone)
 {
     itemSuction = instance_create(x,y,obj_PlayerSuction);
