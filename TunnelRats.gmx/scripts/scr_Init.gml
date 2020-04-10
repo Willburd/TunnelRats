@@ -30,6 +30,8 @@ global.resMode = 1;
 global.outputResolutionHeight = 144;
 global.chunkWidth = 7;
 global.chunkHeight = 7;
+global.metaChunkWidth = 36;
+global.metaChunkHeight = 36;
 
 global.debug_DisableWorldGen = false;
 global.debug_ChunkLoadingInfo = false;
@@ -43,6 +45,7 @@ global.PlayerProfile = -1;
 global.worldInitialName = -1;
 global.worldInitialSeed = -1;
 global.worldData = -1;
+global.structureMap = -1;
 
 global.temperatureMap_Scale = 5;
 global.humidityMap_Scale = 6;

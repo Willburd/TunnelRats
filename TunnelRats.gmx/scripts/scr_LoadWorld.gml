@@ -28,6 +28,19 @@ if(!is_undefined(global.worldData[? "chunkHeight"]))
     ds_map_delete(global.worldData, "chunkHeight");
 }
 
+if(!is_undefined(global.worldData[? "structureChunkWidth"]))
+{
+    global.metaChunkWidth = global.worldData[? "structureChunkWidth"];
+    ds_map_delete(global.worldData, "structureChunkWidth");
+}
+if(!is_undefined(global.worldData[? "structureChunkHeight"]))
+{
+    global.metaChunkHeight = global.worldData[? "structureChunkHeight"];
+    ds_map_delete(global.worldData, "structureChunkHeight");
+}
+
+
+
 
 
 
@@ -52,6 +65,8 @@ var saveFile = file_text_open_read(saveDir + "RawMap.dat");
     ds_grid_read(global.worldData[? "MountainMap"],     file_text_readln(saveFile));
     global.worldData[? "HillMap"] = ds_grid_create(0,0);
     ds_grid_read(global.worldData[? "HillMap"],         file_text_readln(saveFile));
+    global.structureMap = json_decode(file_text_readln(saveFile));
+    
 file_text_close(saveFile);
 
 

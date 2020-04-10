@@ -603,6 +603,9 @@ if(EntityData != -1)
     }
     
 }*/
+
+
+draw_text(8,8,scr_MetaChunkGetIdentity(x,y,worldController.LoadedLayer));
 </string>
           </argument>
         </arguments>

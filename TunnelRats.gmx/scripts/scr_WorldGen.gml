@@ -8,6 +8,7 @@ global.worldData[? "continentMap"] = -1;
 global.worldData[? "mountainMap"] = -1;
 global.worldData[? "hillMap"] = -1;
 
+global.structureMap = ds_map_create();
 
 
 if(global.debug_DisableWorldGen == false)

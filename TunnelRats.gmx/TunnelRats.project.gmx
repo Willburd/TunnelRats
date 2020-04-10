@@ -340,6 +340,10 @@
       <script>scripts\scr_ChunkInternalClearBlock.gml</script>
       <script>scripts\scr_ChunkUpdateCollision.gml</script>
     </scripts>
+    <scripts name="MetaChunks">
+      <script>scripts\scr_MetaChunkGetIdentity.gml</script>
+      <script>scripts\scr_MetaChunkGetStructure.gml</script>
+    </scripts>
     <scripts name="WorldGenData">
       <script>scripts\scr_WorldGen.gml</script>
       <script>scripts\scr_SaveWorld.gml</script>
