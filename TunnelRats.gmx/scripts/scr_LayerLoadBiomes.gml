@@ -1,12 +1,13 @@
-/// scr_LayerLoadBiomes(worldName,UniverseNumber)
+/// scr_LayerLoadBiomes(worldName,UniverseNumber,layerNumber)
 var worldName = argument0;
 var universeNum = argument1;
+var layNum = argument2;
 
 var returnList = ds_list_create();
 
 // read the file!
 var i = 0;
-var loadDir = working_directory + "/Worlds/" + string(worldName) + "/Universe" + string(universeNum ) + "/Chunks/LayerData_" + string(global.currentLayer) + ".dat";
+var loadDir = working_directory + "/Worlds/" + string(worldName) + "/Universe" + string(universeNum ) + "/Chunks/LayerData_" + string(layNum) + ".dat";
 var loadFile = file_text_open_read(loadDir);
     while (!file_text_eof(loadFile)) {
         var biomeName = file_text_read_string(loadFile); file_text_readln(loadFile);

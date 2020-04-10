@@ -31,12 +31,12 @@ with argument0
         returnData = newChunk;
         newChunk.worldController = id;
         
-        if(file_exists(working_directory + "/Worlds/" + string(global.worldData[? "name"]) + "/Universe" + string(UniverseNumber) + "/Chunks/Layer" + string(global.currentLayer) + "/" + scr_ChunkName(newChunk) + ".dat"))
+        if(file_exists(working_directory + "/Worlds/" + string(global.worldData[? "name"]) + "/Universe" + string(UniverseNumber) + "/Chunks/Layer" + string(newChunk.worldController.LoadedLayer) + "/" + scr_ChunkName(newChunk) + ".dat"))
         {
             // not new, load chunk data!
             with newChunk
             {
-                scr_ChunkLoad(worldController.UniverseNumber,id);
+                scr_ChunkLoad(worldController.UniverseNumber,id,worldController.LoadedLayer);
                 processing = true; // if entitys should be updated
                 rendering = true; // if chunk is drawn
                 forceRenderUpdate = true;

@@ -1,11 +1,12 @@
-/// scr_ChunkSave(universe,chunk);
+/// scr_ChunkSave(universe,chunk,currentLayer);
 var universe = argument0;
 var chunkObj = argument1;
+var curLayer = argument2;
 // chunkObj.walls;
 // chunkObj.ground;
 // chunkObj.floors;
 
-var saveDir = working_directory + "/Worlds/" + string(global.worldData[? "name"]) + "/Universe" + string(universe) + "/Chunks/Layer" + string(global.currentLayer) + "/" + scr_ChunkName(chunkObj) + ".dat";
+var saveDir = working_directory + "/Worlds/" + string(global.worldData[? "name"]) + "/Universe" + string(universe) + "/Chunks/Layer" + string(curLayer) + "/" + scr_ChunkName(chunkObj) + ".dat";
 var saveFile = file_text_open_write(saveDir);
 
     // save the entity list as we unload!

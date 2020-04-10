@@ -1,13 +1,14 @@
-/// scr_Chunk(universe,loadingChunkObjec);
+/// scr_Chunk(universe,loadingChunkObject,currentLayer);
 var universe = argument0;
 var newChunk = argument1;
+var curLayer = argument2;
 
 // create the data grids
 newChunk.walls = ds_grid_create( global.chunkWidth, global.chunkHeight);
 newChunk.ground = ds_grid_create( global.chunkWidth, global.chunkHeight);
 newChunk.floors = ds_grid_create( global.chunkWidth, global.chunkHeight);
 
-var saveDir = working_directory + "/Worlds/" + string(global.worldData[? "name"]) + "/Universe" + string(universe) + "/Chunks/Layer" + string(global.currentLayer) + "/" + scr_ChunkName(newChunk) + ".dat";
+var saveDir = working_directory + "/Worlds/" + string(global.worldData[? "name"]) + "/Universe" + string(universe) + "/Chunks/Layer" + string(curLayer) + "/" + scr_ChunkName(newChunk) + ".dat";
 var loadFile = file_text_open_read(saveDir);
 
     // load entities

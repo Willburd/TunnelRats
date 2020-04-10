@@ -85,7 +85,7 @@ rendering = false;
 if(walls != -1)
 {
     // only save if genned!
-    scr_ChunkSave(worldController.UniverseNumber,id);
+    scr_ChunkSave(worldController.UniverseNumber,id,worldController.LoadedLayer);
 }
 
 // clean out puppets and tiles! 
@@ -225,7 +225,7 @@ if(ground == -1) // check is already genned!
     {
         for (var c=0; c&lt;global.chunkHeight; c+=1)
         {
-            random_set_seed(global.worldData[? "seed"] + (floor(x/16) + q) + ((floor(y/16) + c)*16) + (256*global.currentLayer))
+            random_set_seed(global.worldData[? "seed"] + (floor(x/16) + q) + ((floor(y/16) + c)*16) + (256*worldController.LoadedLayer))
             
             // get zheight from world gen and store the zdata
             bdata[# q,c] = scr_GetBiomeData(floor(x/16)+q,floor(y/16)+c); // stores the INDEX to the current global.layerLoadedBiomes list!
@@ -252,7 +252,7 @@ if(ground == -1) // check is already genned!
     randomize();
     
     if(global.debug_ChunkLoadingInfo) show_debug_message("generated chunk: " + scr_ChunkName(id));
-    scr_ChunkSave(worldController.UniverseNumber,id);
+    scr_ChunkSave(worldController.UniverseNumber,id,worldController.LoadedLayer);
     
     processing = true; // if entitys should be updated
     rendering = true; // if chunk is drawn

@@ -28,7 +28,7 @@
             <string>/// controller for spawning world chunks
 worldName = global.worldInitialName;
 UniverseNumber = 0;
-global.currentLayer = 0;
+LoadedLayer = 0;
 
 //temp, going to be called after creating this later by a control object that handles world file/universe/layer selection
 event_user(1);
@@ -131,7 +131,7 @@ else
 // spawn player if one has not been found!
 if(global.PlayerProfile == -1)
 {
-    global.PlayerProfile = scr_EntityPlayerProfileCreate(global.PlayerProfileName,128,80,0,UniverseNumber,global.currentLayer)
+    global.PlayerProfile = scr_EntityPlayerProfileCreate(global.PlayerProfileName,128,80,0,UniverseNumber,LoadedLayer)
 
     scr_EntityRealizePlayer(global.PlayerProfile,id,true);
     scr_EntityPlayerSave(global.PlayerProfile);
@@ -139,10 +139,10 @@ if(global.PlayerProfile == -1)
 
    
 //check if layer biome data exists
-if(file_exists(working_directory + "/Worlds/" + string(worldName) + "/Universe" + string(UniverseNumber) + "/Chunks/LayerData_" + string(global.currentLayer) + ".dat"))
+if(file_exists(working_directory + "/Worlds/" + string(worldName) + "/Universe" + string(UniverseNumber) + "/Chunks/LayerData_" + string(LoadedLayer) + ".dat"))
 {
     // load layer biomes
-    global.layerLoadedBiomes = scr_LayerLoadBiomes(worldName,UniverseNumber);
+    global.layerLoadedBiomes = scr_LayerLoadBiomes(worldName,UniverseNumber,LoadedLayer);
 }
 else
 {
@@ -151,8 +151,8 @@ else
     {
         ds_list_destroy(global.layerLoadedBiomes);
     }
-    global.layerLoadedBiomes = scr_LayerGetBiomes(global.currentLayer);
-    scr_LayerSaveBiomes(worldName,UniverseNumber);
+    global.layerLoadedBiomes = scr_LayerGetBiomes(LoadedLayer);
+    scr_LayerSaveBiomes(worldName,UniverseNumber,LoadedLayer);
 }
 </string>
           </argument>
