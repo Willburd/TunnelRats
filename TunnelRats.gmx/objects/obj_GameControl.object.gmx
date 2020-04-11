@@ -35,6 +35,8 @@ else if(global.currentGame != id)
 }
 
 show_debug_overlay(true);
+
+
 </string>
           </argument>
         </arguments>

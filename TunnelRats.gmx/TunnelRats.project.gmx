@@ -267,6 +267,8 @@
     <sprite>sprites\spr_shadow</sprite>
     <sprite>sprites\spr_temp_text</sprite>
     <sprite>sprites\spr_PlayerSuction</sprite>
+    <sprite>sprites\spr_MenuBarEquipment</sprite>
+    <sprite>sprites\spr_MenuHealth</sprite>
   </sprites>
   <backgrounds name="background">
     <background>background\bg_testBlock</background>

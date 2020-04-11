@@ -3,7 +3,7 @@
   <spriteName>spr_cam</spriteName>
   <solid>0</solid>
   <visible>-1</visible>
-  <depth>0</depth>
+  <depth>-999999999</depth>
   <persistent>0</persistent>
   <parentName>obj_alwaysUpdatedParent</parentName>
   <maskName>&lt;undefined&gt;</maskName>
@@ -26,6 +26,10 @@
           <argument>
             <kind>1</kind>
             <string>followObject = noone;
+
+// Player UI control
+QMenuIndex = -1;
+EMenuIndex = -1;
 </string>
           </argument>
         </arguments>
@@ -51,22 +55,45 @@
             <string>/// update
 if(!global.gamePaused)
 {
-    if(followObject == id)
+    if(followObject == noone)
+    {
+        // idle no follow state
+        QMenuIndex = -1;
+        EMenuIndex = -1;
+    }
+    else if(followObject == id)
     {
         show_debug_message("Camera self assigned self as follow object?")
         followObject = noone;
     }
-
-    if(instance_exists(followObject))
+    else if(instance_exists(followObject))
     {
+        depth = followObject.depth-99999999;
+        
         // only move when not paused
         var dir = point_direction(x,y, followObject.x, followObject.y);
         var dis = point_distance(x,y, followObject.x, followObject.y) * 0.1;
-        
         x += lengthdir_x(dis,dir);
         y += lengthdir_y(dis,dir);
         
         part_system_depth( global.partSys, scr_DrawDepth(followObject.x, followObject.y, followObject.z ) - 99999);
+        
+        // inventory UI
+        if(followObject.EntityData != -1)
+        {
+            if(!is_undefined(followObject.EntityData[? "Inventory"]))
+            {
+                var invCap = followObject.EntityData[? "InventorySize"];
+                QMenuIndex = clamp(QMenuIndex,0,invCap-1);
+                EMenuIndex = clamp(EMenuIndex,0,invCap-1);
+            }
+        }
+    
+    }
+    else
+    {
+        show_debug_message("Camera lost assigned object?")
+        followObject = noone;
     }
     
     view_xview[0] = floor( x-view_wview[0]/2);
@@ -97,6 +124,41 @@ if(!global.gamePaused)
           <argument>
             <kind>1</kind>
             <string>/// ingame draws
+if(followObject != noone)
+{
+    if(followObject.EntityData != -1)
+    {
+        if(!is_undefined(followObject.EntityData[? "Inventory"]))
+        {
+            var menuStart = (view_xview[0] + view_wview[0]) - 56;
+            var textScale = 1.75;
+            
+            draw_sprite(spr_MenuBarEquipment,0,menuStart,view_yview[0]+8);
+            draw_text_transformed_colour(menuStart+2,view_yview[0]+8+2,chr(global.keyItemRotateLeft),textScale,textScale,0,c_ltgray,c_ltgray,c_ltgray,c_ltgray,1);
+            QMenuIndex = -1;
+            draw_sprite(spr_MenuBarEquipment,0,menuStart+32,view_yview[0]+8);
+            draw_text_transformed_colour(menuStart+32+2,view_yview[0]+8+2,chr(global.keyItemRotateRight),textScale,textScale,0,c_ltgray,c_ltgray,c_ltgray,c_ltgray,1);
+            EMenuIndex = -1;
+        }
+        
+        if(!is_undefined(followObject.EntityData[? "Health"]))
+        {
+            var menuStart = view_xview[0]+ 8;
+            var heartCount = 0;
+            var healthPips = followObject.EntityData[? "Health"];
+            
+            while (healthPips &gt; 0)
+            {
+                var xoffset = heartCount*14;
+                var yoffset = floor(heartCount/25)*14;
+            
+                draw_sprite(spr_MenuHealth,clamp(healthPips,-1,3)+1,menuStart+xoffset,view_yview[0]+8+yoffset);
+                healthPips -= 4;
+                heartCount += 1; 
+            }
+        }
+    }
+}
 </string>
           </argument>
         </arguments>

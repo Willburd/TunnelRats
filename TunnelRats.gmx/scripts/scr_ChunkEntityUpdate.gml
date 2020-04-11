@@ -16,6 +16,10 @@ for (var i=0; i<ds_list_size(chunk.entitys); i+=1)
                     with obj_HudController
                     {
                         followObject = other.id;
+                        
+                        // Player UI control
+                        QMenuIndex = -1;
+                        EMenuIndex = -1;
                     }
                 }
                 

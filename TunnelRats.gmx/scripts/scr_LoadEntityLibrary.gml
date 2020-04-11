@@ -20,6 +20,9 @@ var newLib = ds_map_create();
     ds_map_add(newEnt,"Inventory", true); //a list of lists, encoded as [ "entityName", count] NOTICE this entry of "true" or "false" just gives it an inventory or not!
     ds_map_add(newEnt,"InventorySize", 10);
     ds_map_add(newEnt,"MaxStack",1);
+    // health
+    ds_map_add(newEnt,"MaxHealth",5*4);
+    ds_map_add(newEnt,"Health",5*4);
     
     ds_map_add_map(newLib,"Player",newEnt);
 ds_map_add_map(entityLib,"None",newLib);

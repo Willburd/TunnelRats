@@ -72,8 +72,8 @@ global.keyJump = vk_space;
 global.keySprint = vk_lshift;
 global.keyCrouch = vk_lcontrol;
 
-global.keyItemRotateRight = ord('E');
 global.keyItemRotateLeft = ord('Q');
+global.keyItemRotateRight = ord('E');
 
 global.keyExit = vk_escape;
 global.keyPause = vk_enter;
