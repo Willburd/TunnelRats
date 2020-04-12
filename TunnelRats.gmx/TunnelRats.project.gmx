@@ -268,6 +268,7 @@
     <sprite>sprites\spr_temp_text</sprite>
     <sprite>sprites\spr_PlayerSuction</sprite>
     <sprite>sprites\spr_MenuBarEquipment</sprite>
+    <sprite>sprites\spr_MenuBarSelect</sprite>
     <sprite>sprites\spr_MenuHealth</sprite>
   </sprites>
   <backgrounds name="background">

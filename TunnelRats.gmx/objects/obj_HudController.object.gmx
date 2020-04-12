@@ -28,8 +28,13 @@
             <string>followObject = noone;
 
 // Player UI control
-QMenuIndex = -1;
-EMenuIndex = -1;
+MenuIndex[0] = -1;
+MenuIndex[1] = -1;
+
+MenuExpand[0] = 0;
+MenuExpand[1] = 0;
+
+entityInventorySize = 0;
 </string>
           </argument>
         </arguments>
@@ -79,16 +84,36 @@ if(!global.gamePaused)
         part_system_depth( global.partSys, scr_DrawDepth(followObject.x, followObject.y, followObject.z ) - 99999);
         
         // inventory UI
+        entityInventorySize = 0;
         if(followObject.EntityData != -1)
         {
             if(!is_undefined(followObject.EntityData[? "Inventory"]))
             {
                 var invCap = followObject.EntityData[? "InventorySize"];
-                QMenuIndex = clamp(QMenuIndex,0,invCap-1);
-                EMenuIndex = clamp(EMenuIndex,0,invCap-1);
+                entityInventorySize = invCap;
+                MenuIndex[0] = clamp(MenuIndex[0],0,invCap-1);
+                MenuIndex[1] = clamp(MenuIndex[1],0,invCap-1);
             }
         }
-    
+        
+        // Inventory draw menus
+        for (var i=0; i&lt;2; i+=1)
+        {
+            var allow = false;
+            if(i == 0) allow = keyboard_check(global.keyItemRotateLeft);
+            if(i == 1) allow = keyboard_check(global.keyItemRotateRight);
+            
+            if(allow &amp;&amp; MenuExpand[i] &gt; -1)
+            {
+                MenuExpand[i] += scr_DTscale(0.15);
+                if(MenuExpand[i] &gt; 1) MenuExpand[i]= 1;
+            }
+            else
+            {
+                MenuExpand[i] *= scr_DTmultiplier(-0.2);
+                if(abs(MenuExpand[i]) &lt; 0.01) MenuExpand[i] = 0;
+            }
+        }
     }
     else
     {
@@ -130,15 +155,40 @@ if(followObject != noone)
     {
         if(!is_undefined(followObject.EntityData[? "Inventory"]))
         {
+            var entryY = view_yview[0]+8;
             var menuStart = (view_xview[0] + view_wview[0]) - 56;
             var textScale = 1.75;
             
-            draw_sprite(spr_MenuBarEquipment,0,menuStart,view_yview[0]+8);
-            draw_text_transformed_colour(menuStart+2,view_yview[0]+8+2,chr(global.keyItemRotateLeft),textScale,textScale,0,c_ltgray,c_ltgray,c_ltgray,c_ltgray,1);
-            QMenuIndex = -1;
-            draw_sprite(spr_MenuBarEquipment,0,menuStart+32,view_yview[0]+8);
-            draw_text_transformed_colour(menuStart+32+2,view_yview[0]+8+2,chr(global.keyItemRotateRight),textScale,textScale,0,c_ltgray,c_ltgray,c_ltgray,c_ltgray,1);
-            EMenuIndex = -1;
+            for (var i=0; i&lt;2; i+=1)
+            {
+                var entryX = menuStart;
+                var menuChr = chr(global.keyItemRotateLeft);
+                if(i == 1) {
+                    entryX = menuStart+32;
+                    menuChr = chr(global.keyItemRotateRight);
+                }
+                
+                
+                draw_sprite(spr_MenuBarEquipment,0,entryX,entryY);
+                draw_text_transformed_colour(entryX+2,entryY+2,menuChr,textScale,textScale,0,c_ltgray,c_ltgray,c_ltgray,c_ltgray,1);
+                
+                
+                var offsetLevel = 16;
+                
+                if(MenuExpand[i] &gt; 0)
+                {
+                    var mouseYExtract = mouse_y;
+                    var ypush = clamp((mouseYExtract- (entryY+16)),0, offsetLevel);
+                    var clampedMouse = clamp(ypush + mouseYExtract,entryY + ((offsetLevel) * MenuExpand[i]), entryY + ((16 + offsetLevel) * MenuExpand[i]) + ((8*(entityInventorySize-1)) * MenuExpand[i]));
+                    for (var t=0; t&lt;entityInventorySize; t+=1)
+                    {
+                        var yyDraw = entryY + ((ypush + offsetLevel) * MenuExpand[i]) + ((8*t) * MenuExpand[i]);
+                        var yDetector = clamp(( yyDraw - clampedMouse) / 16,-1,1) * MenuExpand[i];
+                        
+                        draw_sprite(spr_MenuBarSelect,floor(MenuIndex[i]) == t,entryX,(yyDraw + (yDetector*offsetLevel)));
+                    }
+                }
+            }
         }
         
         if(!is_undefined(followObject.EntityData[? "Health"]))
