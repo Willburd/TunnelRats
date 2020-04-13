@@ -35,6 +35,7 @@ MenuExpand[0] = 0;
 MenuExpand[1] = 0;
 
 entityInventorySize = 0;
+dropCoolDown = false;
 </string>
           </argument>
         </arguments>
@@ -210,9 +211,30 @@ if(followObject != noone)
                         if(point_in_rectangle(mouse_x,mouse_y,entryX,(yyDraw + (yDetector*offsetLevel)),entryX+16,yyDraw + (yDetector*offsetLevel)+16))
                         {
                             selected = true;
-                            if(mouse_check_button(mb_left) || mouse_check_button(mb_right))
+                            if(mouse_check_button(mb_right))
                             {
-                                MenuIndex[i] = t;
+                                if(!dropCoolDown)
+                                {
+                                    var newEnt = scr_EntityThrowFromInventory(followObject.EntityData,t,followObject.ActiveChunk,followObject.x,followObject.y,followObject.z);
+                                    
+                                    /// random xyz direction
+                                    newEnt.Zmomentum = -(2 + random(1));
+                                    newEnt.Nmomentum = 2 + random(2);
+                                    newEnt.Ndirection = followObject.Ndirection;
+                                }
+                                dropCoolDown = true;
+                            }
+                            else if(mouse_check_button(mb_left))
+                            {
+                                if(!dropCoolDown)
+                                {
+                                    MenuIndex[i] = t;
+                                }
+                                dropCoolDown = true;
+                            }
+                            else
+                            {
+                                dropCoolDown = false;
                             }
                         }
                         

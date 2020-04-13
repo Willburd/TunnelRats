@@ -18,7 +18,7 @@ var loadFile = file_text_open_read(saveDir);
         var loadData = scr_EntityLoad(file_text_read_string(loadFile)); file_text_readln(loadFile);
         if(!is_undefined(loadData))
         {
-            scr_EntityRealizeInstance(loadData,newChunk,-1); // use current chunk's controller
+            scr_EntityRealizeInstance(loadData,newChunk,-1,loadData[? "IsPickup"]); // use current chunk's controller
         }
     }
 

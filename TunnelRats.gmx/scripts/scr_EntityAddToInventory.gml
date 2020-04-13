@@ -30,7 +30,7 @@ if(is_undefined( InventoryMax))
 if(InventoryMax == -1) InventoryMax = 9999;
 var listMax = ds_list_size(Inventorylist);
 
-var countToStore = 1;
+var countToStore = entityToStore[? "InternalCount"];
 for (var i=0; i<InventoryMax; i+=1)
 {
     // check inventory for matches to fill!

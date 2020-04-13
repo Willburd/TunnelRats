@@ -1,16 +1,20 @@
-/// scr_EntityRealizeInstance(entityDataMap,chunkID,WorldController);
+/// scr_EntityRealizeInstance(entityDataMap,chunkID,WorldController, asPickup);
 // spawns an entity instance, and loads it with data
 var entityData = argument0;
 var chunkID = argument1;
 var worldControl = argument2;
 
 // load entity data!
-var newObj = instance_create(entityData[? "SaveX"],entityData[? "SaveY"],asset_get_index(entityData[? "InternalObjectType"]));
+var objectType = asset_get_index(entityData[? "InternalObjectType"]);
+if(argument3 == true) objectType = obj_PickupItem;
+var newObj = instance_create(entityData[? "SaveX"],entityData[? "SaveY"],objectType);
 newObj.z = entityData[? "SaveZ"];
 newObj.depth = entityData[? "SaveDrawDepth"];
 newObj.EntityData = entityData;
 newObj.sprite_index = scr_EntityGetSprite(entityData);
 
+// set loading flag
+entityData[? "IsPickup"] = argument3;
 
 // load entity into controller for spawn
 if(chunkID == noone)
@@ -26,6 +30,13 @@ else
     ds_list_add(chunkID.entitys,newObj.id);
 }
 
-newObj.shadowType = entityData[? "ShadowType"];
+if(argument3 == true) 
+{
+    newObj.shadowType = 1; // small pickup item shadow
+}
+else
+{
+    newObj.shadowType = entityData[? "ShadowType"];
+}
 newObj.visible = false; //hide until loaded, this is so the first loop of an entities update can change the sprites if they need to!
 return newObj.id; // return instance if needed

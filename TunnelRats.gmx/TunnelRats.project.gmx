@@ -331,6 +331,7 @@
       <script>scripts\scr_EntityPlayerSave.gml</script>
       <script>scripts\scr_EntityPlayerLoad.gml</script>
       <script>scripts\scr_EntityAddToInventory.gml</script>
+      <script>scripts\scr_EntityThrowFromInventory.gml</script>
     </scripts>
     <scripts name="Chunks">
       <script>scripts\scr_ChunkSpawn.gml</script>

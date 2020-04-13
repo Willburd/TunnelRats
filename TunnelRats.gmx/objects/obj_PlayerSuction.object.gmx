@@ -56,7 +56,7 @@ if(playerID != noone &amp;&amp; playerID.EntityData != -1)
     var dis = point_distance(other.x,other.y,x,y);
     var dir = point_direction(other.x,other.y,x,y);
     
-    if(dis &lt; 8)
+    if(dis &lt; 8 &amp;&amp; other.pickupDelay &lt;= 0)
     {
         if(scr_EntityAddToInventory(playerID.EntityData,other.EntityData))
         {

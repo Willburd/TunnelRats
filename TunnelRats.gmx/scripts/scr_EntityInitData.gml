@@ -34,6 +34,7 @@ if(ds_exists(findEntity,ds_type_map))
     returnMap[? "SaveX"] = argument1; 
     returnMap[? "SaveY"] = argument2;
     returnMap[? "SaveZ"] = argument3;
+    returnMap[? "IsPickup"] = false;
     
     // spawn inventory
     if(returnMap[? "Inventory"])

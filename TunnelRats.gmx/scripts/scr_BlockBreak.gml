@@ -54,9 +54,10 @@ if(breaking != -1)
         // extract data
         var newEntName = ds_queue_dequeue(spawnQueue);
         var entityDat = scr_EntityInitData(newEntName,xx,yy,zz);
+        entityDat[? "InternalCount"] = 1; // number in each stack!
         
         // spawn breaking entities
-        scr_EntityRealizeInstance( entityDat,chunk,-1);
+        scr_EntityRealizeInstance( entityDat,chunk,-1, true);
     }
 }
 
