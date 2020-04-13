@@ -266,6 +266,7 @@
     <sprite>sprites\spr_playerCrouch</sprite>
     <sprite>sprites\spr_shadow</sprite>
     <sprite>sprites\spr_temp_text</sprite>
+    <sprite>sprites\spr_TextTiny</sprite>
     <sprite>sprites\spr_PlayerSuction</sprite>
     <sprite>sprites\spr_MenuBarEquipment</sprite>
     <sprite>sprites\spr_MenuBarSelect</sprite>
@@ -314,6 +315,7 @@
       <script>scripts\scr_BlockTriggerUpdate.gml</script>
     </scripts>
     <scripts name="Entities">
+      <script>scripts\scr_EntityGetLibraryDef.gml</script>
       <script>scripts\scr_EntityInitData.gml</script>
       <script>scripts\scr_EntityRealizeInstance.gml</script>
       <script>scripts\scr_EntitySave.gml</script>

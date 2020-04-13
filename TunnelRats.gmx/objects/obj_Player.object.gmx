@@ -372,6 +372,11 @@ else if(floor(previousToolX/16) != floor(toolX/16) || floor(previousToolY/16) !=
     // reset tool
     toolUseCounter = -1;
 }
+else if( keyboard_check(global.keyItemRotateLeft) ||  keyboard_check(global.keyItemRotateRight))
+{
+    // reset tool
+    toolUseCounter = -1;
+}
 else if( mouse_check_button(mb_left) ^^ mouse_check_button(mb_right) )
 {
     // tool mode

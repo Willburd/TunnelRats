@@ -104,6 +104,6 @@ scr_SetupViewRes();
 window_set_rectangle(window_get_x(),window_get_y(), view_wport[0],view_hport[0]);
 
 // font
+global.fontTinyNums = font_add_sprite_ext(spr_TextTiny, "0123456789", false, 0);
 global.font = font_add_sprite_ext(spr_temp_text, " |'      + ,-.!0123456789  (=)? ABCDEFGHIJKLMNOPQRSTUVWXYZ#$%^&   ", false, 0);
 draw_set_font(global.font);
-

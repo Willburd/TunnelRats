@@ -153,11 +153,16 @@ if(followObject != noone)
 {
     if(followObject.EntityData != -1)
     {
+    
+    
+        // Item menus!
+        var highlightItemString = "";
         if(!is_undefined(followObject.EntityData[? "Inventory"]))
         {
             var entryY = view_yview[0]+8;
             var menuStart = (view_xview[0] + view_wview[0]) - 56;
             var textScale = 1.75;
+            var inventorySlots = followObject.EntityData[? "Inventory"];
             
             for (var i=0; i&lt;2; i+=1)
             {
@@ -170,6 +175,8 @@ if(followObject != noone)
                 
                 
                 draw_sprite(spr_MenuBarEquipment,0,entryX,entryY);
+                draw_set_font(global.font);
+                draw_set_halign(fa_left);
                 draw_text_transformed_colour(entryX+2,entryY+2,menuChr,textScale,textScale,0,c_ltgray,c_ltgray,c_ltgray,c_ltgray,1);
                 
                 
@@ -185,12 +192,61 @@ if(followObject != noone)
                         var yyDraw = entryY + ((ypush + offsetLevel) * MenuExpand[i]) + ((8*t) * MenuExpand[i]);
                         var yDetector = clamp(( yyDraw - clampedMouse) / 16,-1,1) * MenuExpand[i];
                         
-                        draw_sprite(spr_MenuBarSelect,floor(MenuIndex[i]) == t,entryX,(yyDraw + (yDetector*offsetLevel)));
+                        draw_sprite_ext(spr_MenuBarSelect,floor(MenuIndex[i]) == t,entryX,(yyDraw + (yDetector*offsetLevel)),1,1,0,image_blend,clamp(MenuExpand[i],0,1));
+                        
+                        var selected = false;
+                        if(point_in_rectangle(mouse_x,mouse_y,entryX,(yyDraw + (yDetector*offsetLevel)),entryX+16,yyDraw + (yDetector*offsetLevel)+16))
+                        {
+                            selected = true;
+                            if(mouse_check_button(mb_left) || mouse_check_button(mb_right))
+                            {
+                                MenuIndex[i] = t;
+                            }
+                        }
+                        
+                        
+                        if(t &lt; ds_list_size(inventorySlots) &amp;&amp; !is_undefined(inventorySlots[| t]) &amp;&amp; inventorySlots[| t] != -1)
+                        {
+                            var slotData = inventorySlots [| t];
+                            var EntDat = scr_EntityGetLibraryDef( slotData[| 0]);
+                            if(selected)
+                            {
+                                highlightItemString = string_upper(EntDat[? "DisplayName"] );
+                            }
+                            draw_set_halign(fa_right);
+                            draw_set_font(global.fontTinyNums)
+                            draw_text_colour(entryX + 14,yyDraw + (yDetector*offsetLevel) + 9,string(slotData[| 1]),c_white,c_white,c_white,c_white,clamp(MenuExpand[i],0,1));
+                        }
+                    }
+                }
+                
+                
+                // Draw equipped items!
+                var slotData = inventorySlots[| MenuIndex[i]];
+                if(!is_undefined(slotData) &amp;&amp; slotData != -1)
+                {
+                    var EntDat = scr_EntityGetLibraryDef( slotData[| 0]);
+                    if(slotData[| 1] &gt; 1)
+                    {
+                        draw_set_halign(fa_right);
+                        draw_set_font(global.fontTinyNums)
+                        draw_text_colour(entryX + 14,entryY + 9,string(slotData[| 1]),c_white,c_white,c_white,c_white,1);
                     }
                 }
             }
         }
         
+        
+        
+        // Item highlight text
+        draw_set_font(global.font);
+        draw_text(mouse_x,mouse_y-4,highlightItemString );
+        draw_set_halign(fa_left);
+        
+        
+        
+        
+        // Hearts
         if(!is_undefined(followObject.EntityData[? "Health"]))
         {
             var menuStart = view_xview[0]+ 8;

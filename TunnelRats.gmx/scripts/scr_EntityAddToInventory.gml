@@ -37,7 +37,7 @@ for (var i=0; i<InventoryMax; i+=1)
     var InventoryEntry = Inventorylist[| i];
     
     // Check if it matches!
-    if(i >= listMax || is_undefined(InventoryEntry))
+    if(i >= listMax || is_undefined(InventoryEntry) || InventoryEntry == -1)
     {
         // empty inventory entry, set it to me!
         InventoryEntry = ds_list_create();
@@ -59,6 +59,7 @@ for (var i=0; i<InventoryMax; i+=1)
     }
     else if(InventoryEntry[| 0] == string(entityToStore[? "DataName"] + ":" + entityToStore[? "Name"]))
     {
+    
         // matched entry!
         if(InventoryEntry[| 1] <= entityToStore[? "MaxStack"])
         {
