@@ -5,10 +5,15 @@
 		"Textures": [
 			"Tex_Dirt"
 		],
+		"Anim_XOrigin" : 8,
+		"Anim_YOrigin" : 8,
+		"Anim_FrameCount" : 1,
+		"Anim_DefaultSpeed" : 1,
+		"ShadowType" : 1,
 		"SavedByChunk" : true,
 		"DestroyedOnUnload" : false,
 		"BecomesBlockOnPlace" : "Base:Block_Dirt",
-		"MaxStack" : 256
+		"MaxStack" : 100
 	},
 	"Entity_Rock" : {
 		"DisplayName": "Rock",
@@ -16,9 +21,14 @@
 		"Textures": [
 			"Tex_Dirt"
 		],
+		"Anim_XOrigin" : 8,
+		"Anim_YOrigin" : 8,
+		"Anim_FrameCount" : 1,
+		"Anim_DefaultSpeed" : 1,
+		"ShadowType" : 1,
 		"SavedByChunk" : true,
 		"DestroyedOnUnload" : false,
 		"BecomesBlockOnPlace" : "Base:Block_Rock",
-		"MaxStack" : 256
+		"MaxStack" : 100
 	}
 }

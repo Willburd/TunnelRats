@@ -20,8 +20,8 @@ while( !is_undefined(scanLibrarys) )
         {
             for (var i=0; i<ds_list_size(texList); i+=1)
             {
-                var texName = "Blocks:" + string(scanLibrarys) + ":" + string(findBlock[? "Name"]) + "_" + string(i);
-            
+                var texName = "Blocks:" + string(scanLibrarys) + ":" + string(texList[| i]);
+                    
                 if(is_undefined(textureCache[? texName]))
                 {
                     // Load each image in the list
@@ -66,15 +66,21 @@ while( !is_undefined(scanLibrarys) )
         {
             for (var i=0; i<ds_list_size(texList); i+=1)
             {
-                var texName = "Entities:" + string(scanLibrarys) + ":" + string(findEntity[? "Name"]) + "_" + string(i);
-            
+                var texName = "Entities:" + string(scanLibrarys) + ":" + string(texList[| i]);
+                
                 if(is_undefined(textureCache[? texName]))
                 {
                     // Load each image in the list
                     var fileName = working_directory + "/Resources/Entities/" + string(scanLibrarys) + "/" + texList[| i] + ".png";
                     show_debug_message("-- Loaded texture: " + fileName );
                     
-                    var newBG = background_add(fileName,false,false);
+                    var frames =  findEntity[? "Anim_FrameCount"];
+                    var xorigin = findEntity[? "Anim_XOrigin"];
+                    var yorigin = findEntity[? "Anim_YOrigin"];
+                    var autoRemoveBacking = true;
+                    var smooth = false;
+                    
+                    var newBG = sprite_add(fileName,frames,autoRemoveBacking,smooth,xorigin,yorigin);
                     
                     // store the backgrounds in the library for access later
                     textureCache[? texName] = newBG;

@@ -30,7 +30,8 @@ worldController = noone;
 EntityData = -1;
 loadedCheck = false;
 z = 0 // z depth in the world, compliments x and y. 16 pips per tile
-
+sprite_index = -1;
+shadowType = 1;
 </string>
           </argument>
         </arguments>

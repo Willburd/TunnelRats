@@ -5,13 +5,16 @@ var entityLib = ds_map_create();
 var newLib = ds_map_create();
     var newEnt = ds_map_create();
     
-    ds_map_add(newEnt, "Name", "-Player-");
+    ds_map_add(newEnt, "DataName", "None:Player");
+    ds_map_add(newEnt, "Name", "Player");
+    ds_map_add(newEnt, "DisplayName", "-Player-")
     ds_map_add(newEnt, "InternalObjectType", "obj_Player") ;
     ds_map_add(newEnt, "SaveX", 0);
     ds_map_add(newEnt, "SaveY", 0);
     ds_map_add(newEnt, "SaveZ", 0);
     ds_map_add(newEnt, "SaveDrawDepth", 0);
     ds_map_add(newEnt, "CameraIsFollowing", false); // by default off, but the player spawner sets this anyway
+    ds_map_add(newEnt, "ShadowType", 1);
     // control data
     ds_map_add(newEnt, "NeedUpdate", true);
     ds_map_add(newEnt, "DestroyedOnUnload", false); // set dynamically by the update function, and controls if the entity saves or not

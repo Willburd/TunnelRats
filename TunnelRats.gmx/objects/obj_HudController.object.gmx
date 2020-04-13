@@ -91,6 +91,9 @@ if(!global.gamePaused)
             {
                 var invCap = followObject.EntityData[? "InventorySize"];
                 entityInventorySize = invCap;
+                if(MenuIndex[0] == -1) MenuIndex[0] = 0;
+                if(MenuIndex[1] == -1) MenuIndex[1] = 1;
+                
                 MenuIndex[0] = clamp(MenuIndex[0],0,invCap-1);
                 MenuIndex[1] = clamp(MenuIndex[1],0,invCap-1);
             }
@@ -174,10 +177,19 @@ if(followObject != noone)
                 }
                 
                 
+                
                 draw_sprite(spr_MenuBarEquipment,0,entryX,entryY);
                 draw_set_font(global.font);
                 draw_set_halign(fa_left);
                 draw_text_transformed_colour(entryX+2,entryY+2,menuChr,textScale,textScale,0,c_ltgray,c_ltgray,c_ltgray,c_ltgray,1);
+                
+                
+                if(MenuIndex[i] &lt; ds_list_size(inventorySlots) &amp;&amp; !is_undefined(inventorySlots[| MenuIndex[i]]) &amp;&amp; inventorySlots[| MenuIndex[i]] != -1)
+                {
+                    var slotData = inventorySlots[| MenuIndex[i]];
+                    var EntDat = scr_EntityGetLibraryDef( slotData[| 0]);
+                    draw_sprite_ext(scr_EntityGetSprite(EntDat),0,entryX+8,entryY+8,1,1,0,image_blend,1);
+                }
                 
                 
                 var offsetLevel = 16;
@@ -213,6 +225,9 @@ if(followObject != noone)
                             {
                                 highlightItemString = string_upper(EntDat[? "DisplayName"] );
                             }
+                            
+                            draw_sprite_ext(scr_EntityGetSprite(EntDat),0,entryX+8,(yyDraw + 8 + (yDetector*offsetLevel)),1,1,0,image_blend,clamp(MenuExpand[i],0,1));
+                            
                             draw_set_halign(fa_right);
                             draw_set_font(global.fontTinyNums)
                             draw_text_colour(entryX + 14,yyDraw + (yDetector*offsetLevel) + 9,string(slotData[| 1]),c_white,c_white,c_white,c_white,clamp(MenuExpand[i],0,1));

@@ -23,14 +23,15 @@ for (var i=0; i<ds_list_size(chunk.entitys); i+=1)
                     }
                 }
                 
-                
                 // first time spawn called
                 if(EntityData[? "FirstSpawn"])
                 {
                     EntityData[? "FirstSpawn"] = false;
                     event_user(1);
                 }
-            
+                
+                // ready to draw this frame!
+                visible = true; // sets the first ready to draw frame!
             
                 // run code ahead in child object's event!
                 event_user(0);
