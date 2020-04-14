@@ -36,6 +36,7 @@ global.metaChunkHeight = 36;
 global.debug_DisableWorldGen = false;
 global.debug_ChunkLoadingInfo = false;
 global.debug_EntityLoadingInfo = true;
+global.debug_DisableWorldGenEntities = false;
 
 // player management
 global.PlayerProfileName = "Default";
@@ -61,6 +62,8 @@ global.unloadingTimer = 400; // if this is under 0 allow unload
 global.loadingTimer = 10; // if this is under 0 allow loading
 
 global.layerLoadedBiomes = -1; // ds_list of loaded biomes
+
+global.EmptyBlockID = "None:Air";
 
 // keyboard control
 global.keyLeft = ord('A');

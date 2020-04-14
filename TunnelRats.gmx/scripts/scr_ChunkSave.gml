@@ -18,7 +18,7 @@ var saveFile = file_text_open_write(saveDir);
         if(ent != noone)
         {
             // save(if needed) and destroy entity)
-            if(ent.EntityData[? "SavedByChunk"] && !ent.EntityData[? "DestroyedOnUnload"]) {
+            if(!ent.EntityData -1 && ent.EntityData[? "SavedByChunk"] && !ent.EntityData[? "DestroyedOnUnload"]) {
                 // write save data
                 with ent event_user(2);
                 

@@ -8,6 +8,7 @@ var selector = argument4;
 
 // drop loot!
 var breaking = scr_ChunkGetBlock(  chunk, xx, yy, selector);
+var newBlock = -1; // post break replacement block
 
 // check if not air than do look checks
 if(breaking != -1)
@@ -61,8 +62,10 @@ if(breaking != -1)
     }
     
     ds_queue_destroy(spawnQueue);
+    
+    // convert block
+    newBlock = scr_BlockCheckRule(breaking, "BecomesOnBreak");
 }
 
-// convert block
-scr_ChunkSetBlock(chunk,xx ,yy,scr_BlockCheckRule(breaking, "BecomesOnBreak"),selector);
+scr_ChunkSetBlock( chunk, xx ,yy, scr_BlockInitData(newBlock), selector);
 

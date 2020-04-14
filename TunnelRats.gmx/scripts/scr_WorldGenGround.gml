@@ -11,7 +11,7 @@ var CC = argument6;
 
 if(bData == -1)
 {
-    return scr_BlockInitData( "None:Air");
+    return scr_BlockInitData( global.EmptyBlockID);
 }
 
 var biome = global.layerLoadedBiomes[| bData];
@@ -19,19 +19,22 @@ var genData = biome[? "BlockGenData"];
 
 // spawn worldGen entities
 var BlockSpawnDataName = scr_BiomeGetBlockSpawn(zData,0,genData,xx+QQ,yy+CC);
-var entityGenList = genData[? "EntityGen"];
-if(!is_undefined(entityGenList))
-{
-    for (var i=0; i<ds_list_size(entityGenList); i+=1)
+if(global.debug_DisableWorldGenEntities == false)
+{   
+    var entityGenList = genData[? "EntityGen"];
+    if(!is_undefined(entityGenList))
     {
-        var genEntry = entityGenList[| i];
-        
-        if(genEntry[| 1] == BlockSpawnDataName)
+        for (var i=0; i<ds_list_size(entityGenList); i+=1)
         {
-            if(random(1) < genEntry[| 2])
+            var genEntry = entityGenList[| i];
+            
+            if(genEntry[| 1] == BlockSpawnDataName)
             {
-                var entityDat = scr_EntityInitData(genEntry[| 0],((xx+QQ)*16) + random_range(3,13),((yy+CC)*16) + random_range(3,13),0);
-                scr_EntityRealizeInstance( entityDat,argument0,-1, false);
+                if(random(1) < genEntry[| 2])
+                {
+                    var entityDat = scr_EntityInitData(genEntry[| 0],((xx+QQ)*16) + random_range(3,13),((yy+CC)*16) + random_range(3,13),0);
+                    scr_EntityRealizeInstance( entityDat,argument0,-1, false);
+                }
             }
         }
     }

@@ -51,6 +51,7 @@ for (var i=0; i<ds_list_size(chunk.entitys); i+=1)
     else
     {
         // cleanup!
+        chunk.entitys[| i] = -1;
         ds_list_delete(chunk.entitys,i);
         i -= 1;
     }

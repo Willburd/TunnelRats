@@ -449,6 +449,7 @@
       <script>scripts\scr_euclidMod.gml</script>
     </scripts>
   </scripts>
+  <shaders name="shaders"/>
   <objects name="objects">
     <object>objects\obj_GameControl</object>
     <object>objects\obj_MainMenu</object>

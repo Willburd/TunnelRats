@@ -1,7 +1,7 @@
 /// scr_BlockGetLibraryDef(database:entityName)
 // hardcoded None:Air data
 var database = argument0;
-if(database == "None:Air")
+if(database == global.EmptyBlockID)
 {
     return -1;
 }

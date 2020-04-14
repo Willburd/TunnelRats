@@ -6,7 +6,7 @@ var returnMap = -1;
 // replace None:Air inputs to -1
 if(is_string(blockData))
 {
-    if(blockData == "None:Air")
+    if(blockData == global.EmptyBlockID)
     {
         returnMap = -1;
     }
