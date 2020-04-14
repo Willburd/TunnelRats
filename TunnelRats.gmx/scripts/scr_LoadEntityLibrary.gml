@@ -5,7 +5,7 @@ var entityLib = ds_map_create();
 var newLib = ds_map_create();
     var newEnt = ds_map_create();
     
-    ds_map_add(newEnt, "DataName", "None:Player");
+    ds_map_add(newEnt, "DataName", "None");
     ds_map_add(newEnt, "Name", "Player");
     ds_map_add(newEnt, "DisplayName", "-Player-")
     ds_map_add(newEnt, "InternalObjectType", "obj_Player") ;

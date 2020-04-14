@@ -15,6 +15,10 @@ if(!is_undefined(getLib) && ds_exists(getLib,ds_type_map))
 {
     var findEntity = getLib[? argument0[? "Name"]];
     var textureList = findEntity[? "Textures"];
+    if(is_undefined(textureList))
+    {
+        return spr_colMask8x;
+    }
     
     // lets get to this proper....
     var texSelect = argument0[? "TextureSelect"];

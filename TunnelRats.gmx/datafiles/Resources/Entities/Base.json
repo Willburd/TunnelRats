@@ -28,6 +28,22 @@
 		"ShadowType" : 1,
 		"SavedByChunk" : true,
 		"DestroyedOnUnload" : false,
+		"BecomesBlockOnPlace" : "Base:Block_Brick",
+		"MaxStack" : 100
+	},
+	"Entity_PalmWood" : {
+		"DisplayName": "Palm Logs",
+		"InternalObjectType" : "obj_PickupItem",
+		"Textures": [
+			"Tex_PalmLogs"
+		],
+		"Anim_XOrigin" : 8,
+		"Anim_YOrigin" : 8,
+		"Anim_FrameCount" : 1,
+		"Anim_DefaultSpeed" : 1,
+		"ShadowType" : 1,
+		"SavedByChunk" : true,
+		"DestroyedOnUnload" : false,
 		"BecomesBlockOnPlace" : "Base:Block_Rock",
 		"MaxStack" : 100
 	},
@@ -44,7 +60,7 @@
 		"ShadowType" : 0,
 		"SavedByChunk" : true,
 		"DestroyedOnUnload" : false,
-		"DropsOnBreak" : [["Base:Entity_Rock",1], ["Base:Entity_Rock",1], ["Base:Entity_Rock",1], ["Base:Entity_PalmTreeSapling",0.5], ["Base:Entity_PalmTreeSapling",0.5]],
+		"DropsOnBreak" : [["Base:Entity_PalmWood",1], ["Base:Entity_PalmWood",1], ["Base:Entity_PalmWood",1], ["Base:Entity_PalmTreeSapling",0.5], ["Base:Entity_PalmTreeSapling",0.5]],
 		"BecomesOnBreak": "Base:Entity_PalmTreeStump",
 		"MaxStack" : 0
 	},
@@ -54,7 +70,7 @@
 		"Textures": [
 			"Tex_PalmTree_Stump"
 		],
-		"Anim_XOrigin" : 12,
+		"Anim_XOrigin" : 13,
 		"Anim_YOrigin" : 17,
 		"Anim_FrameCount" : 4,
 		"Anim_DefaultSpeed" : 0.006,

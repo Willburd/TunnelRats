@@ -15,15 +15,22 @@ var saveFile = file_text_open_write(saveDir);
     {
         var ent = entitys[| i];
     
-        // save(if needed) and destroy entity)
-        if(ent.EntityData[? "SavedByChunk"] && !ent.EntityData[? "DestroyedOnUnload"]) {
-            // write save data
-            with ent event_user(2);
-            
-            // write entity data to chunk!
-            file_text_write_string(saveFile,scr_EntitySave(ent));  file_text_writeln(saveFile);
-            
-            if(global.debug_EntityLoadingInfo) show_debug_message("Entity " + string(ent) + " saved to chunk " + scr_ChunkName(chunkObj) );
+        if(ent != noone)
+        {
+            // save(if needed) and destroy entity)
+            if(ent.EntityData[? "SavedByChunk"] && !ent.EntityData[? "DestroyedOnUnload"]) {
+                // write save data
+                with ent event_user(2);
+                
+                // write entity data to chunk!
+                file_text_write_string(saveFile,scr_EntitySave(ent));  file_text_writeln(saveFile);
+                
+                if(global.debug_EntityLoadingInfo) show_debug_message("Entity " + string(ent) + " saved to chunk " + scr_ChunkName(chunkObj) );
+            }
+            else
+            {
+                file_text_write_string(saveFile,"-1");  file_text_writeln(saveFile);
+            }
         }
         else
         {

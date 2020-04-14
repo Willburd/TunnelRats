@@ -13,6 +13,21 @@ if(entityData == -1)
 
 // load entity data!
 var objectType = asset_get_index(entityData[? "InternalObjectType"]);
+
+// check if the object being spawned is whitelisted
+if( !(objectType == obj_WorldEntityParent 
+|| objectType == obj_WorldEntityGravityParent 
+|| objectType == obj_TreeGrown
+|| objectType == obj_AnimatedChange
+|| objectType == obj_PickupItem
+|| objectType == obj_Player)  )
+{
+    
+    show_debug_message(entityData[? "DataName"] + ":" + entityData[? "Name"] + " does not have a white listed internalObjectType! " + string(entityData[? "InternalObjectType"]));
+    return noone;
+}
+
+// continue on to spawning!
 if(argument3 == true) objectType = obj_PickupItem;
 var newObj = instance_create(entityData[? "SaveX"],entityData[? "SaveY"],objectType);
 newObj.z = entityData[? "SaveZ"];
