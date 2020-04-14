@@ -44,9 +44,43 @@
 		"ShadowType" : 0,
 		"SavedByChunk" : true,
 		"DestroyedOnUnload" : false,
-		"DropsOnBreak" : [["Base:Entity_Rock",1], ["Base:Entity_Rock",1], ["Base:Entity_Rock",1], ["Base:Entity_Rock",0.5]],
+		"DropsOnBreak" : [["Base:Entity_Rock",1], ["Base:Entity_Rock",1], ["Base:Entity_Rock",1], ["Base:Entity_PalmTreeSapling",0.5], ["Base:Entity_PalmTreeSapling",0.5]],
+		"BecomesOnBreak": "Base:Entity_PalmTreeStump",
+		"MaxStack" : 0
+	},
+	"Entity_PalmTreeStump" : {
+		"DisplayName": "Palm Tree Stump",
+		"InternalObjectType" : "obj_AnimatedChange",
+		"Textures": [
+			"Tex_PalmTree_Stump"
+		],
+		"Anim_XOrigin" : 12,
+		"Anim_YOrigin" : 17,
+		"Anim_FrameCount" : 4,
+		"Anim_DefaultSpeed" : 0.006,
+		"ShadowType" : 0,
+		"SavedByChunk" : true,
+		"DestroyedOnUnload" : false,
+		"DropsOnBreak" : [],
 		"BecomesOnBreak": "None:Air",
 		"MaxStack" : 0
+	},
+	"Entity_PalmTreeSapling" : {
+		"DisplayName": "Palm Tree Sapling",
+		"InternalObjectType" : "obj_AnimatedChange",
+		"Textures": [
+			"Tex_PalmTree_Sapling"
+		],
+		"Anim_XOrigin" : 8,
+		"Anim_YOrigin" : 8,
+		"Anim_FrameCount" : 1,
+		"Anim_DefaultSpeed" : 0.001,
+		"ShadowType" : 0,
+		"SavedByChunk" : true,
+		"DestroyedOnUnload" : false,
+		"DropsOnBreak" : [],
+		"BecomesOnBreak": "Base:Entity_PalmTree",
+		"MaxStack" : 100
 	}
 }
 

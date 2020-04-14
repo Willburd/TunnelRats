@@ -47,6 +47,7 @@ else
 }
 newObj.visible = false; // hide until loaded, this is so the first loop of an entities update can change the sprites if they need to!
 newObj.animationSpeed = entityData[? "Anim_DefaultSpeed"];
+newObj.animationStartOffset = global.animationStep;
 if(is_undefined(newObj.animationSpeed)) newObj.animationSpeed = 1;
 
 return newObj.id; // return instance if needed

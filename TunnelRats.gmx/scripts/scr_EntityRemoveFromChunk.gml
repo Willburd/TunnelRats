@@ -13,7 +13,8 @@ if(oldChunk != noone)
         {
             // remove entity from old chunk
             if(global.debug_EntityLoadingInfo) show_debug_message("Entity " + string(entity.id) + " removed from chunk " + string(scr_ChunkName(entity.ActiveChunk)));
-            ds_list_delete(oldChunk.entitys,i);
+            // the chunk handled entity cleanup after update!
+            oldChunk.entitys[| i] = noone;
             entity.ActiveChunk = noone;
             break;
         }

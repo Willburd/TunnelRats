@@ -637,13 +637,14 @@ if(EntityData != -1)
     draw_sprite_ext(spr_shadow,shadowType,x,y + scr_DrawYOffset(attemptedGround),1,1,0,image_blend,1);
 }
 
+var imgIndex = global.animationStep - animationStartOffset;
 if(crouching)
 {
-    draw_sprite_ext(spr_playerCrouch,image_index,x,y + scr_DrawYOffset(z),1,1,0,image_blend,1);
+    draw_sprite_ext(spr_playerCrouch,imgIndex*animationSpeed,x,y + scr_DrawYOffset(z),1,1,0,image_blend,1);
 }
 else
 {
-    draw_sprite_ext(spr_playerTest,image_index,x,y + scr_DrawYOffset(z),1,1,0,image_blend,1);
+    draw_sprite_ext(spr_playerTest,imgIndex*animationSpeed,x,y + scr_DrawYOffset(z),1,1,0,image_blend,1);
 }
 </string>
           </argument>

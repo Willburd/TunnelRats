@@ -154,7 +154,8 @@ if(bdata != -1) ds_grid_destroy(bdata);
 // clean out entities on unload
 while (ds_list_size(entitys) &gt; 0)
 {
-    with entitys[| 0] instance_destroy(); // handles the entity clearing
+    if(entitys[| 0] != noone) with entitys[| 0] instance_destroy(); 
+    ds_list_delete(entitys, 0);
 }
 ds_list_destroy(entitys);
 
