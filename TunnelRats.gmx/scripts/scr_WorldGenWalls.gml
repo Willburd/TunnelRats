@@ -1,5 +1,6 @@
 /// scr_WorldGenWalls( chunk,zdata,bdata,x,y,q,c);
 // prepare the data for checking!
+// SHOULD BE RUN IN A RANDOM SEEDED ENVIRONMENT
 var gridData = argument0.walls;
 var zData    = argument1; // NOTE TO SELF, remember the world grows from the sky!
 var bData    = argument2;

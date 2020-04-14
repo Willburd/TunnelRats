@@ -30,6 +30,11 @@ if(ds_exists(findBlock,ds_type_map))
     // return
     return returnMap;
 }
+else if(findBlock == -1)
+{
+    // no error output on None:Air
+    return -1;
+}
 else
 {
     show_debug_message("Block does not exist? " + string(argument0)); 

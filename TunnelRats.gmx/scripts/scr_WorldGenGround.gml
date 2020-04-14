@@ -1,5 +1,6 @@
 /// scr_WorldGenGround( chunk,zdata,bdata,x,y,q,c);
 // prepare the data for checking!
+// SHOULD BE RUN IN A RANDOM SEEDED ENVIRONMENT
 var gridData = argument0.ground;
 var zData    = argument1; // NOTE TO SELF, remember the world grows from the sky!
 var bData    = argument2;
@@ -15,4 +16,26 @@ if(bData == -1)
 
 var biome = global.layerLoadedBiomes[| bData];
 var genData = biome[? "BlockGenData"];
-return scr_BlockInitData( scr_BiomeGetBlockSpawn(zData,0,genData,xx+QQ,yy+CC));
+
+// spawn worldGen entities
+var BlockSpawnDataName = scr_BiomeGetBlockSpawn(zData,0,genData,xx+QQ,yy+CC);
+var entityGenList = genData[? "EntityGen"];
+if(!is_undefined(entityGenList))
+{
+    for (var i=0; i<ds_list_size(entityGenList); i+=1)
+    {
+        var genEntry = entityGenList[| i];
+        
+        if(genEntry[| 1] == BlockSpawnDataName)
+        {
+            if(random(1) < genEntry[| 2])
+            {
+                var entityDat = scr_EntityInitData(genEntry[| 0],((xx+QQ)*16) + random_range(3,13),((yy+CC)*16) + random_range(3,13),0);
+                scr_EntityRealizeInstance( entityDat,argument0,-1, false);
+            }
+        }
+    }
+}
+
+// spawn ground
+return scr_BlockInitData( BlockSpawnDataName);
