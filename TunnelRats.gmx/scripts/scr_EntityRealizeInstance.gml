@@ -4,6 +4,13 @@ var entityData = argument0;
 var chunkID = argument1;
 var worldControl = argument2;
 
+// Fail spawn
+if(entityData == -1)
+{
+    return noone;
+}
+
+
 // load entity data!
 var objectType = asset_get_index(entityData[? "InternalObjectType"]);
 if(argument3 == true) objectType = obj_PickupItem;
@@ -38,5 +45,8 @@ else
 {
     newObj.shadowType = entityData[? "ShadowType"];
 }
-newObj.visible = false; //hide until loaded, this is so the first loop of an entities update can change the sprites if they need to!
+newObj.visible = false; // hide until loaded, this is so the first loop of an entities update can change the sprites if they need to!
+newObj.animationSpeed = entityData[? "Anim_DefaultSpeed"];
+if(is_undefined(newObj.animationSpeed)) newObj.animationSpeed = 1;
+
 return newObj.id; // return instance if needed

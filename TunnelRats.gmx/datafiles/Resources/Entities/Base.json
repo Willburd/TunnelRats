@@ -30,5 +30,24 @@
 		"DestroyedOnUnload" : false,
 		"BecomesBlockOnPlace" : "Base:Block_Rock",
 		"MaxStack" : 100
+	},
+	"Entity_PalmTree" : {
+		"DisplayName": "Palm Tree",
+		"InternalObjectType" : "obj_TreeGrown",
+		"Textures": [
+			"Tex_PalmTree"
+		],
+		"Anim_XOrigin" : 32,
+		"Anim_YOrigin" : 52,
+		"Anim_FrameCount" : 1,
+		"Anim_DefaultSpeed" : 1,
+		"ShadowType" : 0,
+		"SavedByChunk" : true,
+		"DestroyedOnUnload" : false,
+		"DropsOnBreak" : [["Base:Entity_Rock",1], ["Base:Entity_Rock",1], ["Base:Entity_Rock",1], ["Base:Entity_Rock",0.5]],
+		"BecomesOnBreak": "None:Air",
+		"MaxStack" : 0
 	}
 }
+
+

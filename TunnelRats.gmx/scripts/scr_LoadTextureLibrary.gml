@@ -21,11 +21,11 @@ while( !is_undefined(scanLibrarys) )
             for (var i=0; i<ds_list_size(texList); i+=1)
             {
                 var texName = "Blocks:" + string(scanLibrarys) + ":" + string(texList[| i]);
+                var fileName = working_directory + "/Resources/Blocks/" + string(scanLibrarys) + "/" + texList[| i] + ".png";
                     
                 if(is_undefined(textureCache[? texName]))
                 {
                     // Load each image in the list
-                    var fileName = working_directory + "/Resources/Blocks/" + string(scanLibrarys) + "/" + texList[| i] + ".png";
                     show_debug_message("-- Loaded texture: " + fileName );
                     
                     var newBG = background_add(fileName,false,false);
@@ -33,7 +33,15 @@ while( !is_undefined(scanLibrarys) )
                     // store the backgrounds in the library for access later
                     textureCache[? texName] = newBG;
                 }
+                else
+                {
+                    show_debug_message("-- Has already Loaded texture: " + fileName );
+                }
             }
+        }
+        else
+        {
+            show_debug_message("-- FAILED to Load textures for: " + blockName + " Had no texture list?");
         }
         
         // next!
@@ -67,11 +75,11 @@ while( !is_undefined(scanLibrarys) )
             for (var i=0; i<ds_list_size(texList); i+=1)
             {
                 var texName = "Entities:" + string(scanLibrarys) + ":" + string(texList[| i]);
-                
+                var fileName = working_directory + "/Resources/Entities/" + string(scanLibrarys) + "/" + texList[| i] + ".png";
+                    
                 if(is_undefined(textureCache[? texName]))
                 {
                     // Load each image in the list
-                    var fileName = working_directory + "/Resources/Entities/" + string(scanLibrarys) + "/" + texList[| i] + ".png";
                     show_debug_message("-- Loaded texture: " + fileName );
                     
                     var frames =  findEntity[? "Anim_FrameCount"];
@@ -85,13 +93,20 @@ while( !is_undefined(scanLibrarys) )
                     // store the backgrounds in the library for access later
                     textureCache[? texName] = newBG;
                 }
+                else
+                {
+                    show_debug_message("-- Has already Loaded texture: " + fileName );
+                }
             }
-            
+        }
+        else
+        {
+            show_debug_message("-- FAILED to Load textures for: " + entityName + " Had no texture list?");
         }
         
         // next!
         entityName = ds_map_find_next(entityLibraryData,entityName );
-        findEntity = blockLibraryData[? entityName];
+        findEntity = entityLibraryData[? entityName];
     }
     
     show_debug_message("Created texture cache for " + string(scanLibrarys) + " entity library" );

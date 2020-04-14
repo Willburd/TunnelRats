@@ -255,9 +255,6 @@ for (i=0; i&lt;ds_list_size(loadedChunkList); i+=1)
         }
     }
 }
-
-
-
 </string>
           </argument>
         </arguments>

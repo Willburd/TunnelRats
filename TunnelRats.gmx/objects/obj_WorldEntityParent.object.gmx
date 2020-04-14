@@ -25,13 +25,14 @@
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>ActiveChunk = noone; // World chunk we were last actively assigned to
+            <string>EntityData = -1;
+ActiveChunk = noone; // World chunk we were last actively assigned to
 worldController = noone;
-EntityData = -1;
-loadedCheck = false;
 z = 0 // z depth in the world, compliments x and y. 16 pips per tile
 sprite_index = -1;
 shadowType = 1;
+animationSpeed = 0;
+image_speed = 0;
 </string>
           </argument>
         </arguments>
@@ -133,6 +134,37 @@ EntityData[? "SaveDrawDepth"] = depth;
           <argument>
             <kind>1</kind>
             <string>Entity update</string>
+          </argument>
+        </arguments>
+      </action>
+    </event>
+    <event eventtype="8" enumb="0">
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>/// basic shadow and entity draw
+if(shadowType &gt; 0)
+{
+    draw_sprite_ext(spr_shadow,shadowType,x,y + scr_DrawYOffset(attemptedGround),1,1,0,image_blend,1);
+}
+if(sprite_index != -1)
+{
+    draw_sprite_ext(sprite_index,global.animationStep*animationSpeed,x,y + scr_DrawYOffset(z),1,1,0,image_blend,1);
+}
+</string>
           </argument>
         </arguments>
       </action>

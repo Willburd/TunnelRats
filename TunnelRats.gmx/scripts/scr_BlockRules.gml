@@ -1,9 +1,22 @@
 /// scr_BlockRules( blockData, ruleID);
 var blockData = argument0;
 var ruleData = argument1;
-
 var returnMap = -1;
 
+// replace None:Air inputs to -1
+if(is_string(blockData))
+{
+    if(blockData == "None:Air")
+    {
+        blockData = -1;
+    }
+    else
+    {
+        blockData = scr_BlockGetLibraryDef(argument0);
+    }
+}
+    
+    
 // None:Air check
 if(blockData != -1)
 {

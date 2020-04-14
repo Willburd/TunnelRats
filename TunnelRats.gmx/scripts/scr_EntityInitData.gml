@@ -36,6 +36,12 @@ if(ds_exists(findEntity,ds_type_map))
     returnMap[? "SaveZ"] = argument3;
     returnMap[? "IsPickup"] = false;
     
+    // cleanout
+    returnMap[? "DropsOnBreak"] = -1
+    ds_map_delete(returnMap,"DropsOnBreak");
+    returnMap[? "ExtraDropOnFirstBreak"] = -1;
+    ds_map_delete(returnMap, "ExtraDropOnFirstBreak");
+    
     // spawn inventory
     if(returnMap[? "Inventory"])
     {
@@ -46,9 +52,14 @@ if(ds_exists(findEntity,ds_type_map))
     // return
     return returnMap;
 }
+else if(findEntity == -1)
+{
+    // no error output on None:Air
+    return -1;
+}
 else
 {
-    show_debug_message("Entity does not exist? " + string(database) + ":" + string(name)); 
+    show_debug_message("Entity does not exist? " + string(argument0)); 
     return -1;
 }
 

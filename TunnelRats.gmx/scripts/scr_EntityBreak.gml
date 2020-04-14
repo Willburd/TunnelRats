@@ -1,13 +1,10 @@
-/// scr_BlockBreak(chunk, x, y, z, BlockGridType);
+/// scr_EntityBreak(entityInstance, chunk,x, y, z);
 // test delete block!
-var chunk = argument0;
-var xx = argument1;
-var yy = argument2;
-var zz = argument3;
-var selector = argument4;
-
-// drop loot!
-var breaking = scr_ChunkGetBlock(  chunk, xx, yy, selector);
+var breaking = argument0.EntityData;
+var chunk = argument1;
+var xx = argument2;
+var yy = argument3;
+var zz = argument4;
 
 // check if not air than do look checks
 if(breaking != -1)
@@ -15,8 +12,10 @@ if(breaking != -1)
     // create a queue of entities to spawn!
     var spawnQueue = ds_queue_create();
     
+    var blockDefinition = scr_EntityGetLibraryDef( breaking[? "DataName"] + ":" + breaking[? "Name"]);
+    
     // standard breaking
-    var dropTable = scr_BlockRules(breaking, "DropsOnBreak");
+    var dropTable = ds_map_find_value(blockDefinition, "DropsOnBreak");
     if(dropTable != -1)
     {
         for (var i=0; i<ds_list_size(dropTable); i+=1)
@@ -33,7 +32,7 @@ if(breaking != -1)
     // first time breaking has some unique drops!
     if(breaking[? "FirstSpawn"])
     {
-        var dropTable = scr_BlockRules(breaking, "ExtraDropOnFirstBreak");
+        var dropTable = ds_map_find_value(blockDefinition, "ExtraDropOnFirstBreak");
         if(dropTable != -1)
         {
             for (var i=0; i<ds_list_size(dropTable); i+=1)
@@ -63,6 +62,13 @@ if(breaking != -1)
     ds_queue_destroy(spawnQueue);
 }
 
-// convert block
-scr_ChunkSetBlock(chunk,xx ,yy,scr_BlockRules(breaking, "BecomesOnBreak"),selector);
+// spawn post destruction entity!
+var entityDat = scr_EntityInitData(breaking[? "BecomesOnBreak"], xx, yy, zz);
+var newEntityInstance = scr_EntityRealizeInstance( entityDat,chunk,-1, false);
+
+// remove the original entity!
+with argument0 instance_destroy();
+
+return newEntityInstance;
+
 
