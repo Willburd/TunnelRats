@@ -29,7 +29,7 @@
 rendering = true; // if chunk is drawn
 
 forceRenderUpdate = false;
-updateTimerMax = 60; // delay between updates
+updateTimerMax = 30; // delay between updates
 updateTimer = 0; // timer for it
 
 entitys = ds_list_create(); // all entity ds_map datas
@@ -314,9 +314,9 @@ else
 
 
 // update lockdown
-if(updateTimer &gt; 0) exit; // skip update
-updateTimer = updateTimerMax + irandom(20);
-
+if(updateTimer &gt; 0 || global.chunkUpdateBudget &gt; 2) exit; // skip update
+updateTimer = updateTimerMax + irandom(10);
+global.chunkUpdateBudget += 1;
 
 // check if the chunk has been genned yet!
 if(ground == -1 || walls == -1 || floors == -1)

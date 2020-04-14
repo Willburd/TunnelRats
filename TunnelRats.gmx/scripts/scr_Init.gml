@@ -20,16 +20,16 @@ global._gravity = 0.4;
 // 16:9  1.7777
 // 16:10 1.6 
 // consistant resolutions
+global.outputResolutionHeight = 208;
 global.resArray = array_create(3);
-global.resArray[0] = 192; // 4:3
-global.resArray[1] = 256; // 16:9
-global.resArray[2] = 230; // 16:10
+global.resArray[0] = round(global.outputResolutionHeight * (4/3)); // 4:3
+global.resArray[1] = round(global.outputResolutionHeight * (16/9)); // 16:9
+global.resArray[2] = round(global.outputResolutionHeight * (16/10)); // 16:10
 global.resMode = 1;
 
 // camera
-global.outputResolutionHeight = 144;
-global.chunkWidth = 7;
-global.chunkHeight = 7;
+global.chunkWidth = 5;
+global.chunkHeight = 5;
 global.metaChunkWidth = 36;
 global.metaChunkHeight = 36;
 
@@ -60,6 +60,7 @@ global.hillMap_Scale = 1;
 
 global.unloadingTimer = 400; // if this is under 0 allow unload
 global.loadingTimer = 10; // if this is under 0 allow loading
+global.chunkUpdateBudget = 0; // counts chunks updated, doesn't allow an update if this is exceeded
 
 global.layerLoadedBiomes = -1; // ds_list of loaded biomes
 

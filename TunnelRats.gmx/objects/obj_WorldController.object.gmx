@@ -57,7 +57,6 @@ event_user(1);
             <string>/// called from obj_WorldChunk's room end function on unload
 ds_list_destroy(loadedChunkList);
 scr_SaveWorld(worldName,UniverseNumber);
-scr_EntityPlayerSave(global.PlayerProfile);
 </string>
           </argument>
         </arguments>
@@ -233,6 +232,7 @@ with obj_WorldEntityParent
 
 
 // update chunks
+global.chunkUpdateBudget = 0;
 global.unloadingTimer += 1;
 for (i=0; i&lt;ds_list_size(loadedChunkList); i+=1)
 {
