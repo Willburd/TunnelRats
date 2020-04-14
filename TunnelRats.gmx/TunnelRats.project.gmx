@@ -337,6 +337,7 @@
     <sprite>sprites\spr_MenuBarEquipment</sprite>
     <sprite>sprites\spr_MenuBarSelect</sprite>
     <sprite>sprites\spr_MenuHealth</sprite>
+    <sprite>sprites\sprite26</sprite>
   </sprites>
   <backgrounds name="background">
     <background>background\bg_testBlock</background>
