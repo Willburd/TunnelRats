@@ -79,9 +79,7 @@ global.keyExit = vk_escape;
 global.keyPause = vk_enter;
 
 // create block database from external files
-global.BlockLibrary = scr_LoadBlockLibrary();       // ds_map filled with ds_maps
-global.BlockRulesDefault = -1;                      
-global.BlockRules = scr_LoadRuleLibrary();          // ds_map filled with ds_maps
+global.BlockLibrary = scr_LoadBlockLibrary();       // ds_map filled with ds_maps                 
 global.EntityLibrary = scr_LoadEntityLibrary();
 global.BiomeLibrary = scr_LoadBiomeLibrary();             // ds_priority filled with maps
 global.TextureLibrary = scr_LoadTextureLibrary();   // ds_map filled with bgs

@@ -336,7 +336,7 @@ for (q=0; q&lt;global.chunkWidth; q+=1)
         var FData = floors[# q,c];
         
         
-        if(WData == -1 || scr_BlockRules(WData,"Transparent"))
+        if(WData == -1 || scr_BlockCheckRule(WData,"Transparent"))
         {
             // GROUND UPDATE SEGMENT! ==========================================================================================================
             if(GData != -1)
@@ -362,7 +362,7 @@ for (q=0; q&lt;global.chunkWidth; q+=1)
                 // can see ground under the floor
                 if(rendering &amp;&amp; (forceRenderBlock || forceRenderUpdate))
                 {
-                    if(FData == -1 || scr_BlockRules(FData,"Transparent"))
+                    if(FData == -1 || scr_BlockCheckRule(FData,"Transparent"))
                     {
                         // render GROUND
                         forceRenderBlock = false;

@@ -41,9 +41,22 @@ while(scanFile != "")
     scanFile = file_find_next();
 }
 
-
-
 // cleanup
 file_find_close();
+
+
+// default block rules for None:Air
+global.BlockRulesDefault = ds_map_create();
+global.BlockRulesDefault[? "Solid"] = false;
+global.BlockRulesDefault[? "Transparent"] = true;
+global.BlockRulesDefault[? "CanGrowGrass"] = false;
+global.BlockRulesDefault[? "Liquid"] = false;
+global.BlockRulesDefault[? "IsBlock"] = false;
+global.BlockRulesDefault[? "IsFloor"] = false;
+global.BlockRulesDefault[? "DropsOnBreak"] = -1;
+global.BlockRulesDefault[? "ExtraDropOnFirstBreak"] = -1;
+global.BlockRulesDefault[? "AllowFloorReplacement"] = false;
+global.BlockRulesDefault[? "AllowWallReplacement"] = false;
+
 
 return blockLibFull;

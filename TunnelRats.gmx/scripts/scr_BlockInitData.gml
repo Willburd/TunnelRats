@@ -23,9 +23,15 @@ if(ds_exists(findBlock,ds_type_map))
         returnMap[? "TextureSelect"] = -1;
     }
     
-    // cleanout texture library so it doesn't get nuked when a chunk is deleted
+    
+    // cleanout rule data so it doesn't get nuked when a chunk is deleted
     returnMap[? "Textures"] = -1; // prevent nuking the original texture list
     ds_map_delete(returnMap,"Textures");
+    returnMap[? "DropsOnBreak"] = -1
+    ds_map_delete(returnMap, "DropsOnBreak");
+    returnMap[? "ExtraDropOnFirstBreak"] = -1
+    ds_map_delete(returnMap, "ExtraDropOnFirstBreak");
+    
     
     // return
     return returnMap;

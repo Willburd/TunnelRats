@@ -44,7 +44,7 @@
 		"ShadowType" : 1,
 		"SavedByChunk" : true,
 		"DestroyedOnUnload" : false,
-		"BecomesBlockOnPlace" : "Base:Block_Rock",
+		"BecomesBlockOnPlace" : "Base:Block_PalmWood",
 		"MaxStack" : 100
 	},
 	"Entity_PalmTree" : {

@@ -17,7 +17,7 @@ if(bData == -1)
 
 var groundData = argument0.ground[# QQ,CC];
 var wallsData = argument0.walls[# QQ,CC];
-if(groundData != -1 && scr_BlockRules(groundData,"CanGrowGrass") )
+if(groundData != -1 && scr_BlockCheckRule(groundData,"CanGrowGrass") )
 {
     var biome = global.layerLoadedBiomes[| bData];
     var genData = biome[? "BlockGenData"];

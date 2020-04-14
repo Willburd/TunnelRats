@@ -3,36 +3,96 @@
 		"DisplayName": "Dirt",
 		"Textures": [
 			"Tex_Dirt"
-		]
+		],
+		"IsBlock": true,
+		"IsFloor": false,
+		"Transparent": false,
+		"Solid": true,
+		"CanGrowGrass": true,
+		"AllowFloorReplacement" : false,
+		"AllowWallReplacement" : false,
+		"DropsOnBreak": [["Base:Entity_Dirt",1]],
+		"ExtraDropOnFirstBreak": [["Base:Entity_Rock",0.25]],
+		"BecomesOnBreak": "None:Air"
 	},
 	"Floor_Grass" : {
 		"DisplayName": "Grass",
 		"Textures": [
 			"Tex_Grass"
-		]
+		],
+		"IsBlock": false,
+		"IsFloor": true,
+		"Transparent": false,
+		"Solid": true,
+		"AllowFloorReplacement" : true,
+		"AllowWallReplacement" : false,
+		"BecomesOnBreak": "None:Air"
 	},
 	"Block_Sand" : {
 		"DisplayName": "Sand",
 		"Textures": [
 			"Tex_Sand"
-		]
+		],
+		"IsBlock": true,
+		"IsFloor": false,
+		"Transparent": false,
+		"Solid": true,
+		"AllowFloorReplacement" : false,
+		"AllowWallReplacement" : false,
+		"BecomesOnBreak": "None:Air"
 	},
 	"Block_Rock" : {
 		"DisplayName": "Rock",
 		"Textures": [
 			"Tex_Rock"
-		]
+		],
+		"IsBlock": true,
+		"IsFloor": false,
+		"Transparent": false,
+		"Solid": true,
+		"AllowFloorReplacement" : false,
+		"AllowWallReplacement" : false,
+		"DropsOnBreak": [["Base:Entity_Rock",1]],
+		"BecomesOnBreak": "None:Air"
 	},
 	"Block_Water" : {
 		"DisplayName": "Water",
 		"Textures": [
 			"Tex_Water"
-		]
+		],
+		"IsBlock": true,
+		"IsFloor": false,
+		"Solid": false,
+		"Transparent": false,
+		"Liquid": true,
+		"AllowFloorReplacement" : true,
+		"AllowWallReplacement" : true,
+		"BecomesOnBreak": "None:Air"
 	},
 	"Block_Brick" : {
 		"DisplayName": "Brick",
 		"Textures": [
 			"Tex_Brick"
-		]
+		],
+		"IsBlock": true,
+		"IsFloor": false,
+		"Transparent": false,
+		"Solid": true,
+		"AllowFloorReplacement" : false,
+		"AllowWallReplacement" : false,
+		"BecomesOnBreak": "None:Air"
+	},
+	"Block_PalmWood" : {
+		"DisplayName": "Palm Wood",
+		"Textures": [
+			"Tex_PalmWoodWall"
+		],
+		"IsBlock": true,
+		"IsFloor": true,
+		"Transparent": false,
+		"Solid": true,
+		"AllowFloorReplacement" : false,
+		"AllowWallReplacement" : false,
+		"BecomesOnBreak": "None:Air"
 	}
 }

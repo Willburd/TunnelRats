@@ -16,7 +16,7 @@ if(breaking != -1)
     var spawnQueue = ds_queue_create();
     
     // standard breaking
-    var dropTable = scr_BlockRules(breaking, "DropsOnBreak");
+    var dropTable = scr_BlockCheckRule(breaking, "DropsOnBreak");
     if(dropTable != -1)
     {
         for (var i=0; i<ds_list_size(dropTable); i+=1)
@@ -33,7 +33,7 @@ if(breaking != -1)
     // first time breaking has some unique drops!
     if(breaking[? "FirstSpawn"])
     {
-        var dropTable = scr_BlockRules(breaking, "ExtraDropOnFirstBreak");
+        var dropTable = scr_BlockCheckRule(breaking, "ExtraDropOnFirstBreak");
         if(dropTable != -1)
         {
             for (var i=0; i<ds_list_size(dropTable); i+=1)
@@ -64,5 +64,5 @@ if(breaking != -1)
 }
 
 // convert block
-scr_ChunkSetBlock(chunk,xx ,yy,scr_BlockRules(breaking, "BecomesOnBreak"),selector);
+scr_ChunkSetBlock(chunk,xx ,yy,scr_BlockCheckRule(breaking, "BecomesOnBreak"),selector);
 

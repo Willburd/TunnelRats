@@ -26,10 +26,10 @@ var BlockNorth = scr_ChunkGetBlock(chunk, xx, yy-16, BlockGridType.floors);
 var BlockSouth = scr_ChunkGetBlock(chunk, xx, yy+16, BlockGridType.floors);
 var BlockEast = scr_ChunkGetBlock(chunk, xx+16, yy, BlockGridType.floors);
 var BlockWest = scr_ChunkGetBlock(chunk, xx-16, yy, BlockGridType.floors);
-var blockedNorth = !( BlockNorth == -1 || scr_BlockRules(BlockNorth,"Transparent")  );
-var blockedSouth = !( BlockSouth == -1 || scr_BlockRules(BlockSouth,"Transparent")  );
-var blockedEast = !( BlockEast == -1 || scr_BlockRules(BlockEast,"Transparent")  );
-var blockedWest = !( BlockWest == -1 || scr_BlockRules(BlockWest,"Transparent")  );
+var blockedNorth = !( BlockNorth == -1 || scr_BlockCheckRule(BlockNorth,"Transparent")  );
+var blockedSouth = !( BlockSouth == -1 || scr_BlockCheckRule(BlockSouth,"Transparent")  );
+var blockedEast = !( BlockEast == -1 || scr_BlockCheckRule(BlockEast,"Transparent")  );
+var blockedWest = !( BlockWest == -1 || scr_BlockCheckRule(BlockWest,"Transparent")  );
 
 // special corners
 var BlockNorthWest = scr_ChunkGetBlock(chunk, xx-16, yy-16, BlockGridType.floors);
@@ -37,10 +37,10 @@ var BlockNorthEast = scr_ChunkGetBlock(chunk, xx+16, yy-16, BlockGridType.floors
 var BlockSouthWest = scr_ChunkGetBlock(chunk, xx-16, yy+16, BlockGridType.floors);
 var BlockSouthEast = scr_ChunkGetBlock(chunk, xx+16, yy+16, BlockGridType.floors);
 
-var blockedNorthWest = !( BlockNorthWest == -1 || scr_BlockRules(BlockNorthWest,"Transparent")  );
-var blockedNorthEast = !( BlockNorthEast == -1 || scr_BlockRules(BlockNorthEast,"Transparent")  );
-var blockedSouthWest = !( BlockSouthWest == -1 || scr_BlockRules(BlockSouthWest,"Transparent")  );
-var blockedSouthEast = !( BlockSouthEast == -1 || scr_BlockRules(BlockSouthEast,"Transparent")  );
+var blockedNorthWest = !( BlockNorthWest == -1 || scr_BlockCheckRule(BlockNorthWest,"Transparent")  );
+var blockedNorthEast = !( BlockNorthEast == -1 || scr_BlockCheckRule(BlockNorthEast,"Transparent")  );
+var blockedSouthWest = !( BlockSouthWest == -1 || scr_BlockCheckRule(BlockSouthWest,"Transparent")  );
+var blockedSouthEast = !( BlockSouthEast == -1 || scr_BlockCheckRule(BlockSouthEast,"Transparent")  );
 
 if(!blockedSouth)
 {

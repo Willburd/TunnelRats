@@ -10,13 +10,13 @@ enum colType
     hasWall
 }
 
-if(scr_BlockRules(chunk.walls[# QQ,CC],"Solid"))
+if(scr_BlockCheckRule(chunk.walls[# QQ,CC],"Solid"))
 {
     chunk.collisionData[# QQ,CC] = colType.hasWall;
 }
 else
 {
-    if(scr_BlockRules(chunk.floors[# QQ,CC],"Solid") || scr_BlockRules(chunk.ground[# QQ,CC],"Solid"))
+    if(scr_BlockCheckRule(chunk.floors[# QQ,CC],"Solid") || scr_BlockCheckRule(chunk.ground[# QQ,CC],"Solid"))
     {
         chunk.collisionData[# QQ,CC] = colType.hasFloor;
     }

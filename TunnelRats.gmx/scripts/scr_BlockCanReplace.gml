@@ -9,14 +9,14 @@ if(selector == BlockGridType.walls)
     var blockData = scr_ChunkGetBlock(chunk, xx, yy, selector);
 
     if(blockData == -1) return true;
-    return scr_BlockRules( blockData, "AllowWallReplacement");
+    return scr_BlockCheckRule( blockData, "AllowWallReplacement");
 }
 else if(selector == BlockGridType.floors)
 {
     var blockData = scr_ChunkGetBlock(chunk, xx, yy, selector);
     
     if(blockData == -1) return true;
-    return scr_BlockRules( blockData, "AllowFloorReplacement");
+    return scr_BlockCheckRule( blockData, "AllowFloorReplacement");
 }
 else
 {
