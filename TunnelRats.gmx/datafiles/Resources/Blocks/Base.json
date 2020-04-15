@@ -12,6 +12,7 @@
 		"AllowFloorReplacement" : false,
 		"AllowWallReplacement" : false,
 		"DropsOnBreak": [["Base:Entity_Dirt",1]],
+		"BreakingResistance" : 1,
 		"ExtraDropOnFirstBreak": [["Base:Entity_Rock",0.25]],
 		"BecomesOnBreak": "None:Air"
 	},
@@ -26,6 +27,7 @@
 		"Solid": true,
 		"AllowFloorReplacement" : true,
 		"AllowWallReplacement" : false,
+		"BreakingResistance" : 1,
 		"BecomesOnBreak": "None:Air"
 	},
 	"Block_Sand" : {
@@ -39,6 +41,7 @@
 		"Solid": true,
 		"AllowFloorReplacement" : false,
 		"AllowWallReplacement" : false,
+		"BreakingResistance" : 1,
 		"BecomesOnBreak": "None:Air"
 	},
 	"Block_Rock" : {
@@ -52,6 +55,7 @@
 		"Solid": true,
 		"AllowFloorReplacement" : false,
 		"AllowWallReplacement" : false,
+		"BreakingResistance" : 2,
 		"DropsOnBreak": [["Base:Entity_Rock",1]],
 		"BecomesOnBreak": "None:Air"
 	},
@@ -67,6 +71,7 @@
 		"Liquid": true,
 		"AllowFloorReplacement" : true,
 		"AllowWallReplacement" : true,
+		"BreakingResistance" : -1,
 		"BecomesOnBreak": "None:Air"
 	},
 	"Block_Brick" : {
@@ -80,6 +85,7 @@
 		"Solid": true,
 		"AllowFloorReplacement" : false,
 		"AllowWallReplacement" : false,
+		"BreakingResistance" : 3,
 		"BecomesOnBreak": "None:Air"
 	},
 	"Block_PalmWood" : {
@@ -93,6 +99,7 @@
 		"Solid": true,
 		"AllowFloorReplacement" : false,
 		"AllowWallReplacement" : false,
+		"BreakingResistance" : 1,
 		"BecomesOnBreak": "None:Air"
 	}
 }

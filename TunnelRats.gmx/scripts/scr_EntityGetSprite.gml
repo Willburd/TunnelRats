@@ -17,7 +17,7 @@ if(!is_undefined(getLib) && ds_exists(getLib,ds_type_map))
     var textureList = findEntity[? "Textures"];
     if(is_undefined(textureList))
     {
-        return spr_colMask8x;
+        return spr_colMaskEntityCheck;
     }
     
     // lets get to this proper....
@@ -27,13 +27,13 @@ if(!is_undefined(getLib) && ds_exists(getLib,ds_type_map))
     var texName = "Entities:" + argument0[? "DataName"] + ":" + string(textureList[| texSelect]);
     if(is_undefined(global.TextureLibrary[? texName]))
     {
-        return spr_colMask8x;
+        return spr_colMaskEntityCheck;
     }
     return global.TextureLibrary[? texName];
 }
 else
 {
-    return spr_colMask8x;
+    return spr_colMaskEntityCheck;
 }    
 
 

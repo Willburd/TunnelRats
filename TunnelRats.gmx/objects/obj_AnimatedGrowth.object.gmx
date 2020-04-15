@@ -5,51 +5,9 @@
   <visible>-1</visible>
   <depth>0</depth>
   <persistent>0</persistent>
-  <parentName>obj_WorldEntityGravityParent</parentName>
+  <parentName>obj_WorldEntityDeployedParent</parentName>
   <maskName>spr_colMaskEntityCheck</maskName>
   <events>
-    <event eventtype="0" enumb="0">
-      <action>
-        <libid>1</libid>
-        <id>604</id>
-        <kind>0</kind>
-        <userelative>0</userelative>
-        <isquestion>0</isquestion>
-        <useapplyto>0</useapplyto>
-        <exetype>1</exetype>
-        <functionname>action_inherited</functionname>
-        <codestring></codestring>
-        <whoName>self</whoName>
-        <relative>0</relative>
-        <isnot>0</isnot>
-      </action>
-      <action>
-        <libid>1</libid>
-        <id>603</id>
-        <kind>7</kind>
-        <userelative>0</userelative>
-        <isquestion>0</isquestion>
-        <useapplyto>-1</useapplyto>
-        <exetype>2</exetype>
-        <functionname></functionname>
-        <codestring></codestring>
-        <whoName>self</whoName>
-        <relative>0</relative>
-        <isnot>0</isnot>
-        <arguments>
-          <argument>
-            <kind>1</kind>
-            <string>pickupDelay = 60;
-
-/// random xyz direction
-Zmomentum = -(1 + random(2));
-Nmomentum = random(2);
-Ndirection = random(360);
-</string>
-          </argument>
-        </arguments>
-      </action>
-    </event>
     <event eventtype="7" enumb="10">
       <action>
         <libid>1</libid>
@@ -81,16 +39,21 @@ Ndirection = random(360);
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>/// slowdown and stop
-if(z == attemptedGround)
-{
-    Nmomentum *= scr_DTmultiplier(-0.20);
-}
-else
-{
-    Nmomentum *= scr_DTmultiplier(-0.02);
-}
+            <string>/// control decay
+var imgIndex = global.animationStep - animationStartOffset;
+imgIndex *= animationSpeed;
 
+if(sprite_index != -1)
+{
+    if(imgIndex &gt;= sprite_get_number(sprite_index))
+    {
+        visible = false;
+        sprite_index = -1;
+        EntityData[? "BecomesOnBreak"] = EntityData[? "BecomesOnGrowth"];
+        if(is_undefined(EntityData[? "BecomesOnBreak"])) EntityData[? "BecomesOnBreak"] = -1;
+        scr_EntityBreak(id,ActiveChunk,x,y,z,false)
+    }
+}
 </string>
           </argument>
         </arguments>
@@ -117,6 +80,8 @@ depth = scr_DrawDepth(x,y,z);
           </argument>
         </arguments>
       </action>
+    </event>
+    <event eventtype="8" enumb="0">
       <action>
         <libid>1</libid>
         <id>603</id>
@@ -133,9 +98,16 @@ depth = scr_DrawDepth(x,y,z);
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>/// set update flag
-pickupDelay -= scr_DTscale(1);
-if(pickupDelay &lt; 0) pickupDelay = 0;
+            <string>/// basic shadow and entity draw
+if(shadowType &gt; 0)
+{
+    draw_sprite_ext(spr_shadow,shadowType,x,y + scr_DrawYOffset(attemptedGround),1,1,0,image_blend,1);
+}
+if(sprite_index != -1)
+{
+    var imgIndex = global.animationStep - animationStartOffset;
+    draw_sprite_ext(sprite_index,clamp( imgIndex*animationSpeed ,0,sprite_get_number(sprite_index)-1),x,y + scr_DrawYOffset(z),1,1,0,image_blend,1);
+}
 </string>
           </argument>
         </arguments>

@@ -6,7 +6,7 @@
   <depth>-99999999</depth>
   <persistent>-1</persistent>
   <parentName>&lt;undefined&gt;</parentName>
-  <maskName>spr_colMask16x</maskName>
+  <maskName>&lt;undefined&gt;</maskName>
   <events>
     <event eventtype="0" enumb="0">
       <action>

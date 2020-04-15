@@ -34,7 +34,7 @@ if(global.debug_DisableWorldGenEntities == false && wallsData == -1)
                 if(random(1) < genEntry[| 2])
                 {
                     var entityDat = scr_EntityInitData(genEntry[| 0],((xx+QQ)*16) + random_range(3,13),((yy+CC)*16) + random_range(3,13),0);
-                    scr_EntityRealizeInstance( entityDat,argument0,-1, false);
+                    scr_EntityRealizeInstance( entityDat, argument0, noone, false);
                 }
             }
         }

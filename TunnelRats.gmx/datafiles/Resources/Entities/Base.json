@@ -60,14 +60,15 @@
 		"ShadowType" : 0,
 		"SavedByChunk" : true,
 		"DestroyedOnUnload" : false,
-		"DropsOnBreak" : [["Base:Entity_PalmWood",1], ["Base:Entity_PalmWood",1], ["Base:Entity_PalmWood",1], ["Base:Entity_PalmTreeSapling",0.5], ["Base:Entity_PalmTreeSapling",0.5]],
+		"BreakingResistance" : 3,
+		"DropsOnBreak" : [["Base:Entity_PalmWood",1], ["Base:Entity_PalmWood",1], ["Base:Entity_PalmWood",1], ["Base:Entity_PalmTreeSapling",0.75], ["Base:Entity_PalmTreeSapling",0.5], ["Base:Entity_PalmTreeSapling",0.5]],
 		"BecomesOnBreak": "Base:Entity_PalmTreeStump",
 		"UseAction" : -1,
 		"MaxStack" : 0
 	},
 	"Entity_PalmTreeStump" : {
 		"DisplayName": "Palm Tree Stump",
-		"InternalObjectType" : "obj_AnimatedChange",
+		"InternalObjectType" : "obj_AnimatedDecay",
 		"Textures": [
 			"Tex_PalmTree_Stump"
 		],
@@ -78,6 +79,7 @@
 		"ShadowType" : 0,
 		"SavedByChunk" : true,
 		"DestroyedOnUnload" : false,
+		"BreakingResistance" : 3,
 		"DropsOnBreak" : [],
 		"BecomesOnBreak": "None:Air",
 		"UseAction" : -1,
@@ -85,7 +87,7 @@
 	},
 	"Entity_PalmTreeSapling" : {
 		"DisplayName": "Palm Tree Sapling",
-		"InternalObjectType" : "obj_AnimatedChange",
+		"InternalObjectType" : "obj_AnimatedGrowth",
 		"Textures": [
 			"Tex_PalmTree_Sapling"
 		],
@@ -96,9 +98,12 @@
 		"ShadowType" : 0,
 		"SavedByChunk" : true,
 		"DestroyedOnUnload" : false,
+		"BreakingResistance" : 1,
 		"DropsOnBreak" : [["Base:Entity_PalmTreeSapling",1]],
 		"BecomesOnBreak": "None:Air",
+		"BecomesOnGrowth": "Base:Entity_PalmTree",
 		"UseAction" : ["PlaceEntity", "Base:Entity_PalmTreeSapling"],
+		"AllowedGround" : ["Base:Block_Dirt","Base:Block_Sand"],
 		"MaxStack" : 100
 	}
 }

@@ -20,6 +20,31 @@ switch modeType
 {
     case "PlaceEntity":
         // place an entity
+        controllerID.toolUseCounter += scr_DTscale(0.15);
+        if(scr_ChunkGetBlock(chunk,xx ,yy,BlockGridType.walls) == -1 && scr_EntityAllowedOnGround(inventoryEntity,chunk,xx,yy))
+        {
+            controllerID.myHighlight.image_alpha = lerp( controllerID.toolGlow, 1, inverse_lerp(-1,0,controllerID.toolUseCounter));
+            if(controllerID.toolUseCounter >= 0)
+            {
+                if(collision_rectangle(xx,yy,xx+16,yy+16,obj_WorldEntityDeployedParent,false,true) == noone)
+                {
+                    controllerID.toolUseCounter = -1
+                    var entityDat = scr_EntityInitData( argument4, xx + random_range(3,13), yy + random_range(3,13),0);
+                    scr_EntityRealizeInstance( entityDat, noone, chunk.worldController, false);
+                    scr_ChunkUpdate( chunk, true);
+                    
+                    return true; // tick inventory down!
+                }
+                else
+                {
+                    controllerID.toolUseCounter = -1
+                }
+            }
+        }
+        else
+        {
+            controllerID.toolUseCounter = -1
+        }
     break;
 
     case "PlaceBlock":
@@ -35,12 +60,38 @@ switch modeType
                 // break floors if placing a wall, and break walls if placing a floor
                 if(selector == BlockGridType.walls || selector == BlockGridType.floors)
                 {
-                    if(scr_BlockCanReplace(chunk,xx ,yy, BlockGridType.floors))
+                    // constructed entity check
+                    var findEnt = collision_rectangle(xx,yy,xx+16,yy+16,obj_WorldEntityDeployedParent,false,true);
+                    if(findEnt == noone)
                     {
-                        scr_BlockBreak(chunk, xx ,yy,0, BlockGridType.floors);
-                        
-                        part_particles_create(global.partSys,xx ,yy, global.partLibrary[? "DustPuff"],10);
-                        canBuild = true;
+                        // player check
+                        var findEnt = collision_rectangle(xx,yy,xx+16,yy+16,obj_Player,false,true);
+                        if(findEnt == noone)
+                        {    
+                            if(selector == BlockGridType.floors && scr_ChunkGetBlock(chunk,xx ,yy, BlockGridType.walls) != -1)
+                            {
+                                // cancel prior check if we fail floor's NO WALLS conditions
+                                canBuild = false;
+                            }
+                            else if(scr_BlockCanReplace(chunk,xx ,yy, BlockGridType.floors))
+                            {
+                                // break floor already there if it is replacable
+                                scr_BlockBreak(chunk, xx ,yy,0, BlockGridType.floors);
+                                
+                                part_particles_create(global.partSys,xx ,yy, global.partLibrary[? "DustPuff"],10);
+                                canBuild = true;
+                            }
+                        }
+                        else
+                        {
+                            // entity is in the way!
+                            canBuild = false;
+                        }
+                    }
+                    else
+                    {
+                        // entity is in the way!
+                        canBuild = false;
                     }
                 }
                 
@@ -60,6 +111,10 @@ switch modeType
                         return true; // tick inventory down!
                     }
                 }
+                else
+                {
+                    controllerID.toolUseCounter = -1
+                }
             }
         }
         else
@@ -70,23 +125,76 @@ switch modeType
     
     default:
         // break blocks
-        controllerID.toolUseCounter += scr_DTscale(0.03);
-        controllerID.myHighlight.image_alpha = lerp( controllerID.toolGlow, 1, inverse_lerp(-1,1,controllerID.toolUseCounter));
-        if(controllerID.toolUseCounter >= 1)
+        var toolMod = 0;
+        var breakingGoalBlock = scr_ChunkGetBlock(chunk,xx ,yy, selector);
+        
+        if(breakingGoalBlock != -1)
         {
-            controllerID.toolUseCounter = -1
-            if(scr_ChunkGetBlock(chunk,xx ,yy, selector) != -1)
+            if(controllerID.toolUseCounter >= 1)
             {
+                controllerID.toolUseCounter = -1;
+                // break a block if one exists
                 scr_BlockBreak(chunk,xx ,yy,0, selector);
                 scr_BlockTriggerUpdate(chunk,xx ,yy, BlockGridType.floors,true);
                 scr_BlockTriggerUpdate(chunk,xx ,yy, BlockGridType.walls,true);
                 scr_ChunkUpdate(chunk,true);
                 
                 part_particles_create(global.partSys,xx ,yy, global.partLibrary[? "DustPuff"],10);
+                
+                return true; // tick inventory down!
+            }
+            else
+            {
+                var blockResistance = breakingGoalBlock[? "BreakingResistance"]; //TODO move to a default library data check?
+                if(blockResistance == -1) 
+                {
+                    controllerID.toolUseCounter = -1;
+                }
+                else
+                {
+                    controllerID.toolUseCounter += scr_DTscale( (power(blockResistance,-0.5)/100) * (4.35 + toolMod) );
+                }
             }
             
-            return true; // tick inventory down!
         }
+        else
+        {
+            var findEnt = collision_rectangle(xx,yy,xx+16,yy+16,obj_WorldEntityDeployedParent,false,true);
+            if(findEnt != noone)
+            {
+                if(controllerID.toolUseCounter >= 1)
+                {
+                    controllerID.toolUseCounter = -1;
+                    // break an entity if one exists
+                    if(findEnt.EntityData != -1)
+                    {
+                        scr_EntityBreak(findEnt,findEnt.ActiveChunk,findEnt.x,findEnt.y,findEnt.z,true);
+                    }
+                }
+                else
+                {
+                    if(findEnt.EntityData != -1)
+                    {
+                        var entityResistance = findEnt.EntityData[? "BreakingResistance"]; //TODO move to a default library data check?  
+                        if(entityResistance == -1) 
+                        {
+                            controllerID.toolUseCounter = -1;
+                        }
+                        else
+                        {
+                            controllerID.toolUseCounter += scr_DTscale( (power(entityResistance,-0.5)/100) * (4.35 + toolMod) );
+                        }
+                    }
+                }
+            }
+            else
+            {
+                controllerID.toolUseCounter  = -1;
+            }
+        }
+        
+        controllerID.myHighlight.image_alpha = lerp( controllerID.toolGlow, 1, inverse_lerp(-1,1,controllerID.toolUseCounter));
+        
     break;
 }
 

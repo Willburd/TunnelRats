@@ -46,5 +46,5 @@ if(InventoryEntry[| 1] <= 0)
 }
 
 // spawn breaking entities
-var thrower = scr_EntityRealizeInstance( entityDat,argument2,-1, true);
+var thrower = scr_EntityRealizeInstance( entityDat, argument2, noone, true);
 return thrower;

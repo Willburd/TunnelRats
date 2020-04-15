@@ -18,7 +18,8 @@ var objectType = asset_get_index(entityData[? "InternalObjectType"]);
 if( !(objectType == obj_WorldEntityParent 
 || objectType == obj_WorldEntityGravityParent 
 || objectType == obj_TreeGrown
-|| objectType == obj_AnimatedChange
+|| objectType == obj_AnimatedDecay
+|| objectType == obj_AnimatedGrowth
 || objectType == obj_PickupItem
 || objectType == obj_Player)  )
 {

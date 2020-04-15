@@ -58,7 +58,7 @@ if(breaking != -1)
         entityDat[? "InternalCount"] = 1; // number in each stack!
         
         // spawn breaking entities
-        scr_EntityRealizeInstance( entityDat,chunk,-1, true);
+        scr_EntityRealizeInstance( entityDat, chunk, noone, true);
     }
     
     ds_queue_destroy(spawnQueue);
