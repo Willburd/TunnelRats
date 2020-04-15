@@ -7,7 +7,7 @@
 	"MountainOffset" : 		0,
 	"HillMultiplier" : 		0.05,
 	"HillOffset" : 			0,
-	"EntityGen" : [ [ "Base:Entity_PalmTree", "Base:Block_Sand", 0.01 ] ],
+	"EntityGen" : [ [ "Base:Entity_PalmTree", "Base:Block_Sand", 0.02 ], [ "Base:Entity_PalmTree", "Base:Block_Dirt", 0.01 ] ],
 	"BlockGen" : [
 	["Base:Block_Water", 	["MixedHeight",   -99,    1]],
 	["Base:Block_Sand",		["MixedHeight",     0,    3]],

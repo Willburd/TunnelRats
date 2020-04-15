@@ -21,7 +21,7 @@ var newLib = ds_map_create();
     ds_map_add(newEnt, "SavedByChunk", true); // direct flag check for misc entities that don't save
     // unique flags
     ds_map_add(newEnt,"Inventory", true); //a list of lists, encoded as [ "entityName", count] NOTICE this entry of "true" or "false" just gives it an inventory or not!
-    ds_map_add(newEnt,"InventorySize", 10);
+    ds_map_add(newEnt,"InventorySize", 16);
     ds_map_add(newEnt,"MaxStack",1);
     // health
     ds_map_add(newEnt,"MaxHealth",5*4);

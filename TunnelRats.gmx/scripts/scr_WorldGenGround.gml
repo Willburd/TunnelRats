@@ -18,9 +18,10 @@ var biome = global.layerLoadedBiomes[| bData];
 var genData = biome[? "BlockGenData"];
 
 // spawn worldGen entities
+var wallsData = argument0.walls[# QQ,CC];
 var BlockSpawnDataName = scr_BiomeGetBlockSpawn(zData,0,genData,xx+QQ,yy+CC);
-if(global.debug_DisableWorldGenEntities == false)
-{   
+if(global.debug_DisableWorldGenEntities == false && wallsData == -1)
+{
     var entityGenList = genData[? "EntityGen"];
     if(!is_undefined(entityGenList))
     {

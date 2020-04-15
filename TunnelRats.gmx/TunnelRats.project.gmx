@@ -472,6 +472,7 @@
     <room>rooms\rm_Init</room>
     <room>rooms\rm_Menu</room>
     <room>rooms\rm_World</room>
+    <room>rooms\rm_Cleanup</room>
   </rooms>
   <help>
     <rtf>help.rtf</rtf>
