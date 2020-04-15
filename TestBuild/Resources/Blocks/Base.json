@@ -3,36 +3,103 @@
 		"DisplayName": "Dirt",
 		"Textures": [
 			"Tex_Dirt"
-		]
+		],
+		"IsBlock": true,
+		"IsFloor": false,
+		"Transparent": false,
+		"Solid": true,
+		"CanGrowGrass": true,
+		"AllowFloorReplacement" : false,
+		"AllowWallReplacement" : false,
+		"DropsOnBreak": [["Base:Entity_Dirt",1]],
+		"BreakingResistance" : 1,
+		"ExtraDropOnFirstBreak": [["Base:Entity_Rock",0.25]],
+		"BecomesOnBreak": "None:Air"
 	},
 	"Floor_Grass" : {
 		"DisplayName": "Grass",
 		"Textures": [
 			"Tex_Grass"
-		]
+		],
+		"IsBlock": false,
+		"IsFloor": true,
+		"Transparent": false,
+		"Solid": true,
+		"AllowFloorReplacement" : true,
+		"AllowWallReplacement" : false,
+		"BreakingResistance" : 1,
+		"BecomesOnBreak": "None:Air"
 	},
 	"Block_Sand" : {
 		"DisplayName": "Sand",
 		"Textures": [
 			"Tex_Sand"
-		]
+		],
+		"IsBlock": true,
+		"IsFloor": false,
+		"Transparent": false,
+		"Solid": true,
+		"AllowFloorReplacement" : false,
+		"AllowWallReplacement" : false,
+		"BreakingResistance" : 1,
+		"BecomesOnBreak": "None:Air"
 	},
 	"Block_Rock" : {
 		"DisplayName": "Rock",
 		"Textures": [
 			"Tex_Rock"
-		]
+		],
+		"IsBlock": true,
+		"IsFloor": false,
+		"Transparent": false,
+		"Solid": true,
+		"AllowFloorReplacement" : false,
+		"AllowWallReplacement" : false,
+		"BreakingResistance" : 2,
+		"DropsOnBreak": [["Base:Entity_Rock",1]],
+		"BecomesOnBreak": "None:Air"
 	},
 	"Block_Water" : {
 		"DisplayName": "Water",
 		"Textures": [
 			"Tex_Water"
-		]
+		],
+		"IsBlock": true,
+		"IsFloor": false,
+		"Solid": false,
+		"Transparent": false,
+		"Liquid": true,
+		"AllowFloorReplacement" : true,
+		"AllowWallReplacement" : true,
+		"BreakingResistance" : -1,
+		"BecomesOnBreak": "None:Air"
 	},
 	"Block_Brick" : {
 		"DisplayName": "Brick",
 		"Textures": [
 			"Tex_Brick"
-		]
+		],
+		"IsBlock": true,
+		"IsFloor": false,
+		"Transparent": false,
+		"Solid": true,
+		"AllowFloorReplacement" : false,
+		"AllowWallReplacement" : false,
+		"BreakingResistance" : 3,
+		"BecomesOnBreak": "None:Air"
+	},
+	"Block_PalmWood" : {
+		"DisplayName": "Palm Wood",
+		"Textures": [
+			"Tex_PalmWoodWall"
+		],
+		"IsBlock": true,
+		"IsFloor": true,
+		"Transparent": false,
+		"Solid": true,
+		"AllowFloorReplacement" : false,
+		"AllowWallReplacement" : false,
+		"BreakingResistance" : 1,
+		"BecomesOnBreak": "None:Air"
 	}
 }
