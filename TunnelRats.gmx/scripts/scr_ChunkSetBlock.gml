@@ -30,7 +30,7 @@ while(true)
     {
         // force spawn a new chunk!
         scr_ChunkUpdate( chunk,true); // update the last chunk!
-        chunk = scr_ChunkForceSpawn(worldController, xx, yy);
+        chunk = scr_ChunkForceSpawn(chunk.worldController, xx, yy);
         
         // HAHA RECURSION
         return scr_ChunkSetBlock(chunk,xx,yy,newData,selector);     

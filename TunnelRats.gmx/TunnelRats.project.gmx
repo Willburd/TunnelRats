@@ -399,6 +399,7 @@
       <script>scripts\scr_EntityBreak.gml</script>
       <script>scripts\scr_EntityAddToInventory.gml</script>
       <script>scripts\scr_EntityThrowFromInventory.gml</script>
+      <script>scripts\scr_PlayerUseItem.gml</script>
     </scripts>
     <scripts name="Chunks">
       <script>scripts\scr_ChunkSpawn.gml</script>

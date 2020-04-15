@@ -1,7 +1,7 @@
 /// scr_EntityGetLibraryDef(database:entityName)
 // hardcoded None:Air data
 var database = argument0;
-if(database == "None:Air")
+if(database == "None:Air" || database == -1)
 {
     return -1;
 }

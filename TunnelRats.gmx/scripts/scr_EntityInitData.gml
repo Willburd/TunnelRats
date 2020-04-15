@@ -39,6 +39,8 @@ if(ds_exists(findEntity,ds_type_map))
     ds_map_delete(returnMap,"DropsOnBreak");
     returnMap[? "ExtraDropOnFirstBreak"] = -1;
     ds_map_delete(returnMap, "ExtraDropOnFirstBreak");
+    returnMap[? "UseAction"] = -1;
+    ds_map_delete(returnMap, "UseAction");
     
     // spawn inventory
     if(returnMap[? "Inventory"])

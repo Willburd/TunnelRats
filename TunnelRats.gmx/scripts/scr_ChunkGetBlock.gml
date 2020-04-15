@@ -24,7 +24,7 @@ if(xx >= chunk.x && yy >= chunk.y && xx < chunk.x + (global.chunkWidth * 16) && 
 else
 {
     // force spawn a new chunk! ( or get if already loaded!
-    chunk = scr_ChunkForceSpawn(worldController, xx, yy);
+    chunk = scr_ChunkForceSpawn(chunk.worldController, xx, yy);
     
     // recursive retry
     return scr_ChunkGetBlock(chunk,xx,yy,selector); 

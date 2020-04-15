@@ -17,11 +17,24 @@ for (var i=0; i<ds_list_size(chunk.entitys); i+=1)
                     {
                         with obj_HudController
                         {
+                            var followingBefore = followObject;
                             followObject = other.id;
                             
                             // Player UI control
-                            QMenuIndex = -1;
-                            EMenuIndex = -1;
+                            if(followingBefore != followObject)
+                            {
+                                // clear and hide inventory
+                                MenuIndex[0] = -1;
+                                MenuIndex[1] = -1;
+                                MenuExpand[0] = 0;
+                                MenuExpand[1] = 0;
+                                // reset control locks
+                                currentToolLock = true;
+                                MenuData[0] = -1;
+                                MenuData[1] = -1;
+                                PreviousMenuData[0] = MenuData[0];
+                                PreviousMenuData[1] = MenuData[1];
+                            }
                         }
                     }
                     

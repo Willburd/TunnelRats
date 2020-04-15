@@ -12,7 +12,7 @@
 		"ShadowType" : 1,
 		"SavedByChunk" : true,
 		"DestroyedOnUnload" : false,
-		"BecomesBlockOnPlace" : "Base:Block_Dirt",
+		"UseAction" : ["PlaceBlock", "Base:Block_Dirt"],
 		"MaxStack" : 100
 	},
 	"Entity_Rock" : {
@@ -28,7 +28,7 @@
 		"ShadowType" : 1,
 		"SavedByChunk" : true,
 		"DestroyedOnUnload" : false,
-		"BecomesBlockOnPlace" : "Base:Block_Brick",
+		"UseAction" : ["PlaceBlock", "Base:Block_Rock"],
 		"MaxStack" : 100
 	},
 	"Entity_PalmWood" : {
@@ -44,7 +44,7 @@
 		"ShadowType" : 1,
 		"SavedByChunk" : true,
 		"DestroyedOnUnload" : false,
-		"BecomesBlockOnPlace" : "Base:Block_PalmWood",
+		"UseAction" : ["PlaceBlock", "Base:Block_PalmWood"],
 		"MaxStack" : 100
 	},
 	"Entity_PalmTree" : {
@@ -62,6 +62,7 @@
 		"DestroyedOnUnload" : false,
 		"DropsOnBreak" : [["Base:Entity_PalmWood",1], ["Base:Entity_PalmWood",1], ["Base:Entity_PalmWood",1], ["Base:Entity_PalmTreeSapling",0.5], ["Base:Entity_PalmTreeSapling",0.5]],
 		"BecomesOnBreak": "Base:Entity_PalmTreeStump",
+		"UseAction" : -1,
 		"MaxStack" : 0
 	},
 	"Entity_PalmTreeStump" : {
@@ -79,6 +80,7 @@
 		"DestroyedOnUnload" : false,
 		"DropsOnBreak" : [],
 		"BecomesOnBreak": "None:Air",
+		"UseAction" : -1,
 		"MaxStack" : 0
 	},
 	"Entity_PalmTreeSapling" : {
@@ -94,8 +96,9 @@
 		"ShadowType" : 0,
 		"SavedByChunk" : true,
 		"DestroyedOnUnload" : false,
-		"DropsOnBreak" : [],
-		"BecomesOnBreak": "Base:Entity_PalmTree",
+		"DropsOnBreak" : [["Base:Entity_PalmTreeSapling",1]],
+		"BecomesOnBreak": "None:Air",
+		"UseAction" : ["PlaceEntity", "Base:Entity_PalmTreeSapling"],
 		"MaxStack" : 100
 	}
 }
