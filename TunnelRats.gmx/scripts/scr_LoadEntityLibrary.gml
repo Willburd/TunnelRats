@@ -83,4 +83,28 @@ while(scanFile != "")
 // cleanup
 file_find_close();
 
+
+
+// default block rules for None:Air
+global.EntityRulesDefault = ds_map_create();
+global.EntityRulesDefault[? "DisplayName"] = "EmptyName";
+global.EntityRulesDefault[? "InternalObjectType"] = "obj_PickupItem";
+global.EntityRulesDefault[? "Textures"] = -1;
+global.EntityRulesDefault[? "Anim_XOrigin"] = 0;
+global.EntityRulesDefault[? "Anim_YOrigin"] = 0;
+global.EntityRulesDefault[? "Anim_FrameCount"] = 0;
+global.EntityRulesDefault[? "Anim_DefaultSpeed"] = 0;
+global.EntityRulesDefault[? "ShadowType"] = 1;
+global.EntityRulesDefault[? "SavedByChunk"] = false;
+global.EntityRulesDefault[? "DestroyedOnUnload"] = true;
+global.EntityRulesDefault[? "UseAction"] = -1;
+global.EntityRulesDefault[? "MaxStack"] = 1;
+global.EntityRulesDefault[? "BreakingResistance"] = 0;
+global.EntityRulesDefault[? "DropsOnBreak"] = -1;
+global.EntityRulesDefault[? "BecomesOnBreak"] = -1;
+global.EntityRulesDefault[? "BecomesOnGrowth"] = -1;
+global.EntityRulesDefault[? "UseAction"] = -1;
+global.EntityRulesDefault[? "AllowedGround"] = -1;
+
+
 return entityLib;

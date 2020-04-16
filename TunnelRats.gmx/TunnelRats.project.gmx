@@ -383,6 +383,7 @@
       <script>scripts\scr_EntityGetLibraryDef.gml</script>
       <script>scripts\scr_EntityInitData.gml</script>
       <script>scripts\scr_EntityGetSprite.gml</script>
+      <script>scripts\scr_EntityCheckRule.gml</script>
       <script>scripts\scr_EntityRealizeInstance.gml</script>
       <script>scripts\scr_EntitySave.gml</script>
       <script>scripts\scr_EntityLoad.gml</script>

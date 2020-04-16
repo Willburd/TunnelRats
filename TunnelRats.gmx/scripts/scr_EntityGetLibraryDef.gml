@@ -6,7 +6,6 @@ if(database == "None:Air" || database == -1)
     return -1;
 }
 
-
 // lets get to this proper....
 var i = 0;
 while(i < string_length(database) && string_char_at(database,i) != ":")

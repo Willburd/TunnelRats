@@ -15,10 +15,8 @@ if(breaking != -1)
         // create a queue of entities to spawn!
         var spawnQueue = ds_queue_create();
         
-        var blockDefinition = scr_EntityGetLibraryDef( breaking[? "DataName"] + ":" + breaking[? "Name"]);
-        
         // standard breaking
-        var dropTable = ds_map_find_value(blockDefinition, "DropsOnBreak");
+        var dropTable = scr_EntityCheckRule(breaking, "DropsOnBreak");
         if(dropTable != -1)
         {
             for (var i=0; i<ds_list_size(dropTable); i+=1)
@@ -35,7 +33,7 @@ if(breaking != -1)
         // first time breaking has some unique drops!
         if(breaking[? "FirstSpawn"])
         {
-            var dropTable = ds_map_find_value(blockDefinition, "ExtraDropOnFirstBreak");
+            var dropTable = scr_EntityCheckRule(breaking, "ExtraDropOnFirstBreak");
             if(dropTable != -1)
             {
                 for (var i=0; i<ds_list_size(dropTable); i+=1)
@@ -67,7 +65,7 @@ if(breaking != -1)
 }
 
 // spawn post destruction entity!
-var entityDat = scr_EntityInitData(breaking[? "BecomesOnBreak"], xx, yy, zz);
+var entityDat = scr_EntityInitData(scr_EntityCheckRule(breaking, "BecomesOnBreak"), xx, yy, zz);
 var newEntityInstance = scr_EntityRealizeInstance( entityDat, chunk, noone, false);
 
 // remove the original entity!
