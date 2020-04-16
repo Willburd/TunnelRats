@@ -12,7 +12,7 @@ if(is_string(entityData))
     }
     else
     {
-        returnMap = scr_BlockGetLibraryDef(entityData);
+        returnMap = scr_EntityGetLibraryDef(entityData);
     }
 }
 else if(entityData == -1)
@@ -21,7 +21,7 @@ else if(entityData == -1)
 }
 else
 {
-    returnMap = scr_BlockGetLibraryDef(entityData[? "DataName"] + ":" + entityData[? "Name"]);
+    returnMap = scr_EntityGetLibraryDef(entityData[? "DataName"] + ":" + entityData[? "Name"]);
 }
 
 
