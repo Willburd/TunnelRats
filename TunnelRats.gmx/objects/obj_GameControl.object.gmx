@@ -36,7 +36,7 @@ else if(global.currentGame != id)
 
 show_debug_overlay(true);
 
-
+frameLimitStacker = 0;
 </string>
           </argument>
         </arguments>
@@ -96,6 +96,21 @@ with(obj_alwaysUpdatedParent)
 }
 
 
+// framerate limiter
+frameLimitStacker += scr_DTscale(1);
+if(frameLimitStacker &gt;= 1/room_speed)
+{
+    draw_enable_drawevent(true);
+    frameLimitStacker -= 1/room_speed;
+    if(frameLimitStacker &gt; 1)
+    {
+        frameLimitStacker = 0;
+    }
+}
+else
+{
+    draw_enable_drawevent(false);
+}
 </string>
           </argument>
         </arguments>
