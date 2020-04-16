@@ -349,16 +349,12 @@ for (q=0; q&lt;global.chunkWidth; q+=1)
                 // can see ground
                 // run update script for block type
                 var forceRenderBlock = false;
-                GData[? "NeedUpdate"]--; // counter update
-                if(GData[? "NeedUpdate"] == true)
+                
+                if(GData[? "UpdateTick"] &lt; floor(global.worldTick))
                 {
-                    GData[? "NeedUpdate"] = -1;
-                    forceRenderBlock = true;
+                    forceRenderBlock = scr_BlockUpdateScripts(id,xxx,yyy,GData);
                 }
-                else if(GData[? "NeedUpdate"] &lt; -1)
-                {
-                    GData[? "NeedUpdate"]  = -1;
-                }
+                GData[? "UpdateTick"] = floor(global.worldTick);
                 
                 // can see ground under the floor
                 if(rendering &amp;&amp; (forceRenderBlock || forceRenderUpdate))
@@ -400,16 +396,12 @@ for (q=0; q&lt;global.chunkWidth; q+=1)
                     
                     // run update script for block type
                     var forceRenderBlock = false;
-                    FData[? "NeedUpdate"]--; // counter update
-                    if(FData[? "NeedUpdate"] == 0)
+                    
+                    if(FData[? "UpdateTick"] &lt; floor(global.worldTick))
                     {
-                        FData[? "NeedUpdate"] = -1;
-                        forceRenderBlock = true;
+                        forceRenderBlock = scr_BlockUpdateScripts(id,xxx,yyy,FData);
                     }
-                    else if(FData[? "NeedUpdate"] &lt; -1)
-                    {
-                        FData[? "NeedUpdate"]  = -1;
-                    }
+                    FData[? "UpdateTick"] = floor(global.worldTick);
                     
                     if(rendering &amp;&amp; (forceRenderBlock || forceRenderUpdate))
                     {
@@ -444,16 +436,12 @@ for (q=0; q&lt;global.chunkWidth; q+=1)
         
             // run update script for block type
             var forceRenderBlock = false;
-            WData[? "NeedUpdate"]--; // counter update
-            if(WData[? "NeedUpdate"] == 0)
+            
+            if(WData[? "UpdateTick"] &lt; floor(global.worldTick))
             {
-                WData[? "NeedUpdate"] = -1; 
-                forceRenderBlock = true;
+                forceRenderBlock = scr_BlockUpdateScripts(id,xxx,yyy,WData);
             }
-            else if(WData[? "NeedUpdate"] &lt; -1)
-            {
-                WData[? "NeedUpdate"]  = -1;
-            }
+            WData[? "UpdateTick"] = floor(global.worldTick);
             
             // set visual state of block for drawing
             if(rendering &amp;&amp; (forceRenderBlock || forceRenderUpdate))

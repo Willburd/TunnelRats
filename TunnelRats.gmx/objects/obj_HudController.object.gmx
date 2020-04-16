@@ -43,6 +43,7 @@ toolUseCounter = 0;
 previousToolX = 0;
 previousToolY = 0;
 
+toolRange = 76;
 myHighlight = noone;
 toolGlow = 0.3 * (0.5 + (sin(global.animationStep/20)/4));
 
@@ -183,7 +184,7 @@ if(!global.gamePaused)
         
         // mouse aiming
         var dir = point_direction(followObject.x,followObject.y-8,mouse_x,mouse_y);
-        var dis = clamp(point_distance(followObject.x,followObject.y-8,mouse_x,mouse_y),0,64);
+        var dis = clamp(point_distance(followObject.x,followObject.y-8,mouse_x,mouse_y),0,toolRange);
         toolX = followObject.x + lengthdir_x(dis,dir);
         toolY = followObject.y + lengthdir_y(dis,dir);
         
@@ -197,7 +198,7 @@ if(!global.gamePaused)
                 currentToolLock = false;
             }
         }
-        if(point_distance(followObject.x,followObject.y-8,mouse_x,mouse_y) &gt; 64)
+        if(point_distance(followObject.x,followObject.y-8,mouse_x,mouse_y) &gt; toolRange)
         {
             // reset tool, too far
             toolUseCounter = -1;

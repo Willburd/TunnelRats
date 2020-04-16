@@ -57,6 +57,6 @@ global.BlockRulesDefault[? "DropsOnBreak"] = -1;
 global.BlockRulesDefault[? "ExtraDropOnFirstBreak"] = -1;
 global.BlockRulesDefault[? "AllowFloorReplacement"] = false;
 global.BlockRulesDefault[? "AllowWallReplacement"] = false;
-
+global.BlockRulesDefault[? "BreakingResistance"] = 0;
 
 return blockLibFull;

@@ -377,6 +377,7 @@
       <script>scripts\scr_BlockCanReplace.gml</script>
       <script>scripts\scr_BlockBreak.gml</script>
       <script>scripts\scr_BlockTriggerUpdate.gml</script>
+      <script>scripts\scr_BlockUpdateScripts.gml</script>
     </scripts>
     <scripts name="Entities">
       <script>scripts\scr_EntityGetLibraryDef.gml</script>

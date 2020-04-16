@@ -25,6 +25,7 @@
 		"IsFloor": true,
 		"Transparent": false,
 		"Solid": true,
+		"UpdateType" : ["GrassSpread",100,400],
 		"AllowFloorReplacement" : true,
 		"AllowWallReplacement" : false,
 		"BreakingResistance" : 1,

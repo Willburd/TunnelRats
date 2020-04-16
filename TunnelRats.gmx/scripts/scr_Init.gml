@@ -11,6 +11,7 @@ scr_UpdateDelta();
 global.gameMaxFrames = 120; // room lock fps
 
 global.animationStep = 0;
+global.worldTick = 0;
 global.ZDrawOffset = 16; //Z pixel scale for jumping
 
 // Entities

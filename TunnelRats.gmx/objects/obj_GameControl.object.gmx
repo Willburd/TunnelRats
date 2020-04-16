@@ -79,6 +79,9 @@ if(!global.gamePaused)
         event_user(0);
     }
     
+    // update ticker for blocks
+    global.worldTick += scr_DTscale(1)/20;
+    
     // animation timer
     global.animationStep += scr_DTscale(1);
     

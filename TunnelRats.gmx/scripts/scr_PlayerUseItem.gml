@@ -65,7 +65,12 @@ switch modeType
                     if(findEnt == noone)
                     {
                         // player check
-                        var findEnt = collision_rectangle(xx,yy,xx+16,yy+16,obj_Player,false,true);
+                        var findEnt = noone;
+                        if(selector == BlockGridType.walls)
+                        {
+                            // don't care about where player is standing
+                            findEnt = collision_rectangle(xx,yy,xx+16,yy+16,obj_Player,false,true);
+                        }
                         if(findEnt == noone)
                         {    
                             if(selector == BlockGridType.floors && scr_ChunkGetBlock(chunk,xx ,yy, BlockGridType.walls) != -1)
@@ -145,7 +150,7 @@ switch modeType
             }
             else
             {
-                var blockResistance = breakingGoalBlock[? "BreakingResistance"]; //TODO move to a default library data check?
+                var blockResistance = scr_BlockCheckRule(breakingGoalBlock, "BreakingResistance");
                 if(blockResistance == -1) 
                 {
                     controllerID.toolUseCounter = -1;
@@ -175,7 +180,7 @@ switch modeType
                 {
                     if(findEnt.EntityData != -1)
                     {
-                        var entityResistance = findEnt.EntityData[? "BreakingResistance"]; //TODO move to a default library data check?  
+                        var entityResistance = findEnt.EntityData[? "BreakingResistance"];  
                         if(entityResistance == -1) 
                         {
                             controllerID.toolUseCounter = -1;

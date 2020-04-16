@@ -9,7 +9,7 @@ if(ds_exists(findBlock,ds_type_map))
     ds_map_copy(returnMap,findBlock);
     
     // basic data blocks all spawn with, this code is only reached if not air or nonexistant
-    returnMap[? "NeedUpdate"] = true; 
+    returnMap[? "UpdateTick"] = floor(global.worldTick)-1; 
     returnMap[? "FirstSpawn"] = true;
     
     // use the temporary texture list to choose a random texture!
@@ -31,6 +31,8 @@ if(ds_exists(findBlock,ds_type_map))
     ds_map_delete(returnMap, "DropsOnBreak");
     returnMap[? "ExtraDropOnFirstBreak"] = -1
     ds_map_delete(returnMap, "ExtraDropOnFirstBreak");
+    returnMap[? "UpdateType"] = -1;
+    ds_map_delete(returnMap, "UpdateType");
     
     
     // return
