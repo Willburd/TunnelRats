@@ -356,6 +356,7 @@
       <script>scripts\scr_DTmultiplier.gml</script>
     </scripts>
     <scripts name="Utility">
+      <script>scripts\scr_TSFactor.gml</script>
       <script>scripts\DTlerp.gml</script>
       <script>scripts\inverse_lerp.gml</script>
     </scripts>

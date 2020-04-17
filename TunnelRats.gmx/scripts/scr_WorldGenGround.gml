@@ -33,7 +33,7 @@ if(global.debug_DisableWorldGenEntities == false && wallsData == -1)
             {
                 if(random(1) < genEntry[| 2])
                 {
-                    var entityDat = scr_EntityInitData(genEntry[| 0],((xx+QQ)*16) + random_range(3,13),((yy+CC)*16) + random_range(3,13),0);
+                    var entityDat = scr_EntityInitData(genEntry[| 0],((xx+QQ)*global.tilePixelSize) + random_range(global.tilePixelSize*0.20,global.tilePixelSize*0.80),((yy+CC)*global.tilePixelSize) + random_range(global.tilePixelSize*0.20,global.tilePixelSize*0.80),0);
                     scr_EntityRealizeInstance( entityDat, argument0, noone, false);
                 }
             }

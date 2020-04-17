@@ -64,28 +64,28 @@ with argument0
         
         
         // Connect neighbouring chunks!
-        newChunk.neighbour_north = instance_place(x, y - 16*global.chunkHeight, obj_WorldChunk);
+        newChunk.neighbour_north = instance_place(x, y - global.tilePixelSize*global.chunkHeight, obj_WorldChunk);
         with newChunk.neighbour_north
         {
             neighbour_south = newChunk;
             forceRenderUpdate = true;
         }
         
-        newChunk.neighbour_south = instance_place(x, y + 16*global.chunkHeight, obj_WorldChunk);
+        newChunk.neighbour_south = instance_place(x, y + global.tilePixelSize*global.chunkHeight, obj_WorldChunk);
         with newChunk.neighbour_south
         {
             neighbour_north = newChunk;
             forceRenderUpdate = true;
         }
         
-        newChunk.neighbour_east = instance_place(x + 16*global.chunkWidth, y, obj_WorldChunk);
+        newChunk.neighbour_east = instance_place(x + global.tilePixelSize*global.chunkWidth, y, obj_WorldChunk);
         with newChunk.neighbour_east
         {
             neighbour_west = newChunk;
             forceRenderUpdate = true;
         }
         
-        newChunk.neighbour_west = instance_place(x - 16*global.chunkWidth, y, obj_WorldChunk);
+        newChunk.neighbour_west = instance_place(x - global.tilePixelSize*global.chunkWidth, y, obj_WorldChunk);
         with newChunk.neighbour_west
         {
             neighbour_east = newChunk;

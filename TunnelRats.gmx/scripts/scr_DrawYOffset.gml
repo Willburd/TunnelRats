@@ -2,4 +2,4 @@
 // entity drawing y compensation
 
 var zz = argument0;
-return (global.ZDrawOffset * (zz/16));
+return (global.ZDrawOffset * (zz/16) * scr_TSFactor());

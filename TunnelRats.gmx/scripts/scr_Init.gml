@@ -33,6 +33,7 @@ global.chunkWidth = 5;
 global.chunkHeight = 5;
 global.metaChunkWidth = 36;
 global.metaChunkHeight = 36;
+global.tilePixelSize = 16;
 
 global.debug_DisableWorldGen = false;
 global.debug_ChunkLoadingInfo = false;

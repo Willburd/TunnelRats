@@ -83,11 +83,11 @@ scr_SaveWorld(worldName,UniverseNumber);
 
 // setup entity loader, and chunk spawning controls!
 loadedChunkList = ds_list_create();
-var TLgridX = (floor(view_xview[0] / (global.chunkWidth  * 16))-1) * (global.chunkWidth  * 16);
-var TLgridY = (floor(view_yview[0] / (global.chunkHeight * 16))-1) * (global.chunkHeight * 16);
+var TLgridX = (floor(view_xview[0] / (global.chunkWidth  * global.tilePixelSize))-1) * (global.chunkWidth  * global.tilePixelSize);
+var TLgridY = (floor(view_yview[0] / (global.chunkHeight * global.tilePixelSize))-1) * (global.chunkHeight * global.tilePixelSize);
 
-x = TLgridX + (global.chunkWidth*16*2);
-y = TLgridY + (global.chunkHeight*16*1);
+x = TLgridX + (global.chunkWidth*global.tilePixelSize*2);
+y = TLgridY + (global.chunkHeight*global.tilePixelSize*1);
 
 // setup world data based on the seed(for fresh chunks!)
 var playerData = -1;
@@ -177,8 +177,8 @@ else
             <kind>1</kind>
             <string>/// move along chunk sized steps, and do a chunk spawn check
 // based on the view's current location!
-var chunkW = global.chunkWidth * 16;
-var chunkH = global.chunkHeight * 16;
+var chunkW = global.chunkWidth * global.tilePixelSize;
+var chunkH = global.chunkHeight * global.tilePixelSize;
 
 var TLgridX = (floor(view_xview[0] / chunkW)-1) * chunkW;
 var TLgridY = (floor(view_yview[0] / chunkH)-1) * chunkH;

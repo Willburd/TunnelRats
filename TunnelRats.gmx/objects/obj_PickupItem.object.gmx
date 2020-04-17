@@ -43,7 +43,7 @@
 
 /// random xyz direction
 Zmomentum = -(1 + random(2));
-Nmomentum = random(2);
+Nmomentum = random(2) * scr_TSFactor();
 Ndirection = random(360);
 </string>
           </argument>

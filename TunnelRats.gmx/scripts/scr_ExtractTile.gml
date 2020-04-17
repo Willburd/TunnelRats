@@ -6,4 +6,4 @@ var xx = argument3;
 var yy = argument4;
 var dp = argument5;
 
-return tile_add(tex,tx * 16, ty * 16,16,16,xx,yy,dp);
+return tile_add(tex,tx * global.tilePixelSize, ty * global.tilePixelSize,global.tilePixelSize,global.tilePixelSize,xx,yy,dp);

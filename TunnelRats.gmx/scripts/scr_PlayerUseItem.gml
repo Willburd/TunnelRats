@@ -26,10 +26,10 @@ switch modeType
             controllerID.myHighlight.image_alpha = lerp( controllerID.toolGlow, 1, inverse_lerp(-1,0,controllerID.toolUseCounter));
             if(controllerID.toolUseCounter >= 0)
             {
-                if(collision_rectangle(xx,yy,xx+16,yy+16,obj_WorldEntityDeployedParent,false,true) == noone)
+                if(collision_rectangle(xx,yy,xx+global.tilePixelSize,yy+global.tilePixelSize,obj_WorldEntityDeployedParent,false,true) == noone)
                 {
                     controllerID.toolUseCounter = -1
-                    var entityDat = scr_EntityInitData( argument4, xx + random_range(3,13), yy + random_range(3,13),0);
+                    var entityDat = scr_EntityInitData( argument4, xx + random_range(global.tilePixelSize*0.20,global.tilePixelSize*0.80), yy + random_range(global.tilePixelSize*0.20,global.tilePixelSize*0.80),0);
                     scr_EntityRealizeInstance( entityDat, noone, chunk.worldController, false);
                     scr_ChunkUpdate( chunk, true);
                     
@@ -61,7 +61,7 @@ switch modeType
                 if(selector == BlockGridType.walls || selector == BlockGridType.floors)
                 {
                     // constructed entity check
-                    var findEnt = collision_rectangle(xx,yy,xx+16,yy+16,obj_WorldEntityDeployedParent,false,true);
+                    var findEnt = collision_rectangle(xx,yy,xx+global.tilePixelSize,yy+global.tilePixelSize,obj_WorldEntityDeployedParent,false,true);
                     if(findEnt == noone)
                     {
                         // player check
@@ -69,7 +69,7 @@ switch modeType
                         if(selector == BlockGridType.walls)
                         {
                             // don't care about where player is standing
-                            findEnt = collision_rectangle(xx,yy,xx+16,yy+16,obj_Player,false,true);
+                            findEnt = collision_rectangle(xx,yy,xx+global.tilePixelSize,yy+global.tilePixelSize,obj_Player,false,true);
                         }
                         if(findEnt == noone)
                         {    
@@ -164,7 +164,7 @@ switch modeType
         }
         else
         {
-            var findEnt = collision_rectangle(xx,yy,xx+16,yy+16,obj_WorldEntityDeployedParent,false,true);
+            var findEnt = collision_rectangle(xx,yy,xx+global.tilePixelSize,yy+global.tilePixelSize,obj_WorldEntityDeployedParent,false,true);
             if(findEnt != noone)
             {
                 if(controllerID.toolUseCounter >= 1)

@@ -4,7 +4,7 @@ var startChunk = argument0;
 var xx = argument1;
 var yy = argument2;
 
-if(xx >= startChunk.x && yy >= startChunk.y && xx < startChunk.x + (global.chunkWidth * 16) && yy < startChunk.y + (global.chunkHeight * 16))
+if(xx >= startChunk.x && yy >= startChunk.y && xx < startChunk.x + (global.chunkWidth * global.tilePixelSize) && yy < startChunk.y + (global.chunkHeight * global.tilePixelSize))
 {
     return startChunk;
 }
@@ -25,7 +25,7 @@ if(xx < startChunk.x)
     }
 }
 
-if(xx >= startChunk.x + (global.chunkWidth * 16))
+if(xx >= startChunk.x + (global.chunkWidth * global.tilePixelSize))
 {
     if(startChunk.neighbour_east != noone)
     {
@@ -55,7 +55,7 @@ if(yy < startChunk.y)
     }
 }
 
-if(yy >= startChunk.y + (global.chunkHeight * 16))
+if(yy >= startChunk.y + (global.chunkHeight * global.tilePixelSize))
 {
     if(startChunk.neighbour_south != noone)
     {

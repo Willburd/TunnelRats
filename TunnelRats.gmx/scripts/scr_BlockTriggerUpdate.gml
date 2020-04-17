@@ -12,8 +12,8 @@ if(blockData != -1) blockData[? "NeedUpdate"] = true;
 
 if(neighbours)
 {
-    scr_BlockTriggerUpdate(chunk,xx-16,yy,selector,false);
-    scr_BlockTriggerUpdate(chunk,xx+16,yy,selector,false);
-    scr_BlockTriggerUpdate(chunk,xx,yy-16,selector,false);
-    scr_BlockTriggerUpdate(chunk,xx,yy+16,selector,false);
+    scr_BlockTriggerUpdate(chunk,xx-global.tilePixelSize,yy,selector,false);
+    scr_BlockTriggerUpdate(chunk,xx+global.tilePixelSize,yy,selector,false);
+    scr_BlockTriggerUpdate(chunk,xx,yy-global.tilePixelSize,selector,false);
+    scr_BlockTriggerUpdate(chunk,xx,yy+global.tilePixelSize,selector,false);
 }

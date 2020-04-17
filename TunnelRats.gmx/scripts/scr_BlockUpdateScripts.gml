@@ -23,14 +23,14 @@ switch updateData[| 0]
             // check for grass growing block
             if(!firstTime)
             {
-                if(scr_ChunkGetBlock(chunk,xx + (xmod * 16),yy + (ymod * 16),BlockGridType.walls) == -1 && scr_ChunkGetBlock(chunk,xx + (xmod * 16),yy + (ymod * 16),BlockGridType.floors) == -1)
+                if(scr_ChunkGetBlock(chunk,xx + (xmod * global.tilePixelSize),yy + (ymod * global.tilePixelSize),BlockGridType.walls) == -1 && scr_ChunkGetBlock(chunk,xx + (xmod * global.tilePixelSize),yy + (ymod * global.tilePixelSize),BlockGridType.floors) == -1)
                 {
-                    var groundData = scr_ChunkGetBlock(chunk,xx + (xmod * 16),yy + (ymod * 16),BlockGridType.ground);
+                    var groundData = scr_ChunkGetBlock(chunk,xx + (xmod * global.tilePixelSize),yy + (ymod * global.tilePixelSize),BlockGridType.ground);
                     if(scr_BlockCheckRule(groundData,"CanGrowGrass"))
                     {
                         var newGrass = scr_BlockInitData( blockData[? "DataName"] + ":" + blockData[? "Name"]);
-                        scr_ChunkSetBlock(chunk,xx + (xmod * 16),yy + (ymod * 16),newGrass,BlockGridType.floors)
-                        scr_BlockTriggerUpdate(chunk,xx + (xmod * 16),yy + (ymod * 16), BlockGridType.floors,true);
+                        scr_ChunkSetBlock(chunk,xx + (xmod * global.tilePixelSize),yy + (ymod * global.tilePixelSize),newGrass,BlockGridType.floors)
+                        scr_BlockTriggerUpdate(chunk,xx + (xmod * global.tilePixelSize),yy + (ymod * global.tilePixelSize), BlockGridType.floors,true);
                     }
                 }
             }

@@ -7,13 +7,13 @@ var aboveStruct = argument3;
 var metaChunkIdentity = scr_MetaChunkGetIdentity(xx,yy,lay);
 if(is_undefined(global.structureMap[? metaChunkIdentity]))
 {
-    var xReg = floor((xx/(global.chunkWidth*global.metaChunkWidth))/16);
-    var yReg = floor((yy/(global.chunkHeight*global.metaChunkHeight))/16);
+    var xReg = floor((xx/(global.chunkWidth*global.metaChunkWidth))/global.tilePixelSize);
+    var yReg = floor((yy/(global.chunkHeight*global.metaChunkHeight))/global.tilePixelSize);
 
     //Prepare to create a new structure!
-    var rootX = xReg * (global.chunkWidth*global.metaChunkWidth*16);
-    var rootY = yReg * (global.chunkHeight*global.metaChunkHeight*16);
-    var seed = global.worldData[? "seed"] + (floor(rootX/24)) + ((floor(rootY/16))*24) + (320*LoadedLayer);
+    var rootX = xReg * (global.chunkWidth*global.metaChunkWidth*global.tilePixelSize);
+    var rootY = yReg * (global.chunkHeight*global.metaChunkHeight*global.tilePixelSize);
+    var seed = global.worldData[? "seed"] + (floor(rootX/24)) + ((floor(rootY/global.tilePixelSize))*24) + (320*LoadedLayer);
     random_set_seed(seed);
     
     
@@ -55,8 +55,8 @@ if(is_undefined(global.structureMap[? metaChunkIdentity]))
         //Gen structure data
         var newStruct = ds_map_create();
         newStruct[? "IsBasement"] = false;
-        newStruct[? "StructureCoreX"] = rootX + (floor(random(global.chunkWidth*global.metaChunkWidth))*16); // stores the actual 16x entity x/y position! not a chunkx/y!
-        newStruct[? "StructureCoreY"] = rootY + (floor(random(global.chunkHeight*global.metaChunkHeight))*16);
+        newStruct[? "StructureCoreX"] = rootX + (floor(random(global.chunkWidth*global.metaChunkWidth))*global.tilePixelSize); // stores the actual 16x entity x/y position! not a chunkx/y!
+        newStruct[? "StructureCoreY"] = rootY + (floor(random(global.chunkHeight*global.metaChunkHeight))*global.tilePixelSize);
         
         // Gen structure!
         

@@ -118,8 +118,8 @@ z += scr_DTscale(Zmomentum);
 
 
 // check floor collisions
-var getQ = floor((x - ActiveChunk.x)/16);
-var getC = floor((y - ActiveChunk.y)/16);
+var getQ = floor((x - ActiveChunk.x)/global.tilePixelSize);
+var getC = floor((y - ActiveChunk.y)/global.tilePixelSize);
 if(ActiveChunk.collisionData[# getQ,getC] &gt; 0)
 {
     attemptedGround = 0;

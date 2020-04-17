@@ -208,12 +208,12 @@ if(!global.gamePaused)
             // reset tool, change crouch state
             toolUseCounter = -1;
         }
-        else if(floor(followObject.x/16) != floor(followObject.xprevious/16) || floor(followObject.y/16) != floor(followObject.yprevious/16) || followObject.z != followObject.attemptedGround)
+        else if(floor(followObject.x/global.tilePixelSize) != floor(followObject.xprevious/global.tilePixelSize) || floor(followObject.y/global.tilePixelSize) != floor(followObject.yprevious/global.tilePixelSize) || followObject.z != followObject.attemptedGround)
         {
             // reset tool, moved tile
             toolUseCounter = -1;
         }
-        else if(floor(previousToolX/16) != floor(toolX/16) || floor(previousToolY/16) != floor(toolY/16))
+        else if(floor(previousToolX/global.tilePixelSize) != floor(toolX/global.tilePixelSize) || floor(previousToolY/global.tilePixelSize) != floor(toolY/global.tilePixelSize))
         {
             // reset tool, moved tool cursor
             toolUseCounter = -1;
@@ -243,8 +243,8 @@ if(!global.gamePaused)
         }
         
         // acts different base on if placing or breaking!
-        var toolLocX = floor((toolX)/16)*16;
-        var toolLocY = floor((toolY)/16)*16;
+        var toolLocX = floor((toolX)/global.tilePixelSize)*global.tilePixelSize;
+        var toolLocY = floor((toolY)/global.tilePixelSize)*global.tilePixelSize;
         myHighlight.x = toolLocX;
         myHighlight.y = toolLocY;
         myHighlight.depth = scr_DrawDepth(myHighlight.x,myHighlight.y,myHighlight.z)-1;
@@ -382,7 +382,7 @@ if(followObject != noone)
                     var slotData = inventorySlots[| MenuIndex[i]];
                     var EntDat = scr_EntityGetLibraryDef( slotData[| 0]);
                     MenuData[i] = EntDat;
-                    draw_sprite_ext(scr_EntityGetSprite(EntDat),0,entryX+8,entryY+8,1,1,0,image_blend,1);
+                    draw_sprite_ext(scr_EntityGetSprite(EntDat,true),0,entryX+8,entryY+8,1,1,0,image_blend,1);
                 }
                 if(PreviousMenuData[i] != MenuData[i])
                 {
@@ -416,7 +416,7 @@ if(followObject != noone)
                                     
                                     /// random xyz direction
                                     newEnt.Zmomentum = -(2 + random(1));
-                                    newEnt.Nmomentum = 2 + random(2);
+                                    newEnt.Nmomentum = 2 + random(2) * scr_TSFactor();
                                     newEnt.Ndirection = followObject.Ndirection;
                                 }
                                 dropCoolDown = true;
@@ -445,7 +445,7 @@ if(followObject != noone)
                                 highlightItemString = string_upper(EntDat[? "DisplayName"] );
                             }
                             
-                            draw_sprite_ext(scr_EntityGetSprite(EntDat),0,entryX+8,(yyDraw + 8 + (yDetector*offsetLevel)),1,1,0,image_blend,clamp(MenuExpand[i],0,1));
+                            draw_sprite_ext(scr_EntityGetSprite(EntDat,true),0,entryX+8,(yyDraw + 8 + (yDetector*offsetLevel)),1,1,0,image_blend,clamp(MenuExpand[i],0,1));
                             
                             draw_set_halign(fa_right);
                             draw_set_font(global.fontTinyNums)

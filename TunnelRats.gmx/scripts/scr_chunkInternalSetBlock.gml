@@ -18,8 +18,8 @@ enum BlockGridType
 
 if(newData != -1)
 {
-    newData[? "x"] = xx+(QQ*16);
-    newData[? "y"] = yy+(CC*16);
+    newData[? "x"] = xx+(QQ*global.tilePixelSize);
+    newData[? "y"] = yy+(CC*global.tilePixelSize);
     
     if(selector == BlockGridType.walls) chunk.walls[# QQ,CC]   = newData;
     if(selector == BlockGridType.ground) chunk.ground[# QQ,CC] = newData;

@@ -35,6 +35,8 @@ if(ds_exists(findEntity,ds_type_map))
     // cleanout
     returnMap[? "Textures"] = -1; // prevent nuking the original texture list
     ds_map_delete(returnMap,"Textures");
+    returnMap[? "InventoryTextures"] = -1;
+    ds_map_delete(returnMap,"InventoryTextures");
     returnMap[? "DropsOnBreak"] = -1
     ds_map_delete(returnMap,"DropsOnBreak");
     returnMap[? "ExtraDropOnFirstBreak"] = -1;

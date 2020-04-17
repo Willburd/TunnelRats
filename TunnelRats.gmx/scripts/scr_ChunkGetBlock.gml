@@ -4,11 +4,11 @@ var xx = argument1;
 var yy = argument2;
 var selector = argument3; // wall/ground/floor
 
-if(xx >= chunk.x && yy >= chunk.y && xx < chunk.x + (global.chunkWidth * 16) && yy < chunk.y + (global.chunkHeight * 16))
+if(xx >= chunk.x && yy >= chunk.y && xx < chunk.x + (global.chunkWidth * global.tilePixelSize) && yy < chunk.y + (global.chunkHeight * global.tilePixelSize))
 {
     // in chunk!
-    var xxx = floor((xx-chunk.x)/16);
-    var yyy = floor((yy-chunk.y)/16);
+    var xxx = floor((xx-chunk.x)/global.tilePixelSize);
+    var yyy = floor((yy-chunk.y)/global.tilePixelSize);
     
     if(chunk.walls == -1)
     {

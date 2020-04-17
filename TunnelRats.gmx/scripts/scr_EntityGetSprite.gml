@@ -1,4 +1,4 @@
-/// scr_EntityGetSprite(blockData)
+/// scr_EntityGetSprite(blockData,inventory)
 // returns the background texture that will be cutup and used as tiles
 // will probably only be called by scr_BlockDataToTile()
 
@@ -15,6 +15,7 @@ if(!is_undefined(getLib) && ds_exists(getLib,ds_type_map))
 {
     var findEntity = getLib[? argument0[? "Name"]];
     var textureList = findEntity[? "Textures"];
+    if(argument1 == true && !is_undefined(findEntity[? "InventoryTextures"])) textureList = findEntity[? "InventoryTextures"];
     if(is_undefined(textureList))
     {
         return spr_colMaskEntityCheck;
@@ -23,6 +24,8 @@ if(!is_undefined(getLib) && ds_exists(getLib,ds_type_map))
     // lets get to this proper....
     var texSelect = argument0[? "TextureSelect"];
     if(is_undefined(texSelect)) texSelect = 0;
+    
+    texSelect = texSelect % ds_list_size(textureList);
     
     var texName = "Entities:" + argument0[? "DataName"] + ":" + string(textureList[| texSelect]);
     if(is_undefined(global.TextureLibrary[? texName]))
