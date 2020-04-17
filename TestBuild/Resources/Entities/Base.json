@@ -5,8 +5,11 @@
 		"Textures": [
 			"Tex_Dirt"
 		],
-		"Anim_XOrigin" : 8,
-		"Anim_YOrigin" : 8,
+		"InventoryTextures": [
+			"Tex_Dirt"
+		],
+		"Anim_XOrigin" : 0.5,
+		"Anim_YOrigin" : 0.5,
 		"Anim_FrameCount" : 1,
 		"Anim_DefaultSpeed" : 1,
 		"ShadowType" : 1,
@@ -21,8 +24,11 @@
 		"Textures": [
 			"Tex_Dirt"
 		],
-		"Anim_XOrigin" : 8,
-		"Anim_YOrigin" : 8,
+		"InventoryTextures": [
+			"Tex_Dirt"
+		],
+		"Anim_XOrigin" : 0.5,
+		"Anim_YOrigin" : 0.5,
 		"Anim_FrameCount" : 1,
 		"Anim_DefaultSpeed" : 1,
 		"ShadowType" : 1,
@@ -37,8 +43,11 @@
 		"Textures": [
 			"Tex_PalmLogs"
 		],
-		"Anim_XOrigin" : 8,
-		"Anim_YOrigin" : 8,
+		"InventoryTextures": [
+			"Tex_PalmLogs"
+		],
+		"Anim_XOrigin" : 0.5,
+		"Anim_YOrigin" : 0.5,
 		"Anim_FrameCount" : 1,
 		"Anim_DefaultSpeed" : 1,
 		"ShadowType" : 1,
@@ -53,8 +62,9 @@
 		"Textures": [
 			"Tex_PalmTree"
 		],
-		"Anim_XOrigin" : 32,
-		"Anim_YOrigin" : 50,
+		"InventoryTextures": -1,
+		"Anim_XOrigin" : 0.50,
+		"Anim_YOrigin" : 0.78,
 		"Anim_FrameCount" : 1,
 		"Anim_DefaultSpeed" : 1,
 		"ShadowType" : 0,
@@ -72,8 +82,9 @@
 		"Textures": [
 			"Tex_PalmTree_Stump"
 		],
-		"Anim_XOrigin" : 13,
-		"Anim_YOrigin" : 17,
+		"InventoryTextures": -1,
+		"Anim_XOrigin" : 0.48,
+		"Anim_YOrigin" : 0.68,
 		"Anim_FrameCount" : 4,
 		"Anim_DefaultSpeed" : 0.006,
 		"ShadowType" : 0,
@@ -91,8 +102,11 @@
 		"Textures": [
 			"Tex_PalmTree_Sapling"
 		],
-		"Anim_XOrigin" : 8,
-		"Anim_YOrigin" : 8,
+		"InventoryTextures": [
+			"Tex_PalmTree_Sapling"
+		],
+		"Anim_XOrigin" : 0.5,
+		"Anim_YOrigin" : 0.62,
 		"Anim_FrameCount" : 1,
 		"Anim_DefaultSpeed" : 0.001,
 		"ShadowType" : 0,
