@@ -52,7 +52,7 @@
   </views>
   <instances>
     <instance objName="obj_HudController" x="128" y="80" name="inst_36E0398F" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
-    <instance objName="obj_WorldController" x="32" y="0" name="inst_8E789079" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
+    <instance objName="obj_Overworld" x="32" y="32" name="inst_5FAC551E" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
   </instances>
   <tiles/>
   <PhysicsWorld>0</PhysicsWorld>

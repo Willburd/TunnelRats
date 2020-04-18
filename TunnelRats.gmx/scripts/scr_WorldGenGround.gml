@@ -1,4 +1,4 @@
-/// scr_WorldGenGround( chunk,zdata,bdata,x,y,q,c);
+/// scr_WorldGenGround( chunk,zdata,bdata,x,y,q,c,layer);
 // prepare the data for checking!
 // SHOULD BE RUN IN A RANDOM SEEDED ENVIRONMENT
 var gridData = argument0.ground;
@@ -8,6 +8,7 @@ var xx = argument3;
 var yy = argument4;
 var QQ = argument5;
 var CC = argument6;
+var layer = argument7;
 
 if(bData == -1)
 {
@@ -19,7 +20,7 @@ var genData = biome[? "BlockGenData"];
 
 // spawn worldGen entities
 var wallsData = argument0.walls[# QQ,CC];
-var BlockSpawnDataName = scr_BiomeGetBlockSpawn(zData,0,genData,xx+QQ,yy+CC);
+var BlockSpawnDataName = scr_BiomeGetBlockSpawn(zData,0,genData,xx+QQ,yy+CC,layer);
 if(global.debug_DisableWorldGenEntities == false && wallsData == -1)
 {
     var entityGenList = genData[? "EntityGen"];

@@ -5,7 +5,7 @@
   <visible>0</visible>
   <depth>0</depth>
   <persistent>0</persistent>
-  <parentName>obj_gameUpdatedParent</parentName>
+  <parentName>self</parentName>
   <maskName>&lt;undefined&gt;</maskName>
   <events>
     <event eventtype="0" enumb="0">
@@ -29,9 +29,7 @@
 worldName = global.worldInitialName;
 UniverseNumber = 0;
 LoadedLayer = 0;
-
-//temp, going to be called after creating this later by a control object that handles world file/universe/layer selection
-event_user(1);
+loadedChunkList = ds_list_create();
 </string>
           </argument>
         </arguments>
@@ -57,102 +55,6 @@ event_user(1);
             <string>/// called from obj_WorldChunk's room end function on unload
 ds_list_destroy(loadedChunkList);
 scr_SaveWorld(worldName,UniverseNumber);
-</string>
-          </argument>
-        </arguments>
-      </action>
-    </event>
-    <event eventtype="7" enumb="11">
-      <action>
-        <libid>1</libid>
-        <id>603</id>
-        <kind>7</kind>
-        <userelative>0</userelative>
-        <isquestion>0</isquestion>
-        <useapplyto>-1</useapplyto>
-        <exetype>2</exetype>
-        <functionname></functionname>
-        <codestring></codestring>
-        <whoName>self</whoName>
-        <relative>0</relative>
-        <isnot>0</isnot>
-        <arguments>
-          <argument>
-            <kind>1</kind>
-            <string>/// Init world
-
-// setup entity loader, and chunk spawning controls!
-loadedChunkList = ds_list_create();
-var TLgridX = (floor(view_xview[0] / (global.chunkWidth  * global.tilePixelSize))-1) * (global.chunkWidth  * global.tilePixelSize);
-var TLgridY = (floor(view_yview[0] / (global.chunkHeight * global.tilePixelSize))-1) * (global.chunkHeight * global.tilePixelSize);
-
-x = TLgridX + (global.chunkWidth*global.tilePixelSize*2);
-y = TLgridY + (global.chunkHeight*global.tilePixelSize*1);
-
-// setup world data based on the seed(for fresh chunks!)
-var playerData = -1;
-if(file_exists(working_directory + "/Worlds/" + string(worldName) + "/World.dat"))
-{
-    // load previous data
-    scr_LoadWorld(worldName,UniverseNumber);
-    
-    // load the player
-    global.PlayerProfile = scr_EntityPlayerLoad(global.PlayerProfileName);
-    
-    // warp camera to player profile
-    with obj_HudController
-    {
-        x = global.PlayerProfile[? "EntityX"];
-        y = global.PlayerProfile[? "EntityY"];
-        view_xview[0] = floor( x-view_wview[0]/2);
-        view_yview[0] = floor( y-view_hview[0]/2);
-    }
-    
-    // clear loader
-    global.worldInitialName = -1;
-    global.worldInitialSeed = -1;
-}
-else
-{
-    // create world
-    scr_WorldGen(global.worldInitialSeed,worldName); 
-    scr_SaveWorld(worldName, UniverseNumber);
-
-    // force set player info to -1 to trigger a spawn
-    global.PlayerProfile = -1;
-    
-    // clear loader
-    global.worldInitialName = -1; 
-    global.worldInitialSeed = -1;
-}
-
-
-// spawn player if one has not been found!
-if(global.PlayerProfile == -1)
-{
-    global.PlayerProfile = scr_EntityPlayerProfileCreate(global.PlayerProfileName,128,80,0,UniverseNumber,LoadedLayer)
-
-    scr_EntityRealizePlayer(global.PlayerProfile,id,true);
-    scr_EntityPlayerSave(global.PlayerProfile);
-}
-
-   
-//check if layer biome data exists
-if(file_exists(working_directory + "/Worlds/" + string(worldName) + "/Universe" + string(UniverseNumber) + "/Chunks/LayerData_" + string(LoadedLayer) + ".dat"))
-{
-    // load layer biomes
-    global.layerLoadedBiomes = scr_LayerLoadBiomes(worldName,UniverseNumber,LoadedLayer);
-}
-else
-{
-    // gen layer biomes
-    if(global.layerLoadedBiomes != -1)
-    {
-        ds_list_destroy(global.layerLoadedBiomes);
-    }
-    global.layerLoadedBiomes = scr_LayerGetBiomes(LoadedLayer);
-    scr_LayerSaveBiomes(worldName,UniverseNumber,LoadedLayer);
-}
 </string>
           </argument>
         </arguments>
@@ -260,27 +162,20 @@ for (i=0; i&lt;ds_list_size(loadedChunkList); i+=1)
         </arguments>
       </action>
     </event>
-    <event eventtype="9" enumb="27">
+    <event eventtype="7" enumb="5">
       <action>
         <libid>1</libid>
-        <id>603</id>
-        <kind>7</kind>
+        <id>203</id>
+        <kind>0</kind>
         <userelative>0</userelative>
         <isquestion>0</isquestion>
         <useapplyto>-1</useapplyto>
-        <exetype>2</exetype>
-        <functionname></functionname>
+        <exetype>1</exetype>
+        <functionname>action_kill_object</functionname>
         <codestring></codestring>
         <whoName>self</whoName>
         <relative>0</relative>
         <isnot>0</isnot>
-        <arguments>
-          <argument>
-            <kind>1</kind>
-            <string>room_goto(rm_Cleanup);
-</string>
-          </argument>
-        </arguments>
       </action>
     </event>
   </events>

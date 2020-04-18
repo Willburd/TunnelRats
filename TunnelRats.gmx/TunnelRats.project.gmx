@@ -474,6 +474,7 @@
     <object>objects\obj_MainMenu</object>
     <object>objects\obj_gameUpdatedParent</object>
     <object>objects\obj_alwaysUpdatedParent</object>
+    <object>objects\obj_Overworld</object>
     <object>objects\obj_WorldController</object>
     <object>objects\obj_WorldChunk</object>
     <object>objects\obj_WorldEntityParent</object>

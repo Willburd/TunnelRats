@@ -1,23 +1,24 @@
-/// scr_GetBiomeData(x,y)
+/// scr_GetBiomeData(x,y,layer)
 // gets the worldgen biome at block X,Y
 // SHOULD BE RUN IN A RANDOM SEEDED ENVIRONMENT
 var xx = argument0;
 var yy = argument1;
+var layer = argument2;
 
 // pull data from world gen grids
 var foundBiome = -1;
 if(global.debug_DisableWorldGen == false && ds_list_size(global.layerLoadedBiomes) > 0)
 {
     // Get world data maps!
-    var temperatureHeight = scr_SafeData(global.worldData[? "TemperatureMap"]   ,xx,yy,global.temperatureMap_Scale);
-    var humidityHeight =    scr_SafeData(global.worldData[? "HumidityMap"]      ,xx,yy,global.humidityMap_Scale);
-    var windHeight =        scr_SafeData(global.worldData[? "WindMap"]          ,xx,yy,global.windMap_Scale);
-    var magicHeight =       scr_SafeData(global.worldData[? "MagicMap"]         ,xx,yy,global.magicMap_Scale);
-    var evilHeight =        scr_SafeData(global.worldData[? "EvilMap"]          ,xx,yy,global.evilMap_Scale);
-    var densityHeight =     scr_SafeData(global.worldData[? "DensityMap"]       ,xx,yy,global.densityMap_Scale);
-    var contHeight =        scr_SafeData(global.worldData[? "ContinentMap"]     ,xx,yy,global.continentMap_Scale);
-    var montHeight =        scr_SafeData(global.worldData[? "MountainMap"]      ,xx,yy,global.mountainMap_Scale);
-    var hillHeight =        scr_SafeData(global.worldData[? "HillMap"]          ,xx,yy,global.hillMap_Scale);
+    var temperatureHeight = scr_SafeData(global.worldData[? "TemperatureMap"]   ,xx,yy,layer,8,global.temperatureMap_Scale);
+    var humidityHeight =    scr_SafeData(global.worldData[? "HumidityMap"]      ,xx,yy,layer,7,global.humidityMap_Scale);
+    var windHeight =        scr_SafeData(global.worldData[? "WindMap"]          ,xx,yy,layer,6,global.windMap_Scale);
+    var magicHeight =       scr_SafeData(global.worldData[? "MagicMap"]         ,xx,yy,layer,5,global.magicMap_Scale);
+    var evilHeight =        scr_SafeData(global.worldData[? "EvilMap"]          ,xx,yy,layer,4,global.evilMap_Scale);
+    var densityHeight =     scr_SafeData(global.worldData[? "DensityMap"]       ,xx,yy,layer,3,global.densityMap_Scale);
+    var contHeight =        scr_SafeData(global.worldData[? "ContinentMap"]     ,xx,yy,layer,2,global.continentMap_Scale);
+    var montHeight =        scr_SafeData(global.worldData[? "MountainMap"]      ,xx,yy,layer,1,global.mountainMap_Scale);
+    var hillHeight =        scr_SafeData(global.worldData[? "HillMap"]          ,xx,yy,layer,0,global.hillMap_Scale);
     
     var lastBiomePriority = -1;
     

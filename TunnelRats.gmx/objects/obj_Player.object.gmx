@@ -510,15 +510,15 @@ else
     var yy = floor(y/16);
     
     show_debug_message("Data at current XY ------------------------------------------------------------");
-    show_debug_message("Temp " + string(scr_SafeData(global.worldData[? "TemperatureMap"]   ,xx,yy,global.temperatureMap_Scale)));
-    show_debug_message("Humi " + string(scr_SafeData(global.worldData[? "HumidityMap"]      ,xx,yy,global.humidityMap_Scale)));
-    show_debug_message("Wind " + string(scr_SafeData(global.worldData[? "WindMap"]          ,xx,yy,global.windMap_Scale)));
-    show_debug_message("Magi " + string(scr_SafeData(global.worldData[? "MagicMap"]         ,xx,yy,global.magicMap_Scale)));
-    show_debug_message("Evil " + string(scr_SafeData(global.worldData[? "EvilMap"]          ,xx,yy,global.evilMap_Scale)));
-    show_debug_message("Deni " + string(scr_SafeData(global.worldData[? "DensityMap"]       ,xx,yy,global.densityMap_Scale)));
-    show_debug_message("Cont " + string(scr_SafeData(global.worldData[? "ContinentMap"]     ,xx,yy,global.continentMap_Scale)));
-    show_debug_message("Moun " + string(scr_SafeData(global.worldData[? "MountainMap"]      ,xx,yy,global.mountainMap_Scale)));
-    show_debug_message("Hill " + string(scr_SafeData(global.worldData[? "HillMap"]          ,xx,yy,global.hillMap_Scale)));
+    show_debug_message("Temp " + string(scr_SafeData(global.worldData[? "TemperatureMap"]   ,xx,yy,worldController.LoadedLayer,8,global.temperatureMap_Scale)));
+    show_debug_message("Humi " + string(scr_SafeData(global.worldData[? "HumidityMap"]      ,xx,yy,worldController.LoadedLayer,7,global.humidityMap_Scale)));
+    show_debug_message("Wind " + string(scr_SafeData(global.worldData[? "WindMap"]          ,xx,yy,worldController.LoadedLayer,6,global.windMap_Scale)));
+    show_debug_message("Magi " + string(scr_SafeData(global.worldData[? "MagicMap"]         ,xx,yy,worldController.LoadedLayer,5,global.magicMap_Scale)));
+    show_debug_message("Evil " + string(scr_SafeData(global.worldData[? "EvilMap"]          ,xx,yy,worldController.LoadedLayer,4,global.evilMap_Scale)));
+    show_debug_message("Deni " + string(scr_SafeData(global.worldData[? "DensityMap"]       ,xx,yy,worldController.LoadedLayer,3,global.densityMap_Scale)));
+    show_debug_message("Cont " + string(scr_SafeData(global.worldData[? "ContinentMap"]     ,xx,yy,worldController.LoadedLayer,2,global.continentMap_Scale)));
+    show_debug_message("Moun " + string(scr_SafeData(global.worldData[? "MountainMap"]      ,xx,yy,worldController.LoadedLayer,1,global.mountainMap_Scale)));
+    show_debug_message("Hill " + string(scr_SafeData(global.worldData[? "HillMap"]          ,xx,yy,worldController.LoadedLayer,0,global.hillMap_Scale)));
     show_debug_message("------------------------------------------------------------------------------");
 }
 </string>

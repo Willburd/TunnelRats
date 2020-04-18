@@ -77,9 +77,10 @@ PreviousMenuData[1] = MenuData[1];
             <string>/// update
 if(!global.gamePaused)
 {
-    if(followObject == noone)
+    if(!instance_exists(followObject))
     {
         // idle no follow state
+        followObject = noone;
         QMenuIndex = -1;
         EMenuIndex = -1;
     }
@@ -340,12 +341,10 @@ if(!global.gamePaused)
           <argument>
             <kind>1</kind>
             <string>/// ingame draws
-if(followObject != noone)
+if(instance_exists(followObject))
 {
     if(followObject.EntityData != -1)
     {
-    
-    
         // Item menus!
         var highlightItemString = "";
         if(!is_undefined(followObject.EntityData[? "Inventory"]))
