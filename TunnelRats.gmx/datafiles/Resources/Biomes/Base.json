@@ -26,5 +26,19 @@
 		"ContinentHeight" : [50, 256],
 		"MountainHeight" : 	[ 0, 256],
 		"HillHeight" : 		[ 0, 256]
+	},
+	"Cave" : {
+		"Name" : "Cavern",
+		"BiomePriority" :		0.1,
+		"LayerBounds" : 	[ 1, 99999],
+		"Temperature" : 	[ 0, 256],
+		"Humidity" : 		[ 0, 256],
+		"Wind" : 			[ 0, 256],
+		"Magic" : 			[ 0, 256],
+		"Evil" : 			[ 0, 256],
+		"Density" : 		[ 0, 256],
+		"ContinentHeight" : [ 0, 256],
+		"MountainHeight" : 	[ 0, 256],
+		"HillHeight" : 		[ 0, 256]
 	}
 }

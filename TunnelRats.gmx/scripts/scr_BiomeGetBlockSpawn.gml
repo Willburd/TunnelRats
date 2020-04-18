@@ -39,7 +39,7 @@ for (var i=0; i<ds_list_size(generationList); i+=1)
         else if(conditionList[| 0] == "Density")
         {
             // remember that the world grows from the sky! 
-            var contHeight = scr_SafeData(global.worldData[? "DensityMap"]   ,XQ,YC,global.continentMap_Scale) * argument2[? "DensityMultiplier"];
+            var contHeight = scr_SafeData(global.worldData[? "DensityMap"]   ,XQ,YC,global.densityMap_Scale);
             var minimumHeight = conditionList[| 1];
             var maximumHeight = conditionList[| 2];
         
@@ -51,7 +51,7 @@ for (var i=0; i<ds_list_size(generationList); i+=1)
         else if(conditionList[| 0] == "ContinentHeight")
         {
             // remember that the world grows from the sky! 
-            var contHeight = scr_SafeData(global.worldData[? "ContinentMap"]   ,XQ,YC,global.continentMap_Scale) * argument2[? "ContinentMultiplier"];
+            var contHeight = scr_SafeData(global.worldData[? "ContinentMap"]   ,XQ,YC,global.continentMap_Scale);
             var minimumHeight = conditionList[| 1];
             var maximumHeight = conditionList[| 2];
         
@@ -63,7 +63,7 @@ for (var i=0; i<ds_list_size(generationList); i+=1)
         else if(conditionList[| 0] == "MountainHeight")
         {
             // remember that the world grows from the sky! 
-            var mountHeight = scr_SafeData(global.worldData[? "MountainMap"]   ,XQ,YC,global.continentMap_Scale) * argument2[? "MountainMultiplier"];
+            var mountHeight = scr_SafeData(global.worldData[? "MountainMap"]   ,XQ,YC,global.mountainMap_Scale);
             var minimumHeight = conditionList[| 1];
             var maximumHeight = conditionList[| 2];
             
@@ -75,9 +75,9 @@ for (var i=0; i<ds_list_size(generationList); i+=1)
         else if(conditionList[| 0] == "HillHeight")
         {
             // remember that the world grows from the sky! 
-            var hillHeight = scr_SafeData(global.worldData[? "HillMap"]   ,XQ,YC,global.continentMap_Scale) * argument2[? "HillMultiplier"];
-            var minimumHeight = contHeight + conditionList[| 1];
-            var maximumHeight = contHeight + conditionList[| 2];
+            var hillHeight = scr_SafeData(global.worldData[? "HillMap"]   ,XQ,YC,global.hillMap_Scale);
+            var minimumHeight = conditionList[| 1];
+            var maximumHeight = conditionList[| 2];
             
             if(hillHeight < minimumHeight || hillHeight > maximumHeight)
             {
@@ -87,7 +87,7 @@ for (var i=0; i<ds_list_size(generationList); i+=1)
         else if(conditionList[| 0] == "Temperature")
         {
             // remember that the world grows from the sky! 
-            var contHeight = scr_SafeData(global.worldData[? "TemperatureMap"]   ,XQ,YC,global.continentMap_Scale);
+            var contHeight = scr_SafeData(global.worldData[? "TemperatureMap"]   ,XQ,YC,global.temperatureMap_Scale);
             var minimumHeight = conditionList[| 1];
             var maximumHeight = conditionList[| 2];
         
@@ -99,7 +99,7 @@ for (var i=0; i<ds_list_size(generationList); i+=1)
         else if(conditionList[| 0] == "Humidity")
         {
             // remember that the world grows from the sky! 
-            var contHeight = scr_SafeData(global.worldData[? "HumidityMap"]   ,XQ,YC,global.continentMap_Scale);
+            var contHeight = scr_SafeData(global.worldData[? "HumidityMap"]   ,XQ,YC,global.humidityMap_Scale);
             var minimumHeight = conditionList[| 1];
             var maximumHeight = conditionList[| 2];
         
@@ -111,7 +111,7 @@ for (var i=0; i<ds_list_size(generationList); i+=1)
         else if(conditionList[| 0] == "Wind")
         {
             // remember that the world grows from the sky! 
-            var contHeight = scr_SafeData(global.worldData[? "WindMap"]   ,XQ,YC,global.continentMap_Scale);
+            var contHeight = scr_SafeData(global.worldData[? "WindMap"]   ,XQ,YC,global.windMap_Scale);
             var minimumHeight = conditionList[| 1];
             var maximumHeight = conditionList[| 2];
         
@@ -123,7 +123,7 @@ for (var i=0; i<ds_list_size(generationList); i+=1)
         else if(conditionList[| 0] == "Magic")
         {
             // remember that the world grows from the sky! 
-            var contHeight = scr_SafeData(global.worldData[? "MagicMap"]   ,XQ,YC,global.continentMap_Scale);
+            var contHeight = scr_SafeData(global.worldData[? "MagicMap"]   ,XQ,YC,global.magicMap_Scale);
             var minimumHeight = conditionList[| 1];
             var maximumHeight = conditionList[| 2];
         
@@ -135,7 +135,7 @@ for (var i=0; i<ds_list_size(generationList); i+=1)
         else if(conditionList[| 0] == "Evil")
         {
             // remember that the world grows from the sky! 
-            var contHeight = scr_SafeData(global.worldData[? "EvilMap"]   ,XQ,YC,global.continentMap_Scale);
+            var contHeight = scr_SafeData(global.worldData[? "EvilMap"]   ,XQ,YC,global.evilMap_Scale);
             var minimumHeight = conditionList[| 1];
             var maximumHeight = conditionList[| 2];
         

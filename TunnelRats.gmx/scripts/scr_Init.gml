@@ -37,7 +37,7 @@ global.tilePixelSize = 16;
 
 global.debug_DisableWorldGen = false;
 global.debug_ChunkLoadingInfo = false;
-global.debug_EntityLoadingInfo = true;
+global.debug_EntityLoadingInfo = false;
 global.debug_DisableWorldGenEntities = false;
 
 // player management
@@ -49,16 +49,6 @@ global.worldInitialName = -1;
 global.worldInitialSeed = -1;
 global.worldData = -1;
 global.structureMap = -1;
-
-global.temperatureMap_Scale = 5;
-global.humidityMap_Scale = 6;
-global.windMap_Scale = 7;
-global.magicMap_Scale = 8;
-global.evilMap_Scale = 5;
-global.densityMap_Scale = 4;
-global.continentMap_Scale = 5; // these scales are how many blocks each pixel represents in the world, not the scaling of the grid!
-global.mountainMap_Scale = 3;
-global.hillMap_Scale = 1;
 
 global.unloadingTimer = 400; // if this is under 0 allow unload
 global.loadingTimer = 10; // if this is under 0 allow loading

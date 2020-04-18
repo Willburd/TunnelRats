@@ -1,0 +1,16 @@
+{
+	"DensityMultiplier" : 	0.125,
+	"DensityOffset" : 		0,
+	"ContinentMultiplier" : 0,
+	"ContinentOffset" : 	0,
+	"MountainMultiplier" : 	0.05,
+	"MountainOffset" : 		0,
+	"HillMultiplier" : 		0.01,
+	"HillOffset" : 			0,
+	"EntityGen" : [],
+	"BlockGen" : [
+	["Base:Block_Dirt",		["HillHeight",       130,  140]],
+	["Base:Block_Rock",		["MixedHeight",        0,  256]]],
+	"WallZThreshold" : 22,
+	"BiomeGrass" :	"None:Air"
+}

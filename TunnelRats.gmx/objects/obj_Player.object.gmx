@@ -411,19 +411,23 @@ if(ActiveChunk != noone &amp;&amp; ActiveChunk.bdata != -1 &amp;&amp; ActiveChun
     var biome = global.layerLoadedBiomes[| ActiveChunk.bdata[# 0,0]];
     draw_text(0,0,string_upper(biome[? "_InternalSaveName"]));
 }
+*/
 
-if(instance_exists(ActiveChunk))
+if(keyboard_check(vk_f2))
 {
-    for (q=0; q&lt;global.chunkWidth; q+=1)
+    if(instance_exists(ActiveChunk))
     {
-        for (c=0; c&lt;global.chunkHeight; c+=1)
+        for (q=0; q&lt;global.chunkWidth; q+=1)
         {
-            draw_text(q*24,c*24,ActiveChunk.collisionData[# q,c]);
+            for (c=0; c&lt;global.chunkHeight; c+=1)
+            {
+                draw_text(q*24,c*24,ActiveChunk.zdata[# q,c]);
+            }
         }
     }
 }
 
-
+/*
 if(EntityData != -1)
 {
     var invList = EntityData[? "Inventory"];
