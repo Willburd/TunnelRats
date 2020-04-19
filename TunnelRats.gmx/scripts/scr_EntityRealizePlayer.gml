@@ -4,4 +4,4 @@ var player = scr_EntityInitData("None:Player",argument0[? "EntityX"],argument0[?
 player[? "Identity"] = argument0[? "ProfileName"];
 player[? "CameraIsFollowing"] = argument2;
 var playerInstance = scr_EntityRealizeInstance(player,noone,argument1,false);
-
+return playerInstance;

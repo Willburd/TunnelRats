@@ -82,10 +82,6 @@ firstLoad = true;
                     view_xview[0] = floor( x-view_wview[0]/2);
                     view_yview[0] = floor( y-view_hview[0]/2);
                 }
-                
-                // clear loader
-                global.worldInitialName = -1;
-                global.worldInitialSeed = -1;
             }
             else
             {
@@ -95,20 +91,39 @@ firstLoad = true;
             
                 // force set player info to -1 to trigger a spawn
                 global.PlayerProfile = -1;
-                
-                // clear loader
-                global.worldInitialName = -1; 
-                global.worldInitialSeed = -1;
             }
             
+            // clear loader
+            global.worldInitialName = -1; 
+            global.worldInitialSeed = -1;
             
             // spawn player if one has not been found!
             if(global.PlayerProfile == -1)
             {
                 global.PlayerProfile = scr_EntityPlayerProfileCreate(global.PlayerProfileName,128,80,0,UniverseNumber,LoadedLayer)
             
-                scr_EntityRealizePlayer(global.PlayerProfile,id,true);
+                var playerInst = scr_EntityRealizePlayer(global.PlayerProfile,id,true);
+                ds_map_add_map(global.PlayerProfile, "EntData", playerInst.EntityData);
                 scr_EntityPlayerSave(global.PlayerProfile);
+            }
+            else
+            {
+                scr_EntityRealizeInstance(global.PlayerProfile[? "EntData"],noone,id,false);
+            }
+            
+            // load layer from file, and lock it in
+            other.currentUniverse = global.PlayerProfile[? "EntityUniverse"];
+            other.currentLayer =    global.PlayerProfile[? "EntityLayer"];
+            other.nextLayer = other.currentLayer; 
+            other.nextUniverse = other.currentUniverse;
+        }
+        else
+        {
+            // move a loaded player between layers
+            if(global.PlayerProfile[? "EntityLayer"] == other.currentLayer &amp;&amp; global.PlayerProfile[? "EntityUniverse"] == other.currentUniverse)
+            {
+                global.PlayerProfile = scr_EntityPlayerLoad(global.PlayerProfileName);
+                scr_EntityRealizeInstance(global.PlayerProfile[? "EntData"],noone,id,false);
             }
         }
         
@@ -184,6 +199,9 @@ with currentWorld
           <argument>
             <kind>1</kind>
             <string>nextLayer = currentLayer-1;
+global.PlayerProfile[? "EntityLayer"] = nextLayer;
+global.PlayerProfile[? "EntityUniverse"] = 0;
+scr_EntityPlayerSave(global.PlayerProfile);
 </string>
           </argument>
         </arguments>
@@ -207,6 +225,9 @@ with currentWorld
           <argument>
             <kind>1</kind>
             <string>nextLayer = currentLayer+1;
+global.PlayerProfile[? "EntityLayer"] = nextLayer;
+global.PlayerProfile[? "EntityUniverse"] = 0;
+scr_EntityPlayerSave(global.PlayerProfile);
 </string>
           </argument>
         </arguments>

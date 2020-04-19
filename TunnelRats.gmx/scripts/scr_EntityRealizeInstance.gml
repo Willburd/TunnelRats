@@ -34,7 +34,6 @@ if(argument3 == true) objectType = obj_PickupItem;
 var newObj = instance_create(entityData[? "SaveX"],entityData[? "SaveY"],objectType);
 newObj.z = entityData[? "SaveZ"];
 newObj.depth = entityData[? "SaveDrawDepth"];
-newObj.EntityData = entityData;
 newObj.sprite_index = scr_EntityGetSprite(entityData,false);
 
 // set loading flag
@@ -67,4 +66,5 @@ newObj.animationSpeed = entityData[? "Anim_DefaultSpeed"];
 newObj.animationStartOffset = global.animationStep;
 if(is_undefined(newObj.animationSpeed)) newObj.animationSpeed = 1;
 
+newObj.EntityData = entityData;
 return newObj.id; // return instance if needed

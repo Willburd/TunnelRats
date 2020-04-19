@@ -14,17 +14,6 @@ global.worldData[? "continentMap"] = -1;
 global.worldData[? "mountainMap"] = -1;
 global.worldData[? "hillMap"] = -1;
 
-global.temperatureMap_Scale = 5;
-global.humidityMap_Scale = 6;
-global.windMap_Scale = 7;
-global.magicMap_Scale = 8;
-global.evilMap_Scale = 5;
-global.densityMap_Scale = 1;
-global.continentMap_Scale = 5; // these scales are how many blocks each pixel represents in the world, not the scaling of the grid!
-global.mountainMap_Scale = 3;
-global.hillMap_Scale = 1;
-
-
 global.structureMap = ds_map_create();
 
 
