@@ -1,8 +1,10 @@
-/// scr_MetaChunkGetStructure(x,y,layer,structureAbove)
+/// scr_MetaChunkGetStructure(x,y,layer,structureAbove,worldController)
+// Get structure data, or generate it
 var xx = argument0;
 var yy = argument1;
 var lay = argument2;
 var aboveStruct = argument3;
+var controller = argument4;
 
 var metaChunkIdentity = scr_MetaChunkGetIdentity(xx,yy,lay);
 if(is_undefined(global.structureMap[? metaChunkIdentity]))
@@ -30,8 +32,9 @@ if(is_undefined(global.structureMap[? metaChunkIdentity]))
         newStruct[? "StructureCoreY"] = aboveStruct[? "StructureCoreY"];
         
         // Gen structure!
-        
-        
+        var stairWay = scr_EntityInitData("None:Stairs",newStruct[? "StructureCoreX"]+(global.tilePixelSize/2),newStruct[? "StructureCoreY"]+(global.tilePixelSize/2),0);
+        stairWay[? "StairUp"] = true;
+        scr_EntityRealizeInstance(stairWay,noone,controller,false);
         
         // end structure data
         randomize();
@@ -59,8 +62,9 @@ if(is_undefined(global.structureMap[? metaChunkIdentity]))
         newStruct[? "StructureCoreY"] = rootY + (floor(random(global.chunkHeight*global.metaChunkHeight))*global.tilePixelSize);
         
         // Gen structure!
-        
-        
+        var stairWay = scr_EntityInitData("None:Stairs",newStruct[? "StructureCoreX"]+(global.tilePixelSize/2),newStruct[? "StructureCoreY"]+(global.tilePixelSize/2),0);
+        stairWay[? "StairUp"] = false;
+        scr_EntityRealizeInstance(stairWay,noone,controller,false);
         
         // end structure data
         randomize();

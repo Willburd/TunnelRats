@@ -104,11 +104,11 @@ if(y &gt; view_yview[0] + view_hview[0] + chunkH*chunkBorder)
 var aboveStructure = -1;
 if(LoadedLayer &gt; 0)
 {
-    aboveStructure = scr_MetaChunkGetStructure(x,y,LoadedLayer-1,-1);
+    aboveStructure = scr_MetaChunkGetStructure(x,y,LoadedLayer-1,-1,id);
 }
 // now the current layer
 var currentStructure = -1;
-currentStructure = scr_MetaChunkGetStructure(x,y,LoadedLayer,aboveStructure);
+currentStructure = scr_MetaChunkGetStructure(x,y,LoadedLayer,aboveStructure,id);
 
 
 // spawn chunks
@@ -125,6 +125,7 @@ with obj_WorldEntityParent
     // not yet spawned!
     if(ActiveChunk == noone)
     {
+        scr_ChunkForceSpawn(other.id,id.x,id.y);
         scr_EntityDetectCurrentChunk(id);
     }
     

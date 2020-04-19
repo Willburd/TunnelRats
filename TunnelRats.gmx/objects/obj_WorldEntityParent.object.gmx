@@ -59,7 +59,7 @@ image_speed = 0;
             <string>scr_EntityRemoveFromChunk(id);
 ds_map_destroy(EntityData);
 EntityData = -1;
-if(global.debug_EntityLoadingInfo) show_debug_message("Entity " + string(id) + " unloaded");
+if(global.debug_EntityLoadingInfo) show_debug_message("Entity " + string(object_get_name( object_index)) + " unloaded");
 
 </string>
           </argument>

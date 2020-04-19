@@ -36,8 +36,8 @@ global.metaChunkHeight = 36;
 global.tilePixelSize = 16;
 
 global.debug_DisableWorldGen = false;
-global.debug_ChunkLoadingInfo = true;
-global.debug_EntityLoadingInfo = false;
+global.debug_ChunkLoadingInfo = false;
+global.debug_EntityLoadingInfo = true;
 global.debug_DisableWorldGenEntities = false;
 
 // player management

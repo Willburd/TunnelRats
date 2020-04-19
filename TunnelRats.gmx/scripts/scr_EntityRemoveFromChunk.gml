@@ -12,7 +12,7 @@ if(oldChunk != noone)
         if( entityData == entity )
         {
             // remove entity from old chunk
-            if(global.debug_EntityLoadingInfo) show_debug_message("Entity " + string(entity.id) + " removed from chunk " + string(scr_ChunkName(entity.ActiveChunk)));
+            if(global.debug_EntityLoadingInfo) show_debug_message("Entity " + string(object_get_name( entity.id.object_index)) + " removed from chunk " + string(scr_ChunkName(entity.ActiveChunk)));
             // the chunk handled entity cleanup after update!
             oldChunk.entitys[| i] = noone;
             entity.ActiveChunk = noone;

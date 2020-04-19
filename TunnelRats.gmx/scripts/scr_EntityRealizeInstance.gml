@@ -21,7 +21,8 @@ if( !(objectType == obj_WorldEntityParent
 || objectType == obj_AnimatedDecay
 || objectType == obj_AnimatedGrowth
 || objectType == obj_PickupItem
-|| objectType == obj_Player)  )
+|| objectType == obj_Player
+|| objectType == obj_Stairway)  )
 {
     
     show_debug_message(entityData[? "DataName"] + ":" + entityData[? "Name"] + " does not have a white listed internalObjectType! " + string(entityData[? "InternalObjectType"]));
@@ -42,12 +43,12 @@ entityData[? "IsPickup"] = argument3;
 // load entity into controller for spawn
 if(chunkID == noone)
 {
-    if(global.debug_EntityLoadingInfo) show_debug_message("Entity created " + string(newObj.id));
+    if(global.debug_EntityLoadingInfo) show_debug_message("Entity created " + string(object_get_name( newObj.object_index)));
     newObj.worldController = worldControl;
 }
 else
 {
-    if(global.debug_EntityLoadingInfo) show_debug_message("Entity remembered " + string(newObj.id) + " at chunk " + string(scr_ChunkName(chunkID)));
+    if(global.debug_EntityLoadingInfo) show_debug_message("Entity remembered " + string(object_get_name( newObj.object_index)) + " at chunk " + string(scr_ChunkName(chunkID)));
     newObj.worldController = chunkID.worldController;
     newObj.ActiveChunk = chunkID;
     ds_list_add(chunkID.entitys,newObj.id);

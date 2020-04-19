@@ -352,6 +352,7 @@
     <sprite>sprites\spr_MenuBarEquipment</sprite>
     <sprite>sprites\spr_MenuBarSelect</sprite>
     <sprite>sprites\spr_MenuHealth</sprite>
+    <sprite>sprites\spr_Stairway</sprite>
   </sprites>
   <backgrounds name="background">
     <background>background\bg_testBlock</background>
@@ -482,6 +483,7 @@
     <object>objects\obj_AnimatedDecay</object>
     <object>objects\obj_AnimatedGrowth</object>
     <object>objects\obj_TreeGrown</object>
+    <object>objects\obj_Stairway</object>
     <object>objects\obj_WorldEntityGravityParent</object>
     <object>objects\obj_Player</object>
     <object>objects\obj_PickupItem</object>
